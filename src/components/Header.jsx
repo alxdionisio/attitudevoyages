@@ -32,14 +32,14 @@ const Header = () => {
 
   return (
     <header
-      className={`header ${useWhiteHeader ? "header--glass" : ""}`}
+      className={`header ${useWhiteHeader ? "header--glass" : ""} ${mobileMenuOpen ? "header--menu-open" : ""}`}
       role="banner"
     >
       <div className="container">
         <div className="header-content">
           <Link to="/" className="logo">
             <img
-              src={`${import.meta.env.BASE_URL}Logo%20Attitude%20Voyages${useWhiteHeader ? "" : "%20blanc"}.png`}
+              src={`${import.meta.env.BASE_URL}Logo%20Attitude%20Voyages${(useWhiteHeader || mobileMenuOpen) ? "" : "%20blanc"}.png`}
               alt="Attitude Voyages"
               className="logo-image"
             />
