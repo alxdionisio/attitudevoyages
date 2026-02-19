@@ -101,6 +101,27 @@ Si tu as mis le domaine personnalisé sur **www** dans GitHub et que tu veux que
 
 ## Dépannage
 
+### « DNS check unsuccessful » / « Domain does not resolve to the GitHub Pages server »
+
+Si GitHub affiche une erreur du type **NotServedByPagesError** alors que tes enregistrements DNS (A pour @ et CNAME pour www) sont corrects :
+
+1. **Vérifier les redirections Gandi**  
+   Dans Gandi : onglet **Redirections Web** (ou « Hébergement Web »). S'il existe une redirection ou un hébergement actif pour `attitude-voyages.fr` ou `www.attitude-voyages.fr`, **désactive-la** ou supprime-la. Tant qu'une redirection Gandi intercepte le domaine, GitHub ne reçoit jamais les requêtes et la vérification DNS échoue.
+
+2. **Utiliser d'abord www sur GitHub**  
+   Dans **Custom domain**, remplace `attitude-voyages.fr` par **`www.attitude-voyages.fr`**, puis **Save**. Clique sur **Check again**. Souvent la vérification passe plus facilement pour www (CNAME). Une fois www validé, tu peux remettre `attitude-voyages.fr` si tu préfères le domaine nu (les deux restent configurés en DNS).
+
+3. **Vérifier la résolution DNS**  
+   En ligne de commande :
+   - `dig attitude-voyages.fr A +short` → doit lister les 4 IP GitHub (185.199.108.153, etc.).
+   - `dig www.attitude-voyages.fr CNAME +short` → doit afficher `bymodule.github.io.`  
+   Si ce n'est pas le cas, la propagation n'est pas terminée ou un enregistrement est incorrect.
+
+4. **Retirer puis réajouter le domaine**  
+   Sur la page Pages : **Remove** le domaine, attendre 1–2 minutes, puis le ressaisir et **Save**, puis **Check again**.
+
+---
+
 - **« Domain’s DNS record might be incorrectly configured »** : attends la propagation ou revérifie nom/valeur des enregistrements (pas de faute de frappe, pas de `https://`).
 - **« Enforce HTTPS » grisé** : le certificat n’est pas encore délivré ; réessaie plus tard ou retire/remets le domaine pour relancer la génération.
 - **Page blanche sur le domaine** : le site est servi à la racine du domaine ; le code gère déjà ce cas (pas de basename à la racine). Si le problème persiste, vérifie la console du navigateur (F12) pour d’éventuelles erreurs.

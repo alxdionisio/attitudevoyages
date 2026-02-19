@@ -122,62 +122,74 @@ const ContactPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.5 }}
             >
-              <h2>Nous écrire</h2>
-              <p>Remplissez le formulaire ci-dessous, nous vous répondrons rapidement.</p>
-              <form onSubmit={handleSubmit} className="contact-form">
-                <input
-                  type="text"
-                  name="nom"
-                  placeholder="Votre nom *"
-                  value={formData.nom}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Votre email *"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="text"
-                  name="sujet"
-                  placeholder="Sujet *"
-                  value={formData.sujet}
-                  onChange={handleChange}
-                  required
-                />
-                <textarea
-                  name="message"
-                  placeholder="Votre message *"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={5}
-                  required
-                />
-                <button
-                  type="submit"
-                  className="contact-form-submit"
-                  disabled={submitStatus === "loading"}
-                >
-                  {submitStatus === "loading" ? "Envoi en cours…" : "Envoyer"}
-                  {submitStatus !== "loading" && (
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              {submitStatus === "success" ? (
+                <div className="contact-form-success">
+                  <div className="contact-form-success-icon" aria-hidden="true">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                      <polyline points="22 4 12 14.01 9 11.01" />
                     </svg>
-                  )}
-                </button>
-                {submitStatus === "success" && (
-                  <p className="contact-form-message contact-form-message--success">
+                  </div>
+                  <h2>Message envoyé</h2>
+                  <p className="contact-form-success-text">
                     Merci pour votre message ! Nous vous répondrons à l'adresse indiquée.
                   </p>
-                )}
-                {submitStatus === "error" && submitError && (
-                  <p className="contact-form-message contact-form-message--error">{submitError}</p>
-                )}
-              </form>
+                </div>
+              ) : (
+                <>
+                  <h2>Nous écrire</h2>
+                  <p>Remplissez le formulaire ci-dessous, nous vous répondrons rapidement.</p>
+                  <form onSubmit={handleSubmit} className="contact-form">
+                    <input
+                      type="text"
+                      name="nom"
+                      placeholder="Votre nom *"
+                      value={formData.nom}
+                      onChange={handleChange}
+                      required
+                    />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Votre email *"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="sujet"
+                      placeholder="Sujet *"
+                      value={formData.sujet}
+                      onChange={handleChange}
+                      required
+                    />
+                    <textarea
+                      name="message"
+                      placeholder="Votre message *"
+                      value={formData.message}
+                      onChange={handleChange}
+                      rows={5}
+                      required
+                    />
+                    <button
+                      type="submit"
+                      className="contact-form-submit"
+                      disabled={submitStatus === "loading"}
+                    >
+                      {submitStatus === "loading" ? "Envoi en cours…" : "Envoyer"}
+                      {submitStatus !== "loading" && (
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      )}
+                    </button>
+                    {submitStatus === "error" && submitError && (
+                      <p className="contact-form-message contact-form-message--error">{submitError}</p>
+                    )}
+                  </form>
+                </>
+              )}
             </motion.div>
 
           </div>
