@@ -17,7 +17,7 @@ import "./index.css";
 
 function App() {
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+    <BrowserRouter basename={import.meta.env.VITE_BASENAME || ""}>
       <ScrollToTop />
       <Routes>
         <Route element={<Layout />}>

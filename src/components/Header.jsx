@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { getPathWithoutBasename } from "../config/site";
 import "./Header.css";
 
 const Header = () => {
@@ -18,7 +19,8 @@ const Header = () => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
-  const isHomeAtTop = location.pathname === "/" && !scrolled;
+  const pathWithoutBase = getPathWithoutBasename(location.pathname);
+  const isHomeAtTop = pathWithoutBase === "/" && !scrolled;
   const useWhiteHeader = !isHomeAtTop;
 
   const navLinks = [
@@ -37,7 +39,7 @@ const Header = () => {
         <div className="header-content">
           <Link to="/" className="logo">
             <img
-              src={useWhiteHeader ? "/Logo%20Attitude%20Voyages.png" : "/Logo%20Attitude%20Voyages%20blanc.png"}
+              src={`${import.meta.env.BASE_URL}Logo%20Attitude%20Voyages${useWhiteHeader ? "" : "%20blanc"}.png`}
               alt="Attitude Voyages"
               className="logo-image"
             />
@@ -48,7 +50,7 @@ const Header = () => {
               <Link
                 key={link.to}
                 to={link.to}
-                className={`nav-link ${location.pathname === link.to ? "nav-link--active" : ""}`}
+                className={`nav-link ${pathWithoutBase === link.to ? "nav-link--active" : ""}`}
               >
                 {link.label}
               </Link>

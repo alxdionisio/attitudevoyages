@@ -3,6 +3,6 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  // Pour GitHub Pages (site projet) : base = /nom-du-repo/
-  base: process.env.BASE_PATH || '/',
+  // Base relative pour que les assets chargent correctement sur GitHub Pages
+  base: './',
 })

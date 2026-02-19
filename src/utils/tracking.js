@@ -4,6 +4,7 @@
  * Événements poussés : page_view, consent_accepted, consent_refused.
  */
 
+import { getPathWithoutBasename } from "../config/site";
 import { getVilleBySlug } from "../data/villes";
 
 const DATALAYER_EVENT_PAGE_VIEW = "page_view";
@@ -21,6 +22,7 @@ export function initDataLayer() {
 
 /** Retourne le titre de page dérivé du pathname (pour cohérence tracking). */
 export function getPageTitleFromPath(pathname) {
+  pathname = getPathWithoutBasename(pathname);
   const map = {
     "/": "Accueil",
     "/destinations": "Destinations",

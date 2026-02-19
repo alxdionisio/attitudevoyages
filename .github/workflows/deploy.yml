@@ -35,8 +35,8 @@ jobs:
 
       - name: Build
         env:
-          # Base path pour GitHub Pages (site projet : user.github.io/repo-name/)
-          BASE_PATH: /${{ github.event.repository.name }}/
+          # Basename pour React Router (sous GitHub Pages : /repo-name)
+          VITE_BASENAME: /${{ github.event.repository.name }}
         run: npm run build
 
       - name: SPA fallback for client-side routing
