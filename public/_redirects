@@ -1,0 +1,2 @@
+# Redirection SPA : toutes les routes vers index.html (évite 404 sur /contact, /destinations, etc.)
+/*    /index.html   200

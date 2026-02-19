@@ -1,0 +1,103 @@
+.rendez-vous {
+  padding: 10rem 0;
+  background: var(--color-white);
+}
+
+.rdv-content {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.rdv-info .section-subtitle {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.rdv-info .section-title {
+  font-size: 3.2rem;
+  color: var(--color-dark);
+  margin-bottom: 2rem;
+  line-height: 1.2;
+}
+
+.rdv-description {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 3rem;
+}
+
+.rdv-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.detail-item {
+  display: flex;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.detail-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  flex-shrink: 0;
+}
+
+.detail-item h4 {
+  font-size: 1.1rem;
+  color: var(--color-dark);
+  margin-bottom: 0.5rem;
+}
+
+.detail-item p {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.rdv-calendly-wrapper {
+  background: var(--color-white);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  min-height: 700px;
+}
+
+.rdv-calendly-wrapper iframe {
+  width: 100%;
+  height: 700px;
+  border: 0;
+}
+
+@media (max-width: 968px) {
+  .rendez-vous {
+    padding: 5rem 0;
+  }
+
+  .rdv-content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .rdv-info .section-title {
+    font-size: 2.5rem;
+  }
+
+  .rdv-calendly-wrapper {
+    min-height: 650px;
+  }
+
+  .rdv-calendly-wrapper iframe {
+    height: 650px;
+  }
+}

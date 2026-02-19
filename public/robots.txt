@@ -1,0 +1,14 @@
+# robots.txt - Attitude Voyages
+# https://www.robotstxt.org/
+
+User-agent: *
+Allow: /
+
+# Exclure les éventuelles routes API ou techniques
+Disallow: /api/
+
+# Sitemap (URL absolue requise)
+Sitemap: https://www.attitude-voyages.fr/sitemap.xml
+
+# Optionnel : préférence d’hôte pour Yandex (remplacer si domaine différent)
+# Host: https://www.attitude-voyages.fr
