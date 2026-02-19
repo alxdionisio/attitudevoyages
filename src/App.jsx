@@ -15,9 +15,18 @@ import PolitiqueConfidentialitePage from "./pages/PolitiqueConfidentialitePage";
 import FAQPage from "./pages/FAQPage";
 import "./index.css";
 
+/** Basename au runtime : si on est à la racine (ex. preview GH Pages), ne pas utiliser le basename. */
+function getBasename() {
+  const buildBase = import.meta.env.VITE_BASENAME || "";
+  if (!buildBase) return "";
+  const path = window.location.pathname;
+  if (path === buildBase || path.startsWith(buildBase + "/")) return buildBase;
+  return "";
+}
+
 function App() {
   return (
-    <BrowserRouter basename={import.meta.env.VITE_BASENAME || ""}>
+    <BrowserRouter basename={getBasename()}>
       <ScrollToTop />
       <Routes>
         <Route element={<Layout />}>

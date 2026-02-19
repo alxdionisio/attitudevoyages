@@ -20,7 +20,12 @@ function getBaseUrl() {
   if (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_SITE_URL) {
     return import.meta.env.VITE_SITE_URL.replace(/\/$/, "");
   }
-  if (typeof window !== "undefined") return window.location.origin + (BASENAME || "");
+  if (typeof window !== "undefined") {
+    const path = window.location.pathname;
+    if (path === "/" || path === "") return window.location.origin;
+    if (BASENAME && (path === BASENAME || path.startsWith(BASENAME + "/"))) return window.location.origin + BASENAME;
+    return window.location.origin;
+  }
   return "";
 }
 
