@@ -5,6 +5,9 @@
 const SITE_NAME = "Attitude Voyages";
 const TITLE_SUFFIX = ` | ${SITE_NAME}`;
 
+/** Image par défaut pour Open Graph / Twitter (1200×630 px recommandé). À placer dans public/og-image.jpg */
+const DEFAULT_OG_IMAGE_PATH = "/og-image.jpg";
+
 /** Basename du routeur (ex: /attitudevoyages sur GitHub Pages). Défini à la build via VITE_BASENAME. */
 export const BASENAME = (typeof import.meta !== "undefined" && import.meta.env?.VITE_BASENAME) || "";
 
@@ -29,4 +32,4 @@ function getBaseUrl() {
   return "";
 }
 
-export { SITE_NAME, TITLE_SUFFIX, getBaseUrl };
+export { SITE_NAME, TITLE_SUFFIX, getBaseUrl, DEFAULT_OG_IMAGE_PATH };

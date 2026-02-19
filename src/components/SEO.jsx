@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useMemo } from "react";
-import { SITE_NAME, TITLE_SUFFIX, getBaseUrl } from "../config/site";
+import { SITE_NAME, TITLE_SUFFIX, getBaseUrl, DEFAULT_OG_IMAGE_PATH } from "../config/site";
 
 /**
- * Gère titre, meta description, canonical, noindex et données structurées (JSON-LD).
+ * Gère titre, meta description, canonical, noindex, Open Graph, Twitter Card et données structurées (JSON-LD).
  * breadcrumbs: [{ label: "Accueil", path: "/" }, { label: "Destinations", path: "/destinations" }]
  */
 const SEO = ({
@@ -12,12 +12,23 @@ const SEO = ({
   noindex = false,
   jsonLd = [],
   breadcrumbs = [],
+  ogImage,
+  ogType = "website",
 }) => {
   const jsonLdRef = useRef([]);
 
   const fullTitle = title ? (title.endsWith(SITE_NAME) ? title : `${title}${TITLE_SUFFIX}`) : SITE_NAME;
   const baseUrl = getBaseUrl();
   const canonical = canonicalPath ? `${baseUrl}${canonicalPath.startsWith("/") ? canonicalPath : `/${canonicalPath}`}` : null;
+
+  const ogTitle = fullTitle;
+  const ogDescription = description || "";
+  const ogUrl = canonical || baseUrl;
+  const absoluteOgImage = ogImage
+    ? (ogImage.startsWith("http") ? ogImage : `${baseUrl.replace(/\/$/, "")}${ogImage.startsWith("/") ? ogImage : `/${ogImage}`}`)
+    : baseUrl
+      ? `${baseUrl.replace(/\/$/, "")}${DEFAULT_OG_IMAGE_PATH}`
+      : null;
 
   useEffect(() => {
     document.title = fullTitle;
@@ -54,10 +65,33 @@ const SEO = ({
       metaRobots.remove();
     }
 
-    return () => {
-      // Optionnel : ne pas réinitialiser au démontage pour éviter flash
+    const setMeta = (attr, value, content) => {
+      const selector = attr === "property" ? `meta[property="${value}"]` : `meta[name="${value}"]`;
+      let el = document.querySelector(selector);
+      if (!el) {
+        el = document.createElement("meta");
+        if (attr === "property") el.setAttribute("property", value);
+        else el.setAttribute("name", value);
+        document.head.appendChild(el);
+      }
+      el.content = content;
     };
-  }, [fullTitle, description, canonical, noindex]);
+
+    if (baseUrl) {
+      setMeta("property", "og:title", ogTitle);
+      setMeta("property", "og:description", ogDescription);
+      setMeta("property", "og:type", ogType);
+      setMeta("property", "og:locale", "fr_FR");
+      setMeta("property", "og:site_name", SITE_NAME);
+      if (ogUrl) setMeta("property", "og:url", ogUrl);
+      if (absoluteOgImage) setMeta("property", "og:image", absoluteOgImage);
+
+      setMeta("name", "twitter:card", "summary_large_image");
+      setMeta("name", "twitter:title", ogTitle);
+      setMeta("name", "twitter:description", ogDescription);
+      if (absoluteOgImage) setMeta("name", "twitter:image", absoluteOgImage);
+    }
+  }, [fullTitle, description, canonical, noindex, ogTitle, ogDescription, ogUrl, absoluteOgImage, ogType, baseUrl]);
 
   // BreadcrumbList JSON-LD
   const breadcrumbLd = useMemo(() => {

@@ -144,6 +144,7 @@ const OffreDetailPage = () => {
         description={offre.shortDescription || `${offre.destination} - ${offre.duration}. ${offre.title} par Attitude Voyages.`}
         canonical={`/offre/${offre.slug}`}
         breadcrumbs={breadcrumbItems}
+        ogImage={offre.image}
       />
       <section className="offre-detail-hero">
         <div className="offre-detail-hero-bg">

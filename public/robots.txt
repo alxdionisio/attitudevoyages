@@ -8,7 +8,7 @@ Allow: /
 Disallow: /api/
 
 # Sitemap (URL absolue requise)
-Sitemap: https://www.attitude-voyages.fr/sitemap.xml
+Sitemap: https://attitude-voyages.fr/sitemap.xml
 
 # Optionnel : préférence d’hôte pour Yandex (remplacer si domaine différent)
 # Host: https://www.attitude-voyages.fr
