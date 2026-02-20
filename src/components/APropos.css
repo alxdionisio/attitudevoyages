@@ -168,7 +168,7 @@
   width: 70px;
   height: 70px;
   margin: 0 auto 1.5rem;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  background: var(--color-primary);
   border-radius: 50%;
   display: flex;
   align-items: center;

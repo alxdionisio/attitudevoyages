@@ -168,7 +168,7 @@
 .method-icon {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  background: var(--color-primary);
   border-radius: 15px;
   display: flex;
   align-items: center;

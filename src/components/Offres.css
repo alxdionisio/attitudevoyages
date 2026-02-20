@@ -208,6 +208,8 @@
 }
 
 .offre-card {
+  display: flex;
+  flex-direction: column;
   background: var(--color-white);
   border-radius: 1rem;
   overflow: hidden;
@@ -221,13 +223,17 @@
 }
 
 .offre-card-link {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
   text-decoration: none;
   color: inherit;
 }
 
 .offre-image-wrapper {
   position: relative;
+  flex-shrink: 0;
   height: 280px;
   overflow: hidden;
 }
@@ -260,6 +266,10 @@
 }
 
 .offre-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
   padding: 2rem 2rem 2.25rem;
 }
 
@@ -305,7 +315,7 @@
   align-items: center;
   padding: 1.25rem 0;
   border-top: 1px solid #f0f0f0;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .offre-info--duration {
@@ -342,6 +352,7 @@
 }
 
 .offre-btn {
+  margin-top: auto;
   width: 100%;
   background: var(--color-primary);
   color: var(--color-white);
