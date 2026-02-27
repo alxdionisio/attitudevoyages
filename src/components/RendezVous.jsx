@@ -94,7 +94,7 @@ const RendezVous = () => {
           <div className="rdv-calendly-wrapper">
             <InlineWidget
               url={CALENDLY_URL}
-              styles={{ height: "700px", width: "100%" }}
+              styles={{ height: "100%", width: "100%", minHeight: "950px" }}
               locale="fr"
             />
           </div>

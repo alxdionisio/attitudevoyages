@@ -117,6 +117,11 @@ const iconMap = {
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0h.5a2.5 2.5 0 002.5-2.5V3.935" />
     </svg>
   ),
+  hike: (
+    <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-3 3m-6 2l2.5-2.5M9 17l-2.5-2.5M9 17h4" />
+    </svg>
+  ),
 };
 
 const defaultIcon = (
@@ -163,6 +168,9 @@ const OffreDetailPage = () => {
             </span>
             <h1 className="offre-detail-hero-title">{offre.title}</h1>
             <p className="offre-detail-hero-desc">{offre.shortDescription}</p>
+            {offre.promoNote && (
+              <p className="offre-detail-hero-promo-note">{offre.promoNote}</p>
+            )}
           </motion.div>
         </div>
       </section>
@@ -170,6 +178,19 @@ const OffreDetailPage = () => {
       <div className="offre-detail-body">
         <div className="offre-detail-body__main">
           <Breadcrumb items={breadcrumbItems} />
+
+          {offre.descriptionSejour && (
+            <motion.section
+              className="offre-detail-section offre-detail-block offre-detail-block--description"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="offre-detail-block__title">Description du lieu</h2>
+              <p className="offre-detail-prose">{offre.descriptionSejour}</p>
+            </motion.section>
+          )}
+
           <motion.section
             className="offre-detail-section"
             initial={{ opacity: 0, y: 24 }}
@@ -192,26 +213,152 @@ const OffreDetailPage = () => {
             </div>
           </motion.section>
 
+          {offre.hebergementTitre && (
+            <motion.section
+              className="offre-detail-section"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2>{offre.hebergementTitre}</h2>
+              {offre.hebergementNom && <h3 className="offre-detail-h3">{offre.hebergementNom}</h3>}
+              {offre.hebergementDescription && (
+                <div className="offre-detail-prose offre-detail-prose--multiline">
+                  {offre.hebergementDescription.split("\n\n").map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                </div>
+              )}
+              {offre.hebergementPrevu && (
+                <>
+                  <h3 className="offre-detail-h3">Les hôtels prévus (ou similaires)</h3>
+                  <p className="offre-detail-prose">{offre.hebergementPrevu}</p>
+                </>
+              )}
+              {offre.classificationNote && (
+                <>
+                  <h3 className="offre-detail-h3">Classification hôtelière</h3>
+                  <p className="offre-detail-prose">{offre.classificationNote}</p>
+                </>
+              )}
+            </motion.section>
+          )}
+
           <motion.section
             className="offre-detail-section"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2>Itinéraire</h2>
-            <div className="offre-detail-timeline">
-              <div className="offre-detail-timeline-line" aria-hidden="true" />
-              {offre.itineraire.map((step) => (
-                <div key={step.jour} className="offre-detail-timeline-item">
-                  <div className="offre-detail-timeline-day">{step.jour}</div>
-                  <div className="offre-detail-timeline-content">
-                    <h3>Jour {step.jour} · {step.titre}</h3>
-                    <p>{step.description}</p>
-                  </div>
+            {offre.programmeActivites?.length > 0 ? (
+              <>
+                <h2>Au programme</h2>
+                {offre.itineraireNote && (
+                  <p className="offre-detail-itinerary-note">{offre.itineraireNote}</p>
+                )}
+                <ul className="offre-detail-activites" role="list">
+                  {offre.programmeActivites.map((activite, i) => (
+                    <motion.li
+                      key={i}
+                      className="offre-detail-activite"
+                      initial={{ opacity: 0, x: -12 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3, delay: i * 0.06 }}
+                    >
+                      <span className="offre-detail-activite-marker" aria-hidden="true" />
+                      <div className="offre-detail-activite-body">
+                        <span className="offre-detail-activite-titre">{activite.titre}</span>
+                        {activite.description && <p>{activite.description}</p>}
+                      </div>
+                    </motion.li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <>
+                <h2>Itinéraire</h2>
+                {offre.itineraireNote && (
+                  <p className="offre-detail-itinerary-note">{offre.itineraireNote}</p>
+                )}
+                <div className="offre-detail-timeline">
+                  <div className="offre-detail-timeline-line" aria-hidden="true" />
+                  {offre.itineraire?.map((step) => (
+                    <div key={step.jour} className="offre-detail-timeline-item">
+                      <div className="offre-detail-timeline-day">{step.jour}</div>
+                      <div className="offre-detail-timeline-content">
+                        <h3>Jour {step.jour} · {step.titre}</h3>
+                        <p>{step.description}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </>
+            )}
           </motion.section>
+
+          {offre.prixComprend && offre.prixComprend.length > 0 && (
+            <motion.section
+              className="offre-detail-section"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2>Ce prix comprend</h2>
+              <ul className="offre-detail-list offre-detail-list--check">
+                {offre.prixComprend.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+              {offre.prixComprendNote && (
+                <p className="offre-detail-block-note">{offre.prixComprendNote}</p>
+              )}
+            </motion.section>
+          )}
+
+          {offre.prixNeComprendPas && offre.prixNeComprendPas.length > 0 && (
+            <motion.section
+              className="offre-detail-section"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2>Ce prix ne comprend pas</h2>
+              <ul className="offre-detail-list offre-detail-list--cross">
+                {offre.prixNeComprendPas.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+            </motion.section>
+          )}
+
+          {offre.bonASavoir && (
+            <motion.section
+              className="offre-detail-section offre-detail-block offre-detail-block--info"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="offre-detail-block__title">Bon à savoir</h2>
+              <div className="offre-detail-prose offre-detail-prose--multiline">
+                {offre.bonASavoir.split("\n\n").map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
+            </motion.section>
+          )}
+
+          {offre.attention && (
+            <motion.section
+              className="offre-detail-section offre-detail-block offre-detail-block--warning"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="offre-detail-block__title">Attention</h2>
+              <p className="offre-detail-prose">{offre.attention}</p>
+            </motion.section>
+          )}
         </div>
 
         <div className="offre-detail-body__sidebar">
@@ -222,12 +369,33 @@ const OffreDetailPage = () => {
             transition={{ delay: 0.3 }}
           >
             <div className="offre-detail-booking">
-              <div style={{ marginBottom: "1.5rem" }}>
-                {offre.price !== "Sur devis" && (
-                  <span className="offre-detail-booking-price-label">À partir de</span>
+              <div className="offre-detail-booking-header">
+                {offre.promoLabel && (
+                  <p className="offre-detail-booking-promo">{offre.promoLabel}</p>
                 )}
-                <p className="offre-detail-booking-price-value">{offre.price}</p>
                 <p className="offre-detail-booking-duration">{offre.duration}</p>
+                {offre.price !== "Sur devis" && (
+                  <>
+                    <span className="offre-detail-booking-price-label">à partir de</span>
+                    <p className="offre-detail-booking-price-value">
+                      {offre.priceBefore && (
+                        <span className="offre-detail-booking-price-before">{offre.priceBefore}</span>
+                      )}
+                      {offre.price}
+                    </p>
+                  </>
+                )}
+                {offre.dateDebut && !offre.dateFin && (
+                  <p className="offre-detail-booking-depart">Départ au {offre.dateDebut}</p>
+                )}
+                {offre.dateDebut && offre.dateFin && (
+                  <p className="offre-detail-booking-dates">
+                    du {offre.dateDebut} au {offre.dateFin}
+                  </p>
+                )}
+                {offre.departDe && (
+                  <p className="offre-detail-booking-depart">de {offre.departDe}</p>
+                )}
               </div>
               <Link to="/contact" className="offre-detail-booking-cta">
                 Demander un devis

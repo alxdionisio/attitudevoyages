@@ -1,7 +1,7 @@
-import React, { useState, useMemo } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { offresData, getAllTags } from "../data/offres";
+import { offresData } from "../data/offres";
 import "./Offres.css";
 
 const cardVariants = {
@@ -14,13 +14,7 @@ const cardVariants = {
 };
 
 const Offres = () => {
-  const [filter, setFilter] = useState("Tous");
-  const tags = useMemo(() => ["Tous", ...getAllTags()], []);
-  const filteredOffres = useMemo(() => {
-    if (filter === "Tous") return offresData;
-    return offresData.filter((o) => o.tag === filter);
-  }, [filter]);
-  const offresToShow = filteredOffres.slice(0, 6);
+  const offresToShow = offresData.slice(0, 6);
 
   return (
     <section className="offres" id="offres">
@@ -38,24 +32,6 @@ const Offres = () => {
             Découvrez notre sélection de voyages exceptionnels,
             soigneusement préparés pour vous offrir des expériences uniques.
           </p>
-        </motion.div>
-
-        <motion.div
-          className="offres-tag-filters"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          {tags.map((tag) => (
-            <button
-              key={tag}
-              type="button"
-              onClick={() => setFilter(tag)}
-              className={`offres-tag-filter-btn ${filter === tag ? "offres-tag-filter-btn--active" : ""}`}
-            >
-              {tag}
-            </button>
-          ))}
         </motion.div>
 
         <div className="offres-grid">
@@ -114,10 +90,6 @@ const Offres = () => {
             </motion.article>
           ))}
         </div>
-
-        {filteredOffres.length === 0 && (
-          <p className="offres-no-results">Aucune offre pour ce filtre.</p>
-        )}
 
         <motion.div
           className="offres-voir-toutes"

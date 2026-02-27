@@ -291,16 +291,283 @@ const offresBase = [
     ],
     gallery: [],
   },
+  {
+    id: 9,
+    slug: "sejour-sanur-bali",
+    title: "Bali, Prama Sanur Beach 5* + Vols Flex",
+    destination: "Bali",
+    duration: "De 5 à 14 nuits",
+    price: "809 € TTC",
+    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=2835&auto=format&fit=crop",
+    highlights: ["Sanur", "Prama Sanur Beach 5*", "Plage", "Détente"],
+    tag: "Soleil",
+    shortDescription: "Découvrez Bali, l'île des Dieux. L'hôtel Prama Sanur 5* vous accueille sur la plage de Sanur, ancien village de pêcheurs : sables en pente douce, lagon protégé par le récif, idéal pour l'exploration et la natation à marée haute. Séjour parfait pour les couples et les familles.",
+    promoLabel: "PETIT PRIX !",
+    dateDebut: "07/05/2026",
+    pointsForts: [
+      { icon: "beach", title: "Plage & lagon", description: "Sables en pente douce, lagon peu profond. Natation à marée haute." },
+      { icon: "relax", title: "Hôtel 5*", description: "Prama Sanur Beach : jardins tropicaux, chambres spacieuses vue jardin, piscine ou mer." },
+      { icon: "wellness", title: "Piscines & spa", description: "Deux piscines (dont toboggan), tennis, salle de sport, spa." },
+      { icon: "food", title: "Restaurants & bars", description: "Cuisine internationale et balinaise, bar lounge et bar de plage." },
+    ],
+    itineraire: [
+      { jour: 1, titre: "Arrivée à Bali", description: "Transfert en véhicule climatisé vers l'hôtel Prama Sanur Beach 5*. Installation et découverte des lieux." },
+      { jour: 2, titre: "Sanur", description: "Journée libre : plage, lagon, piscines. Restaurants et boutiques du village à proximité." },
+      { jour: 3, titre: "Sanur", description: "Détente à l'hôtel ou exploration des alentours. Spa et activités nautiques en option." },
+      { jour: 4, titre: "Sanur", description: "Journée libre. Farniente sur la plage ou balade le long du front de mer." },
+      { jour: 5, titre: "Sanur", description: "Temps libre. Piscines, lagon peu profond propice au snorkeling à marée haute." },
+      { jour: 6, titre: "Sanur", description: "Journée libre. Cuisine balinaise et internationale à l'hôtel ou en ville." },
+      { jour: 7, titre: "Sanur", description: "Détente. Jardins tropicaux de l'hôtel, tennis, ou sortie en option." },
+      { jour: 8, titre: "Sanur", description: "Journée libre. Plage de sable en pente douce, protégée par le récif." },
+      { jour: 9, titre: "Sanur", description: "Temps libre. Bar de plage, bar lounge, soirées à l'hôtel." },
+      { jour: 10, titre: "Sanur", description: "Dernière journée de détente. Derniers achats ou farniente." },
+      { jour: 11, titre: "Retour", description: "Transfert vers l'aéroport et vol retour." },
+    ],
+    itineraireNote: "Proposition de programme pour un séjour de 10 nuits. Durée adaptable de 5 à 14 nuits.",
+    // Mise en avant par activités (au lieu du détail jour par jour) – uniquement pour cette offre
+    programmeActivites: [
+      { titre: "Plage & lagon", description: "Sables en pente douce, lagon protégé par le récif. Natation et snorkeling à marée haute." },
+      { titre: "Piscines & détente", description: "Deux piscines dont une avec toboggan, jardins tropicaux, transats." },
+      { titre: "Spa & bien-être", description: "Spa haut de gamme (supplément). Massages et soins en option." },
+      { titre: "Restaurants & bars", description: "Cuisine internationale et balinaise, grillades au bord de la piscine, bar lounge et bar de plage." },
+      { titre: "Village de Sanur", description: "Boutiques, restaurants et front de mer à proximité. Balades à pied ou à vélo." },
+      { titre: "Activités nautiques", description: "Exploration du lagon, sorties en option. Plage idéale pour les familles." },
+    ],
+    gallery: [
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1555400038-63f5ba517a47?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1540202404-a2f29016b523?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop",
+    ],
+    hebergementTitre: "Votre hôtel",
+    hebergementNom: "Prama Sanur Beach 5*",
+    hebergementDescription: "Hôtel 5* sur la plage de Sanur, 6 ha de jardins tropicaux. Chambres avec climatisation, TV, mini-bar, balcon vue jardin/piscine/mer.\n\nÉquipements : deux piscines (dont toboggan), tennis, salle de sport, spa (supplément). Restaurants : international, grillades, cuisine balinaise. Petit-déjeuner buffet vue mer. Bar lounge et bar de plage.",
+    hebergementPrevu: "Bali : Prama Sanur Beach 5*",
+    classificationNote: "Classification indicative (système français). En cas d'indisponibilité, hôtel de catégorie similaire.",
+    prixComprend: [
+      "Vols réguliers internationaux choisis avec escale(s)",
+      "Transferts en véhicule climatisé.",
+      "Séjour à l'hôtel Prama Sanur 5* à Bali.",
+      "Les repas selon la formule choisie",
+      "Les taxes d'aéroport et frais de dossier (à ce jour et sujet à modification)",
+      "Le pré acheminement de PROVINCE pourra s'effectuer en avion ou en train.",
+    ],
+    prixNeComprendPas: [
+      "Les boissons, les repas libres ou non-mentionnés et les dépenses personnelles",
+      "Les activités, visites et excursions proposées en option",
+      "Les frais de visa (Visa On Arrival)",
+      "La taxe touristique (à régler en ligne ou à l'arrivée)",
+      "Les pourboires des guides et chauffeurs",
+      "Les éventuels frais d'appareils photos et caméras sur les sites et dans les musées",
+      "Les assurances assistance, rapatriement et annulation",
+      "Tout ce qui n'est pas mentionné dans « Ce prix comprend »",
+    ],
+    bonASavoir: "Empreinte carte bancaire possible à l'arrivée (aucun débit sans consommation).\n\nChambre disponible entre 12h30 et 14h00.\n\nChambres triples : lit d'appoint peu confortable pour un adulte.\n\nTransport et formalités : informations indicatives ; consulter diplomatie.gouv.fr avant le départ.",
+    attention: "Location de véhicule motorisé chez loueurs locaux non assurée : nous dégageons toute responsabilité en cas d'accident.",
+  },
+  {
+    id: 10,
+    slug: "sejour-jimbaran-bali",
+    title: "Bali, Anja Jimbaran 4* + Vols Flex",
+    destination: "Bali",
+    duration: "De 5 à 14 nuits",
+    price: "1 049 € TTC",
+    image: "https://images.unsplash.com/photo-1555400038-63f5ba517a47?q=80&w=2835&auto=format&fit=crop",
+    highlights: ["Jimbaran", "Anja Jimbaran 4*", "Plage", "Romantique"],
+    tag: "Soleil",
+    shortDescription: "Jimbaran est un village de pêcheurs et l'une des plus belles plages de sable de Bali, avec de nombreux restaurants de fruits de mer. Sur le « cou » de la péninsule du sud, les marées sont quasi inexistantes. Merveilleux couchers de soleil ; en soirée, les restaurants pittoresques sur la plage proposent poisson et fruits de mer frais. Idéal pour des vacances romantiques et de tout repos sur l'île des Dieux.",
+    promoLabel: "PETIT PRIX !",
+    dateDebut: "27/05/2026",
+    pointsForts: [
+      { icon: "beach", title: "Plage de Jimbaran", description: "L'une des plus belles plages de sable de Bali, marées quasi inexistantes." },
+      { icon: "sunset", title: "Couchers de soleil", description: "Vues magnifiques en soirée depuis la plage." },
+      { icon: "food", title: "Fruits de mer", description: "Restaurants pittoresques sur la plage, poisson et fruits de mer frais." },
+      { icon: "relax", title: "Vacances romantiques", description: "Cadre idyllique pour un séjour de tout repos." },
+    ],
+    itineraire: [
+      { jour: 1, titre: "Arrivée à Bali", description: "Transfert en véhicule climatisé vers l'hôtel Anja Jimbaran 4*. Installation et découverte des lieux." },
+      { jour: 2, titre: "Jimbaran", description: "Journée libre : plage, piscine. Restaurants de fruits de mer sur la plage en soirée." },
+      { jour: 3, titre: "Jimbaran", description: "Détente à l'hôtel. Spa, salle de gym ou farniente au bord de la piscine." },
+      { jour: 4, titre: "Jimbaran", description: "Journée libre. Couchers de soleil et dîners en bord de plage." },
+      { jour: 5, titre: "Jimbaran", description: "Temps libre. Plage de sable, cadre romantique." },
+      { jour: 6, titre: "Jimbaran", description: "Journée libre. Restaurant Le Manja : plats balinais et internationaux." },
+      { jour: 7, titre: "Jimbaran", description: "Détente. Piscine, espace enfants, Siesta Spa." },
+      { jour: 8, titre: "Jimbaran", description: "Journée libre. Derniers moments sur la plage avant le retour." },
+      { jour: 9, titre: "Retour", description: "Transfert vers l'aéroport et vol retour." },
+    ],
+    itineraireNote: "Proposition de programme pour un séjour de 8 nuits. Durée adaptable de 5 à 14 nuits.",
+    programmeActivites: [
+      { titre: "Plage de Jimbaran", description: "L'une des plus belles plages de sable de Bali. Marées quasi inexistantes, idéale pour la baignade." },
+      { titre: "Couchers de soleil", description: "Merveilleux couchers de soleil en bord de plage." },
+      { titre: "Restaurants de fruits de mer", description: "En soirée, les restaurants pittoresques sur la plage proposent poisson et fruits de mer frais." },
+      { titre: "Piscine & détente", description: "Piscine (non surveillée), transats, cadre tropical. Idéal pour le farniente." },
+      { titre: "Siesta Spa & gym", description: "Spa et salle de gym pour se ressourcer." },
+      { titre: "Le Manja Restaurant", description: "Plats balinais et internationaux de 07h00 à 22h00." },
+    ],
+    gallery: [
+      "https://images.unsplash.com/photo-1555400038-63f5ba517a47?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1540202404-a2f29016b523?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop",
+    ],
+    hebergementTitre: "Votre hôtel",
+    hebergementNom: "Anja Jimbaran 4*",
+    hebergementDescription: "Idéalement placé à quelques pas de la légendaire plage de Jimbaran à Bali, l'Anja Jimbaran vous plonge dans le confort tropical et se fond à merveille dans le décor qui l'entoure. 37 chambres et suites familiales épurées, spacieuses et modernes, décorées de légères touches asiatiques ; mobilier en bois. Chaque chambre possède un balcon.\n\nVotre chambre Deluxe (36 m²) : lit king size, ambiance cosy, large balcon vue jardins et piscine.\n\nÉquipements : climatisation, balcon, service en chambre, réfrigérateur, téléphone, TV LCD câble, coffre-fort, chambres insonorisées, fer et planche à repasser (sur demande), sèche-cheveux, eau minérale gratuite, peignoirs, serviettes, chaussons.\n\nRestauration : Le Manja Restaurant – plats balinais et internationaux, tous les jours de 07h00 à 22h00.\n\nServices & activités : piscine (non surveillée), espace enfants, Siesta Spa, salle de gym, salles de réunion.",
+    hebergementPrevu: "Bali : Anja Jimbaran 4*",
+    classificationNote: "Il n'existe pas à ce jour de classification hôtelière internationale. Le système d'étoiles est purement français. Notre classification est basée sur les prestations et notre appréciation qualité. En cas d'indisponibilité, hôtel de catégorie similaire.",
+    prixComprend: [
+      "Vols réguliers internationaux choisis avec escale(s)",
+      "Transferts en véhicule climatisé.",
+      "Séjour à l'hôtel Anja Jimbaran 4* à Bali.",
+      "Les repas selon la formule choisie",
+      "Les taxes d'aéroport et frais de dossier (à ce jour et sujet à modification)",
+      "Le pré acheminement de PROVINCE pourra s'effectuer en avion ou en train.",
+    ],
+    prixNeComprendPas: [
+      "Les boissons, les repas libres ou non-mentionné et les dépenses personnelles",
+      "Les activités, visites et excursions proposées en option",
+      "Les frais de visa (Visa On Arrival)",
+      "La taxe touristique (à régler en ligne ou à l'arrivée)",
+      "Les pourboires des guides et chauffeurs",
+      "Les éventuels frais d'appareils photos et caméras sur les sites et dans les musées",
+      "Les assurances assistance, rapatriement et annulation",
+      "Tout ce qui n'est pas mentionné dans « Ce prix comprend »",
+    ],
+    bonASavoir: "Lors de votre séjour plage, à votre arrivée, l'hôtelier vous demandera une empreinte de carte bancaire afin de sécuriser vos éventuelles dépenses en extra. Vous ne subirez aucun débit si vous n'avez rien consommé.\n\nSelon les normes internationales, votre chambre sera disponible entre 12h30 et 14h00. En cas d'arrivée plus matinale, vous devrez parfois attendre sa mise à disposition.\n\nAttention : les chambres triples se composent d'une chambre double et d'un lit d'appoint peu confortable pour un adulte.\n\nLes informations de transport sont données à titre indicatif. Elles sont susceptibles d'être modifiées par la compagnie avant le départ et de comporter des escales techniques.\n\nLes informations concernant les formalités d'entrée sont communiquées à titre indicatif. Nous vous conseillons de consulter jusqu'au jour du départ le site diplomatie.gouv.fr.",
+  },
+  {
+    id: 11,
+    slug: "circuit-bali-lombok-privatif",
+    title: "Circuit de Bali à Lombok en Privatif 3*",
+    destination: "Bali & Lombok",
+    duration: "15 jours / 12 nuits",
+    price: "2 599 € TTC",
+    priceBefore: "2 699 € TTC",
+    image: "https://images.unsplash.com/photo-1594235206666-19245d362ffa?q=80&w=1920&auto=format&fit=crop",
+    highlights: ["Ubud", "Sidemen", "Lombok", "2 îles"],
+    tag: "Circuit",
+    shortDescription: "Un voyage complet à travers la spiritualité balinaise, les rizières classées à l'UNESCO comme Jatiluwih et les panoramas volcaniques tels que le Mont Batur. Une immersion authentique entre Ubud, Sidemen et Lombok : une nature préservée et des plages paradisiaques. L'équilibre parfait entre découvertes culturelles, évasion tropicale et détente.",
+    promoLabel: "PROMOTION",
+    dateDebut: "10/05/2026",
+    promoNote: "Promotion valable sur certains départs du 10/05/26 au 25/10/26. Vols, transferts, hébergement, pension, excursions avec guide, droits d'entrée et massage balinais inclus selon le programme.",
+    pointsForts: [
+      { icon: "wellness", title: "Massage au spa d'Ubud", description: "Massage balinais de 90 minutes inclus." },
+      { icon: "hike", title: "Randonnées", description: "Rizières de Jatiluwih et campagne de Sidemen." },
+      { icon: "beach", title: "Séjour libre à Lombok", description: "Île authentique, plages et nature." },
+      { icon: "sunset", title: "Séjour libre Sud de Bali", description: "Détente en bord de mer après le circuit." },
+    ],
+    itineraire: [
+      { jour: 1, titre: "France – Denpasar", description: "Envol pour l'Indonésie. Repas et nuit à bord." },
+      { jour: 2, titre: "Denpasar – Ubud", description: "Accueil et transfert à Ubud. Repas libres. Nuit à l'hôtel." },
+      { jour: 3, titre: "Ubud", description: "Forêt sacrée des singes, temples (Pura Taman Saraswati), Palais d'Ubud, marché, musée ARMA. Déjeuner local. Massage de 90 min dans un spa d'Ubud. Dîner libre. Nuit à l'hôtel." },
+      { jour: 4, titre: "Tanah Lot – Taman Ayun – Jatiluwih – Ulun Danu", description: "Temple de Tanah Lot sur son îlot. Temple Royal de Taman Ayun (UNESCO). Rizières de Jatiluwih (UNESCO), randonnée d'environ 1 h. Région de Bedugul et temple d'Ulun Danu sur le lac Bratan. Retour à Ubud. Dîner libre. Nuit à l'hôtel." },
+      { jour: 5, titre: "Gunung Kawi – Tirta Empul – Kintamani – Besakih – Sidemen", description: "Gunung Kawi (niches sculptées dans la roche). Sources sacrées de Tirta Empul. Vue sur le Mont Batur et le lac Batur. Déjeuner panoramique. Temple de Besakih, « temple mère » de Bali. Route vers Sidemen. Dîner libre. Nuit à l'hôtel." },
+      { jour: 6, titre: "Sidemen – Tirta Gangga – Tenganan", description: "Randonnée d'environ 2 h (rizières, village, fabrique d'Ikat, plantation d'herbes). Déjeuner pique-nique. Palais aquatique de Tirta Gangga. Village de Tenganan (Bali Aga). Dîner libre. Nuit à l'hôtel." },
+      { jour: 7, titre: "Sidemen – Padang Bai – Senggigi (Lombok)", description: "Transfert au port de Padang Bai. Traversée en bateau rapide vers Lombok. Transfert à Senggigi. Repas libres. Nuit à l'hôtel." },
+      { jour: 8, titre: "Senggigi", description: "Séjour libre à Lombok en petit-déjeuner. Lombok : volcan Rinjani, plages de sable blanc, culture sasak. Découvertes optionnelles avec supplément." },
+      { jour: 9, titre: "Senggigi", description: "Séjour libre. Détente sur les plages ou découverte des cascades et de la culture sasak en option." },
+      { jour: 10, titre: "Senggigi", description: "Séjour libre à Lombok. Quatrième nuit à Senggigi." },
+      { jour: 11, titre: "Senggigi – Bangsal – Sud de Bali", description: "Transfert au port de Bangsal. Traversée en bateau rapide vers Bali. Transfert au Sud de Bali. Repas libres. Nuit à l'hôtel." },
+      { jour: 12, titre: "Sud de Bali", description: "Séjour libre au Sud de Bali en petit-déjeuner. Plages, activités balnéaires, boutiques et restaurants selon la zone." },
+      { jour: 13, titre: "Sud de Bali", description: "Séjour libre. Détente en bord de mer." },
+      { jour: 14, titre: "Sud de Bali – Denpasar – France", description: "Matinée et déjeuner libres. Transfert à l'aéroport. Envol pour la France. Repas et nuit à bord." },
+      { jour: 15, titre: "France", description: "Arrivée en France." },
+    ],
+    gallery: [
+      "https://images.unsplash.com/photo-1594235206666-19245d362ffa?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop",
+    ],
+    hebergementTitre: "Votre hébergement",
+    hebergementNom: "Hôtels 3* (ou similaires)",
+    hebergementDescription: "Ubud : Pertiwi Bisma ou Rama Phala ou Awatara Boutique.\n\nSidemen : Alamdhari Resort & Spa Sidemen.\n\nSenggigi (Lombok) : Merumatta Senggigi.\n\nPlage (Sud de Bali) : Jimbaran Bay ou Anja Jimbaran.",
+    hebergementPrevu: "Ubud : Pertiwi Bisma / Rama Phala / Awatara — Sidemen : Alamdhari — Senggigi : Merumatta — Plage : Jimbaran Bay / Anja Jimbaran",
+    classificationNote: "La classification en étoiles mentionnée se réfère aux normes locales (NL) du pays. Elle n'a pas de rapport avec la classification française. En cas d'indisponibilité, hôtel de catégorie similaire.",
+    prixComprend: [
+      "Vols internationaux Paris/Denpasar/Paris avec escale(s)",
+      "Éventuels pré/post acheminements de Province en train ou avion",
+      "Taxes d'aéroport, de sécurité et frais de dossier (à ce jour, sujets à modifications)",
+      "Accueil à l'aéroport par notre correspondant local",
+      "Transferts aéroport/hôtel/aéroport",
+      "Transport en véhicule climatisé selon le programme",
+      "Hébergement 12 nuits dans les hôtels cités (ou similaires)",
+      "Pension selon le programme (hors boissons)",
+      "Guide local francophone durant les excursions (ou anglophone selon disponibilités)",
+      "Droits d'entrée sur les sites selon le programme",
+    ],
+    prixComprendNote: "Tous nos départs sont garantis à partir de 2 personnes. L'inscription en chambre individuelle peut être annulée faute d'au moins 2 participants.",
+    prixNeComprendPas: [
+      "Les boissons, les repas libres ou non-mentionné et les dépenses personnelles",
+      "Les activités, visites et excursions proposées en option",
+      "Les frais de visa (Visa On Arrival)",
+      "La taxe touristique (à régler en ligne ou à l'arrivée)",
+      "Les pourboires des guides et chauffeurs",
+      "Les éventuels frais d'appareils photos et caméras sur les sites et dans les musées",
+      "Les assurances assistance, rapatriement et annulation",
+      "Tout ce qui n'est pas mentionné dans « Ce prix comprend »",
+    ],
+    bonASavoir: "Départs garantis à partir de 2 personnes. Inscription en chambre individuelle soumise à conditions et pouvant être annulée faute d'au moins 2 participants.\n\nLes traversées pour rejoindre Lombok sont soumises aux conditions météorologiques et peuvent entraîner un réaménagement du programme.\n\nGunung Kawi : balade d'environ 1h15 — prévoir bonnes chaussures et protection solaire.\n\nRandonnée Sidemen : prévoir maillot de bain pour se rafraîchir dans la rivière.\n\nDisponibilité des guides francophones limitée (surtout 15 juin / 15 septembre). Le guide pourra être anglophone.\n\nL'ordre des visites peut être inversé ou modifié ; toutes les visites seront respectées.\n\nChambre disponible entre 12h30 et 15h00. Empreinte carte bancaire possible à l'arrivée en séjour plage (aucun débit sans consommation).",
+  },
 ];
 
-const SLUGS_OFFRES_DISPONIBLES = ["circuit-sri-lanka-eveil-des-sens", "sejour-albanie-tout-inclus"];
+const SLUGS_OFFRES_DISPONIBLES = ["circuit-sri-lanka-eveil-des-sens", "sejour-albanie-tout-inclus", "sejour-sanur-bali", "sejour-jimbaran-bali", "circuit-bali-lombok-privatif"];
 
 export const offresData = offresBase.filter((o) => SLUGS_OFFRES_DISPONIBLES.includes(o.slug));
 
 export const getOffreBySlug = (slug) => offresData.find((o) => o.slug === slug);
 export const getOffreById = (id) => offresData.find((o) => o.id === Number(id));
-export const getAllTags = () => [...new Set(offresData.map((o) => o.tag))];
-export const getAllDestinations = () => [...new Set(offresData.map((o) => o.destination))];
+export const getAllTags = () => [...new Set(offresData.map((o) => o.tag))].sort();
+
+/** Nombre d'offres par tag. "Tous" = total. Pour afficher les comptes dans les filtres. */
+export const getTagCounts = () => {
+  const counts = { Tous: offresData.length };
+  offresData.forEach((o) => {
+    counts[o.tag] = (counts[o.tag] || 0) + 1;
+  });
+  return counts;
+};
+
+/** Filtre par tag (optimisé, une seule itération). */
+export const filterOffresByTag = (tag) =>
+  tag === "Tous" || !tag ? offresData : offresData.filter((o) => o.tag === tag);
+
+export const getAllDestinations = () => [...new Set(offresData.map((o) => o.destination))].sort();
+
+/** Nombre d'offres par destination. "Toutes" = total. */
+export const getDestinationCounts = () => {
+  const counts = { Toutes: offresData.length };
+  offresData.forEach((o) => {
+    counts[o.destination] = (counts[o.destination] || 0) + 1;
+  });
+  return counts;
+};
+
+/**
+ * Filtre unifié par types et/ou destinations. Sélection multiple : une offre est retenue si
+ * (aucun filtre type OU son tag est dans tags) ET (aucun filtre destination OU sa destination est dans destinations).
+ * @param {{ tag?: string, destination?: string, tags?: string[], destinations?: string[] }} filters
+ * - tag/destination : ancienne API (une seule valeur) encore supportée
+ * - tags/destinations : tableaux ; vide ou contenant "Tous"/"Toutes" = pas de filtre
+ */
+export const filterOffres = (filters = {}) => {
+  const tags = filters.tags ?? (filters.tag != null ? [filters.tag] : null);
+  const destinations = filters.destinations ?? (filters.destination != null ? [filters.destination] : null);
+  const noTagFilter = !tags?.length || tags.includes("Tous");
+  const noDestFilter = !destinations?.length || destinations.includes("Toutes");
+  if (noTagFilter && noDestFilter) return offresData;
+  return offresData.filter((o) => {
+    const matchTag = noTagFilter || tags.includes(o.tag);
+    const matchDest = noDestFilter || destinations.includes(o.destination);
+    return matchTag && matchDest;
+  });
+};
 
 /** Retourne le prix numérique en € ou null pour "Sur devis". */
 export const getPriceNumber = (offre) => {

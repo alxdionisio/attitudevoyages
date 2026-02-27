@@ -5,4 +5,4 @@ const valid =
   typeof raw === "string" &&
   raw.startsWith("https://calendly.com/") &&
   raw.length > 25;
-export const CALENDLY_URL = valid ? raw : "https://calendly.com/demo";
+export const CALENDLY_URL = valid ? raw : "https://calendly.com/a-chapellier-attitude-voyages/30min";

@@ -125,49 +125,11 @@
   font-family: var(--font-body);
 }
 
-.offres-tag-filters {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 2.5rem;
-}
-
-.offres-tag-filter-btn {
-  padding: 0.625rem 1.25rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  font-family: var(--font-body);
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid #e5e7eb;
-  background: var(--color-white);
-  color: var(--color-dark);
-  cursor: pointer;
-}
-
-.offres-tag-filter-btn:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-}
-
-.offres-tag-filter-btn--active {
-  background: var(--color-primary);
-  color: var(--color-white);
-  border-color: var(--color-primary);
-  box-shadow: 0 4px 14px rgba(74, 133, 54, 0.25);
-}
-
-.offres-tag-filter-btn--active:hover {
-  background: var(--color-primary);
-  color: var(--color-white);
-  border-color: var(--color-primary);
-}
-
 .offres-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
   gap: 2.5rem;
+  margin-top: 1.5rem;
   margin-bottom: 3rem;
 }
 

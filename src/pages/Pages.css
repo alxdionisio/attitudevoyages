@@ -360,6 +360,248 @@
 }
 
 /* ========== DESTINATIONS ========== */
+.destinations-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 900px) {
+  .destinations-layout {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2.5rem;
+    margin-top: 2rem;
+  }
+}
+
+/* Bouton ouvrir filtres : visible uniquement sur mobile, sticky sous le header */
+.destinations-filters-trigger-wrap {
+  flex-shrink: 0;
+  position: sticky;
+  top: 7.25rem;
+  z-index: 10;
+  background: var(--color-light);
+  padding: 0.5rem 0;
+  margin: 0 -1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .destinations-filters-trigger-wrap {
+    margin: 0 -2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .destinations-filters-trigger-wrap {
+    display: none;
+  }
+}
+
+.destinations-filters-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  font-family: var(--font-body);
+  color: var(--color-dark);
+  background: var(--color-white);
+  border: 1px solid rgba(27, 67, 50, 0.2);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.destinations-filters-trigger:hover {
+  background: rgba(27, 67, 50, 0.04);
+  border-color: var(--color-primary);
+}
+
+.destinations-filters-trigger:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(74, 133, 54, 0.2);
+}
+
+.destinations-filters-trigger-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-radius: 1rem;
+}
+
+/* Sidebar : masquée sur mobile, visible sur desktop */
+.destinations-sidebar {
+  flex-shrink: 0;
+  width: 100%;
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .destinations-sidebar {
+    display: block;
+    width: 240px;
+    position: sticky;
+    top: 7.25rem;
+    padding: 0 1.5rem 0 0;
+  }
+}
+
+.destinations-sidebar__title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-dark);
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.destinations-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.destinations-results-bar {
+  margin-bottom: 1.25rem;
+}
+
+.destinations-results-bar .offres-filters__active {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.destinations-main .destinations-grid {
+  margin-top: 0;
+}
+
+.destinations-no-results {
+  text-align: center;
+  color: #6b7280;
+  padding: 4rem 0;
+  margin: 0;
+  font-family: var(--font-body);
+}
+
+/* Modale filtres (mobile) */
+.destinations-filters-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.destinations-filters-modal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 85vh;
+  background: var(--color-white);
+  border-radius: 1rem 1rem 0 0;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.destinations-filters-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(27, 67, 50, 0.1);
+}
+
+.destinations-filters-modal__title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-dark);
+  margin: 0;
+}
+
+.destinations-filters-modal__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0.5rem;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.destinations-filters-modal__close:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--color-dark);
+}
+
+.destinations-filters-modal__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 1.25rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.destinations-filters-modal__body .offres-filters {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.destinations-filters-modal__footer {
+  flex-shrink: 0;
+  padding: 1rem 1.25rem;
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  border-top: 1px solid rgba(27, 67, 50, 0.1);
+}
+
+.destinations-filters-modal__apply {
+  width: 100%;
+  padding: 0.875rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  color: var(--color-white);
+  background: var(--color-primary);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.destinations-filters-modal__apply:hover {
+  background: #2d5a22;
+  box-shadow: 0 4px 14px rgba(27, 67, 50, 0.3);
+}
+
+.destinations-filters-modal__apply-count {
+  font-weight: 500;
+  opacity: 0.9;
+  margin-left: 0.25rem;
+}
+
 .destinations-filters-wrap {
   margin-bottom: 3.5rem;
 }
@@ -444,43 +686,11 @@
   font-size: 1rem;
 }
 
-.destinations-filters {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 3.5rem;
-}
-
-.destinations-filter-btn {
-  padding: 0.625rem 1.25rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  font-family: var(--font-body);
-  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid #e5e7eb;
-  background: var(--color-white);
-  color: var(--color-dark);
-  cursor: pointer;
-}
-
-.destinations-filter-btn:hover {
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-}
-
-.destinations-filter-btn--active {
-  background: var(--color-primary);
-  color: var(--color-white);
-  border-color: var(--color-primary);
-  box-shadow: 0 4px 14px rgba(27, 67, 50, 0.3);
-}
-
 .destinations-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
+  margin-top: 1.5rem;
 }
 
 @media (min-width: 640px) {
@@ -1474,12 +1684,14 @@
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  min-height: 700px;
+  min-height: 850px;
+  height: min(950px, calc(100vh - 140px));
 }
 
 .contact-rdv-widget-wrap iframe {
   width: 100%;
-  height: 700px;
+  height: 100%;
+  min-height: 850px;
   border: 0;
 }
 
@@ -1653,7 +1865,7 @@
 
 .offre-detail-body {
   max-width: 1280px;
-  margin: -3rem auto 0;
+  margin: 2rem auto 0;
   padding: 0 1.5rem;
   position: relative;
   z-index: 2;
@@ -1669,7 +1881,7 @@
 @media (min-width: 1024px) {
   .offre-detail-body {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1.6fr) 360px;
     gap: 4rem;
   }
 
@@ -1708,6 +1920,125 @@
     font-size: 1.75rem;
   }
 }
+
+.offre-detail-prose {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.7;
+  font-family: var(--font-body);
+  margin: 0;
+}
+
+.offre-detail-prose--multiline p {
+  margin-bottom: 1rem;
+}
+
+.offre-detail-prose--multiline p:last-child {
+  margin-bottom: 0;
+}
+
+.offre-detail-h3 {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-dark);
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.offre-detail-h3:first-of-type {
+  margin-top: 0;
+}
+
+.offre-detail-itinerary-note {
+  font-size: 0.95rem;
+  color: #555;
+  font-style: italic;
+  margin-bottom: 1.25rem;
+  font-family: var(--font-body);
+}
+
+.offre-detail-list {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.7;
+  font-family: var(--font-body);
+}
+
+.offre-detail-list li {
+  margin-bottom: 0.6rem;
+  padding-left: 2rem;
+  position: relative;
+}
+
+.offre-detail-list li:last-child {
+  margin-bottom: 0;
+}
+
+.offre-detail-list--check li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  width: 1rem;
+  height: 1rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234a8536' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.offre-detail-list--cross li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  width: 1rem;
+  height: 1rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 6l12 12M6 18L18 6'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* Blocs mis en avant (description, bon à savoir, attention) */
+.offre-detail-block__title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.offre-detail-block--description .offre-detail-block__title {
+  color: var(--color-primary);
+}
+
+.offre-detail-block--description {
+  background: rgba(27, 67, 50, 0.04);
+}
+
+.offre-detail-block--info .offre-detail-block__title {
+  color: var(--color-secondary);
+}
+
+.offre-detail-block--info {
+  background: rgba(212, 165, 116, 0.08);
+}
+
+.offre-detail-block--warning .offre-detail-block__title {
+  color: #a65c1a;
+}
+
+.offre-detail-block--warning {
+  background: rgba(212, 165, 116, 0.12);
+}
+
 
 .offre-detail-points {
   display: grid;
@@ -1822,6 +2153,74 @@
   font-family: var(--font-body);
 }
 
+/* Bloc "Au programme" par activités – liste dynamique */
+.offre-detail-activites {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid rgba(27, 67, 50, 0.12);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.offre-detail-activite {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(27, 67, 50, 0.08);
+  transition: background-color 0.2s ease, padding-left 0.2s ease;
+}
+
+.offre-detail-activite:last-child {
+  border-bottom: none;
+}
+
+.offre-detail-activite:hover {
+  background: rgba(27, 67, 50, 0.05);
+  padding-left: 1.5rem;
+}
+
+.offre-detail-activite-marker {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  margin-top: 0.5rem;
+  border-radius: 50%;
+  background: var(--color-primary);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.offre-detail-activite:hover .offre-detail-activite-marker {
+  transform: scale(1.25);
+  box-shadow: 0 0 0 3px rgba(27, 67, 50, 0.2);
+}
+
+.offre-detail-activite-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.offre-detail-activite-titre {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-dark);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.offre-detail-activite p {
+  font-size: 0.875rem;
+  color: #555;
+  line-height: 1.6;
+  font-family: var(--font-body);
+  margin: 0;
+}
+
 .offre-detail-gallery {
   margin-bottom: 2rem;
 }
@@ -1870,7 +2269,7 @@
 @media (min-width: 1024px) {
   .offre-detail-sidebar {
     position: sticky;
-    top: 7rem;
+    top: 10rem;
   }
 }
 
@@ -1880,6 +2279,28 @@
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   border: 1px solid #f3f4f6;
+}
+
+.offre-detail-booking-header {
+  margin-bottom: 1.5rem;
+}
+
+.offre-detail-booking-promo {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-body);
+}
+
+.offre-detail-booking-dates,
+.offre-detail-booking-depart {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 0.35rem;
+  font-family: var(--font-body);
 }
 
 .offre-detail-booking-price-label {
@@ -1893,6 +2314,30 @@
   font-size: 2rem;
   font-weight: 600;
   color: var(--color-primary);
+}
+
+.offre-detail-booking-price-before {
+  display: inline-block;
+  margin-right: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #888;
+  text-decoration: line-through;
+}
+
+.offre-detail-hero-promo-note {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+  font-style: italic;
+  max-width: 60ch;
+}
+
+.offre-detail-block-note {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: #555;
+  font-style: italic;
 }
 
 .offre-detail-booking-duration {

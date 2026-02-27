@@ -7,11 +7,11 @@ import "./Breadcrumb.css";
  * items: [{ label: "Accueil", path: "/" }, { label: "Page actuelle" }]
  * Le dernier item sans path est affiché en texte (page courante).
  */
-const Breadcrumb = ({ items = [] }) => {
+const Breadcrumb = ({ items = [], centered = false }) => {
   if (!items.length) return null;
 
   return (
-    <nav className="breadcrumb" aria-label="Fil d'Ariane">
+    <nav className={`breadcrumb${centered ? " breadcrumb--centered" : ""}`} aria-label="Fil d'Ariane">
       <ol className="breadcrumb-list" itemScope itemType="https://schema.org/BreadcrumbList">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;

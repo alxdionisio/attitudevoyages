@@ -99,7 +99,7 @@ const ContactPage = () => {
         breadcrumbs={[{ label: "Accueil", path: "/" }, { label: "Contact", path: "/contact" }]}
       />
       <div className="page-container" style={{ paddingBottom: "6rem" }}>
-        <Breadcrumb items={[{ label: "Accueil", path: "/" }, { label: "Contact" }]} />
+        <Breadcrumb items={[{ label: "Accueil", path: "/" }, { label: "Contact" }]} centered />
         <motion.header
           className="page-header page-header--large"
           initial={{ opacity: 0, y: 20 }}
@@ -263,7 +263,7 @@ const ContactPage = () => {
             <div className="contact-rdv-widget-wrap">
               <InlineWidget
                 url={CALENDLY_URL}
-                styles={{ height: "700px", width: "100%" }}
+                styles={{ height: "100%", width: "100%", minHeight: "850px" }}
                 locale="fr"
               />
             </div>
