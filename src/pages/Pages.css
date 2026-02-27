@@ -1785,6 +1785,14 @@
   overflow: hidden;
 }
 
+@media (max-width: 767px) {
+  .offre-detail-hero {
+    min-height: 420px;
+    height: auto;
+    max-height: 85vh;
+  }
+}
+
 .offre-detail-hero-bg {
   position: absolute;
   inset: 0;
@@ -1862,6 +1870,38 @@
   max-width: 42rem;
   font-family: var(--font-body);
   line-height: 1.6;
+}
+
+/* Mobile : limiter les lignes pour que tout le contenu reste lisible dans la hero */
+@media (max-width: 767px) {
+  .offre-detail-hero-meta {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    white-space: normal;
+  }
+
+  .offre-detail-hero-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .offre-detail-hero-desc {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+  }
+
+  .offre-detail-hero-promo-note {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
 }
 
 .offre-detail-body {
