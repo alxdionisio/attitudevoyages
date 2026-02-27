@@ -46,6 +46,9 @@ const Footer = () => {
             <ul className="footer-links">
               <li><Link to="/offre/circuit-sri-lanka-eveil-des-sens">Sri Lanka – Éveil des sens</Link></li>
               <li><Link to="/offre/sejour-albanie-tout-inclus">Albanie – Tout inclus</Link></li>
+              <li><Link to="/offre/sejour-sanur-bali">Bali – Prama Sanur 5*</Link></li>
+              <li><Link to="/offre/sejour-jimbaran-bali">Bali – Anja Jimbaran 4*</Link></li>
+              <li><Link to="/offre/circuit-bali-lombok-privatif">Circuit Bali & Lombok</Link></li>
               <li><Link to="/destinations">Toutes nos destinations</Link></li>
             </ul>
           </div>

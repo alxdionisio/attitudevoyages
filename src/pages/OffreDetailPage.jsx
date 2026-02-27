@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getOffreBySlug } from "../data/offres";
+import { getBaseUrl } from "../config/site";
 import SEO from "../components/SEO";
 import Breadcrumb from "../components/Breadcrumb";
 import "./Pages.css";
@@ -142,6 +143,35 @@ const OffreDetailPage = () => {
     { label: offre.title },
   ];
 
+  const offerJsonLd = useMemo(() => {
+    const baseUrl = getBaseUrl();
+    const url = `${baseUrl.replace(/\/$/, "")}/offre/${offre.slug}`;
+    const priceStr = offre.price && offre.price !== "Sur devis"
+      ? offre.price.replace(/\s/g, "").replace(",", ".").replace(/[^\d.]/g, "")
+      : "";
+    const priceNum = priceStr ? parseFloat(priceStr, 10) : NaN;
+    const hasValidPrice = Number.isFinite(priceNum) && priceNum > 0;
+    return {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: offre.title,
+      description: offre.shortDescription || `${offre.destination} - ${offre.duration}. ${offre.title}.`,
+      image: offre.image,
+      url,
+      brand: { "@type": "Brand", name: "Attitude Voyages" },
+      ...(hasValidPrice
+        ? {
+            offers: {
+              "@type": "Offer",
+              price: priceNum,
+              priceCurrency: "EUR",
+              url,
+            },
+          }
+        : {}),
+    };
+  }, [offre]);
+
   return (
     <div className="offre-detail">
       <SEO
@@ -150,6 +180,7 @@ const OffreDetailPage = () => {
         canonical={`/offre/${offre.slug}`}
         breadcrumbs={breadcrumbItems}
         ogImage={offre.image}
+        jsonLd={[offerJsonLd]}
       />
       <section className="offre-detail-hero">
         <div className="offre-detail-hero-bg">

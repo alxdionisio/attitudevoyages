@@ -164,7 +164,7 @@ const DestinationsPage = () => {
     <div className="page-wrapper page-wrapper--cream">
       <SEO
         title="Destinations"
-        description="Découvrez nos voyages d'exception : circuits, séjours sur mesure et destinations de rêve. Explorez le monde avec Attitude Voyages."
+        description="Séjours et circuits Bali, Sri Lanka, Albanie, Indonésie. Voyages sur mesure : Sanur, Jimbaran, circuit Bali-Lombok, plages et culture. Réservez votre voyage avec Attitude Voyages à Caveirac."
         canonical={canonicalPath}
         breadcrumbs={[{ label: "Accueil", path: "/" }, { label: "Destinations", path: "/destinations" }]}
       />

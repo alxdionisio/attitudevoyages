@@ -35,7 +35,7 @@ const HomePage = () => {
     <>
       <SEO
         title="Accueil"
-        description="Attitude Voyages, agence de voyage à Caveirac. Voyages sur mesure, circuits et séjours d'exception. Découvrez nos offres et prenez rendez-vous."
+        description="Attitude Voyages, agence de voyage à Caveirac. Séjours Bali, Sri Lanka, Albanie, circuits et voyages sur mesure. Découvrez nos offres et prenez rendez-vous."
         canonical="/"
       />
       <Hero />
