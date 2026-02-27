@@ -19,9 +19,11 @@ export function getPathWithoutBasename(pathname) {
   return pathname;
 }
 
+/** URL canonique du site (https, sans www). À définir en build via VITE_SITE_URL pour que canonical/OG soient toujours identiques. */
 function getBaseUrl() {
   if (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_SITE_URL) {
-    return import.meta.env.VITE_SITE_URL.replace(/\/$/, "");
+    const url = import.meta.env.VITE_SITE_URL.replace(/\/$/, "");
+    return url;
   }
   if (typeof window !== "undefined") {
     const path = window.location.pathname;

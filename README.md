@@ -81,27 +81,34 @@ Pour intégrer Calendly dans la section rendez-vous :
 
 ## 📱 SEO
 
-Le site inclut des balises meta optimisées pour le référencement :
-- Titre et description dans `index.html`
-- Structure sémantique HTML5
-- Balises alt sur toutes les images
-- Liens internes optimisés
+### URL canonique (https://attitude-voyages.fr)
 
-Pensez à :
-- Ajouter un fichier `sitemap.xml`
-- Configurer Google Analytics
-- Créer un compte Google My Business
+- **Une seule URL canonique** : `https://attitude-voyages.fr` (https, sans www).
+- **Balise canonical** : présente sur chaque page (gérée par le composant SEO).
+- **Sitemap** (`public/sitemap.xml`) : ne contient que des URLs en `https://attitude-voyages.fr/...` (jamais http ni www).
+- **Build** : `VITE_SITE_URL=https://attitude-voyages.fr` est défini en CI pour que canonical et Open Graph pointent toujours vers la canonique.
 
-## 🌐 Déploiement
+### Redirections 301 (GitHub Pages)
 
-### Netlify (recommandé)
-1. Connectez votre repository GitHub
-2. Build command : `npm run build`
-3. Publish directory : `dist`
+GitHub Pages ne gère pas de fichier de redirections. Pour rediriger vers la canonique `https://attitude-voyages.fr` :
 
-### Vercel
-1. Importez votre projet
-2. Configuration automatique pour Vite
+- **http → https** : dans le dépôt, *Settings → Pages* : cocher **Enforce HTTPS** (GitHub redirige alors le http vers https).
+- **www → non-www** : configurer le DNS du domaine pour que seul `attitude-voyages.fr` (sans www) pointe vers GitHub Pages, ou mettre un proxy (ex. [Cloudflare](https://www.cloudflare.com)) qui redirige `www.attitude-voyages.fr` vers `attitude-voyages.fr` en 301.
+
+### Autre
+
+- Titre et description par page, structure sémantique, balises alt, liens internes.
+- Sitemap à jour avec les pages et offres publiées.
+- Pensez à : Google Analytics, Google Search Console, Google My Business.
+
+## 🌐 Déploiement (GitHub Pages)
+
+Le site est déployé via **GitHub Actions** (voir `.github/workflows/deploy.yml`) :
+
+1. À chaque push sur `main`, le workflow build le projet et déploie le dossier `dist` sur GitHub Pages.
+2. **Settings → Pages** : source = *GitHub Actions*.
+3. Domaine personnalisé : fichier `CNAME` à la racine (ex. `attitude-voyages.fr`), puis configurer le DNS chez le registrar.
+4. Fallback SPA : le workflow copie `index.html` en `404.html` pour que les routes client (/offre/xxx, /contact, etc.) affichent l’app au lieu d’une 404.
 
 ## 📄 Structure du projet
 
