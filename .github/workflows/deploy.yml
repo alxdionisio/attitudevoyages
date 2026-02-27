@@ -33,9 +33,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Sans VITE_BASENAME : le site est servi à la racine (domaine perso CNAME).
+      # Assets en /assets/... → tout fonctionne (accueil + refresh sur /offre/xxx).
       - name: Build
         env:
-          VITE_BASENAME: /${{ github.event.repository.name }}
           VITE_CALENDLY_URL: ${{ secrets.VITE_CALENDLY_URL }}
           VITE_FORMSPREE_FORM_ID: ${{ secrets.VITE_FORMSPREE_FORM_ID }}
         run: npm run build
