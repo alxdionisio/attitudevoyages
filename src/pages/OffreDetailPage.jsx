@@ -255,9 +255,45 @@ const OffreDetailPage = () => {
               {offre.hebergementNom && <h3 className="offre-detail-h3">{offre.hebergementNom}</h3>}
               {offre.hebergementDescription && (
                 <div className="offre-detail-prose offre-detail-prose--multiline">
-                  {offre.hebergementDescription.split("\n\n").map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
+                  {offre.hebergementDescription.split("\n\n").map((chunk, i) => {
+                    const lines = String(chunk)
+                      .split("\n")
+                      .map((l) => l.trim())
+                      .filter(Boolean);
+                    const bulletItems = lines
+                      .filter((l) => l.startsWith("- "))
+                      .map((l) => l.replace(/^- /, ""));
+
+                    // Cas spécifique : "Les cabines" fournit des catégories sous forme de puces "- ...".
+                    if (offre.hebergementTitre?.toLowerCase().includes("cabines") && bulletItems.length >= 2) {
+                      const preTextLines = lines.filter((l) => !l.startsWith("- "));
+                      return (
+                        <React.Fragment key={i}>
+                          {preTextLines.length > 0 && <p>{preTextLines.join(" ")}</p>}
+                          <ul className="offre-detail-bullets">
+                            {bulletItems.map((item, idx) => (
+                              <li key={idx}>
+                                {(() => {
+                                  // Met en gras l'intitulé principal (partie avant la première parenthèse).
+                                  const label = item.split("(")[0].trim();
+                                  if (!label) return item;
+                                  const rest = item.slice(label.length).trim();
+                                  return (
+                                    <>
+                                      <strong>{label}</strong>
+                                      {rest ? ` ${rest}` : ""}
+                                    </>
+                                  );
+                                })()}
+                              </li>
+                            ))}
+                          </ul>
+                        </React.Fragment>
+                      );
+                    }
+
+                    return <p key={i}>{chunk}</p>;
+                  })}
                 </div>
               )}
               {offre.hebergementPrevu && (

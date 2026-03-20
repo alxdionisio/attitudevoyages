@@ -1978,6 +1978,23 @@
   margin-bottom: 0;
 }
 
+.offre-detail-bullets {
+  margin: 0.75rem 0 1rem 0;
+  padding-left: 1.25rem;
+  list-style: disc;
+  color: #444;
+  font-family: var(--font-body);
+  line-height: 1.7;
+}
+
+.offre-detail-bullets li {
+  margin-bottom: 0.4rem;
+}
+
+.offre-detail-bullets li:last-child {
+  margin-bottom: 0;
+}
+
 .offre-detail-h3 {
   font-family: var(--font-display);
   font-size: 1.125rem;

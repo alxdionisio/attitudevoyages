@@ -559,8 +559,6 @@ const offresBase = [
           "Présence exceptionnelle de 2 conférenciers et d’un ambassadeur Kuoni pour enrichir l’expérience.",
       },
     ],
-    itineraireNote:
-      "La croisière, bien qu’accessible à tous, nécessite une condition physique raisonnablement bonne. Tenue décontractée en journée et plus habillée le soir, pour les dîners. Les frais annexes à bord sont à régler par carte de crédit (American Express, Visa ou MasterCard). Pourboires obligatoires : 70 €/personne, à régler avant départ. Excursions (hors Portofino et Monaco) : sélection disponible sur demande, recommandée à réserver avant le départ.",
     itineraire: [
       {
         jour: 1,
