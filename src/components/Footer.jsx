@@ -49,6 +49,7 @@ const Footer = () => {
               <li><Link to="/offre/sejour-sanur-bali">Bali – Prama Sanur 5*</Link></li>
               <li><Link to="/offre/sejour-jimbaran-bali">Bali – Anja Jimbaran 4*</Link></li>
               <li><Link to="/offre/circuit-bali-lombok-privatif">Circuit Bali & Lombok</Link></li>
+              <li><Link to="/offre/croisiere-kuoni-royal-clipper-perles-de-mediterranee">Royal Clipper (Kuoni) – Perles de Méditerranée</Link></li>
               <li><Link to="/destinations">Toutes nos destinations</Link></li>
             </ul>
           </div>

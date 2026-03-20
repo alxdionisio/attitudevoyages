@@ -515,9 +515,116 @@ const offresBase = [
     ],
     bonASavoir: "Départs garantis à partir de 2 personnes. Inscription en chambre individuelle soumise à conditions et pouvant être annulée faute d'au moins 2 participants.\n\nLes traversées pour rejoindre Lombok sont soumises aux conditions météorologiques et peuvent entraîner un réaménagement du programme.\n\nGunung Kawi : balade d'environ 1h15 — prévoir bonnes chaussures et protection solaire.\n\nRandonnée Sidemen : prévoir maillot de bain pour se rafraîchir dans la rivière.\n\nDisponibilité des guides francophones limitée (surtout 15 juin / 15 septembre). Le guide pourra être anglophone.\n\nL'ordre des visites peut être inversé ou modifié ; toutes les visites seront respectées.\n\nChambre disponible entre 12h30 et 15h00. Empreinte carte bancaire possible à l'arrivée en séjour plage (aucun débit sans consommation).",
   },
+  {
+    id: 12,
+    slug: "croisiere-kuoni-royal-clipper-perles-de-mediterranee",
+    title: "Croisière exclusive Kuoni à bord du Royal Clipper",
+    destination: "Méditerranée",
+    duration: "8 jours / 7 nuits",
+    price: "2 490€",
+    image: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?q=80&w=2835&auto=format&fit=crop",
+    highlights: ["Royal Clipper (5 mâts)", "Départ unique Nice", "Portofino & Bonifacio", "Exclusivité Kuoni"],
+    tag: "Croisière",
+    shortDescription:
+      "Croisière exclusive Kuoni à bord du Royal Clipper : une navigation à voile unique avec escales d’exception. Départ unique le 8 mai 2027 depuis Nice. Réservation avant le 31 août 2026 : -10% sur le prix de la cabine.",
+    promoLabel: "EXCLUSIVITÉ KUONI",
+    dateDebut: "08/05/2027",
+    promoDiscountPercent: "10%",
+    promoDiscountUntil: "31 août 2026",
+    promoNote:
+      "Réduction exceptionnelle de 10% pour toute réservation faite avant le 31 août 2026 sur l’ensemble des catégories de cabines et suites. Cette réduction est valable sur le prix de la cabine. Contactez un conseiller voyage pour en savoir plus !",
+    pointsForts: [
+      {
+        icon: "boat",
+        title: "Royal Clipper, 5 mâts",
+        description:
+          "Plus grand voilier et unique 5 mâts au monde : une expérience de navigation à voile, confort et détente.",
+      },
+      {
+        icon: "relax",
+        title: "Espaces bien-être & loisirs",
+        description:
+          "Trois piscines, Captain Nemo Spa, salle de sport, accès aux sports nautiques et ambiance piano-bar.",
+      },
+      {
+        icon: "food",
+        title: "Saveurs à bord",
+        description:
+          "Petit-déjeuner continental et anglais, déjeuner en buffet varié et dîner servi à table.",
+      },
+      {
+        icon: "culture",
+        title: "Conférenciers & ambiance Kuoni",
+        description:
+          "Présence exceptionnelle de 2 conférenciers et d’un ambassadeur Kuoni pour enrichir l’expérience.",
+      },
+    ],
+    itineraireNote:
+      "La croisière, bien qu’accessible à tous, nécessite une condition physique raisonnablement bonne. Tenue décontractée en journée et plus habillée le soir, pour les dîners. Les frais annexes à bord sont à régler par carte de crédit (American Express, Visa ou MasterCard). Pourboires obligatoires : 70 €/personne, à régler avant départ. Excursions (hors Portofino et Monaco) : sélection disponible sur demande, recommandée à réserver avant le départ.",
+    itineraire: [
+      {
+        jour: 1,
+        titre: "Nice (embarquement)",
+        description: "8 mai : embarquement de 15 h à 16 h, départ à 22 h.",
+      },
+      {
+        jour: 2,
+        titre: "Portofino",
+        description: "9 mai : escale à Portofino (Italie) de 12 h à 18 h.",
+      },
+      {
+        jour: 3,
+        titre: "Portoferraio (île d’Elbe)",
+        description: "10 mai : escale à Portoferraio (île d’Elbe, Italie) de 9 h à 18 h.",
+      },
+      {
+        jour: 4,
+        titre: "Bonifacio (Corse)",
+        description: "11 mai : escale à Bonifacio (Corse, France) de 10 h à 22 h.",
+      },
+      {
+        jour: 5,
+        titre: "Alghero (Sardaigne)",
+        description: "12 mai : escale à Alghero (Sardaigne, Italie) de 10 h à 17 h.",
+      },
+      {
+        jour: 6,
+        titre: "Ajaccio (Corse)",
+        description: "13 mai : escale à Ajaccio (Corse, France) de 9 h à 16 h.",
+      },
+      {
+        jour: 7,
+        titre: "Monaco",
+        description: "14 mai : escale à Monaco de 8 h à 23 h 45.",
+      },
+      {
+        jour: 8,
+        titre: "Nice (arrivée & débarquement)",
+        description: "15 mai : arrivée à Nice à 7 h, débarquement jusqu’à 10 h.",
+      },
+    ],
+    hebergementTitre: "Les cabines",
+    hebergementNom: "Cabines & suites Royal Clipper (Kuoni)",
+    hebergementDescription:
+      "Les cabines et suites ont été conçues pour offrir un cadre confortable et élégant, dans un esprit nautique premium. Matériaux soignés, cuivres polis et mobilier en acajou contribuent à créer une ambiance chaleureuse.\n\nToutes les cabines disposent d’un aménagement complet répondant aux attentes d’une clientèle en recherche de confort : lits jumeaux ou lit double, salle de bains ou douche équipée d’un sèche-cheveux, climatisation individuelle et télévision.\n\nCatégories (selon ponts) :\n- Cabines intérieures (catégorie 6) : 10 m² (1 individuelle et 5 doubles/triples)\n- Cabines standard extérieures (catégorie 5) : 11 m² (pont Commodore)\n- Cabines extérieures (catégories 3 et 4) : 13 m² (ponts Clipper et Commodore)\n- Cabines supérieures extérieures (catégorie 2) : 13 m² (pont Clipper)\n- Cabines de luxe extérieures (catégorie 1) : 14,5 m² (pont principal)\n- Suites deluxe extérieures (pont principal) : balcon privé, bain à remous et service en cabine (26 m² balcon inclus)\n- Suites extérieures de l’Armateur (pont Clipper) : coin salon, bain à remous, minibar et service en cabine (40 m²).",
+    prixNeComprendPas: [
+      "Excursions et services selon programme et disponibilités",
+      "Dépenses personnelles à bord",
+      "Pourboires obligatoires (70 €/personne) à régler avant départ",
+    ],
+    bonASavoir:
+      "La croisière nécessite une condition physique raisonnablement bonne.\n\nLa tenue est décontractée en journée et plus habillée le soir, pour les dîners.\n\nLes frais annexes à bord sont à régler par carte de crédit (American Express, Visa ou MasterCard).\n\nPourboires obligatoires : 70 €/personne, à régler avant départ.\n\nExcursions : à chaque escale (hors Portofino et Monaco), une sélection est proposée sur demande et recommandée à réserver avant le départ.",
+  },
 ];
 
-const SLUGS_OFFRES_DISPONIBLES = ["circuit-sri-lanka-eveil-des-sens", "sejour-albanie-tout-inclus", "sejour-sanur-bali", "sejour-jimbaran-bali", "circuit-bali-lombok-privatif"];
+const SLUGS_OFFRES_DISPONIBLES = [
+  "circuit-sri-lanka-eveil-des-sens",
+  "sejour-albanie-tout-inclus",
+  "sejour-sanur-bali",
+  "sejour-jimbaran-bali",
+  "circuit-bali-lombok-privatif",
+  "croisiere-kuoni-royal-clipper-perles-de-mediterranee",
+];
 
 export const offresData = offresBase.filter((o) => SLUGS_OFFRES_DISPONIBLES.includes(o.slug));
 

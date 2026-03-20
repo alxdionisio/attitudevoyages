@@ -79,6 +79,12 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://attitude-voyages.fr/offre/croisiere-kuoni-royal-clipper-perles-de-mediterranee</loc>
+    <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url><loc>https://attitude-voyages.fr/agence-voyages/nimes</loc><lastmod>2026-02-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://attitude-voyages.fr/agence-voyages/caveirac</loc><lastmod>2026-02-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://attitude-voyages.fr/agence-voyages/caissargues</loc><lastmod>2026-02-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>

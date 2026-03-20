@@ -414,6 +414,12 @@ const OffreDetailPage = () => {
                       )}
                       {offre.price}
                     </p>
+                    {offre.promoDiscountPercent && offre.promoDiscountUntil && (
+                      <p className="offre-detail-booking-discount">
+                        Remise {offre.promoDiscountPercent} pour toute réservation avant le{" "}
+                        {offre.promoDiscountUntil}
+                      </p>
+                    )}
                   </>
                 )}
                 {offre.dateDebut && !offre.dateFin && (
