@@ -151,14 +151,34 @@ const OffreDetailPage = () => {
       : "";
     const priceNum = priceStr ? parseFloat(priceStr, 10) : NaN;
     const hasValidPrice = Number.isFinite(priceNum) && priceNum > 0;
+
+    const itinerarySteps = (offre.itineraire || []).map((step) => ({
+      "@type": "ListItem",
+      position: step.jour,
+      name: step.titre,
+      description: step.description,
+    }));
+
     return {
       "@context": "https://schema.org",
-      "@type": "Product",
+      "@type": ["Product", "TouristTrip"],
       name: offre.title,
       description: offre.shortDescription || `${offre.destination} - ${offre.duration}. ${offre.title}.`,
       image: offre.image,
       url,
       brand: { "@type": "Brand", name: "Attitude Voyages" },
+      provider: {
+        "@type": "TravelAgency",
+        name: "Attitude Voyages",
+        url: baseUrl,
+      },
+      touristType: "Leisure",
+      ...(offre.destination ? { itinerary: {
+        "@type": "ItemList",
+        name: `Itinéraire ${offre.destination}`,
+        numberOfItems: itinerarySteps.length,
+        itemListElement: itinerarySteps,
+      }} : {}),
       ...(hasValidPrice
         ? {
             offers: {
@@ -166,6 +186,11 @@ const OffreDetailPage = () => {
               price: priceNum,
               priceCurrency: "EUR",
               url,
+              availability: "https://schema.org/InStock",
+              seller: {
+                "@type": "TravelAgency",
+                name: "Attitude Voyages",
+              },
             },
           }
         : {}),

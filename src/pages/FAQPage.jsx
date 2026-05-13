@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import SEO from "../components/SEO";
@@ -67,6 +67,21 @@ const faqByCategory = [
 const FAQPage = () => {
   const [openId, setOpenId] = useState(null);
 
+  const faqJsonLd = useMemo(() => ({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqByCategory.flatMap((cat) =>
+      cat.items.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      }))
+    ),
+  }), []);
+
   return (
     <div className="page-wrapper page-wrapper--cream">
       <SEO
@@ -74,6 +89,7 @@ const FAQPage = () => {
         description="Foire aux questions Attitude Voyages : réservations, voyages sur mesure, agence agréée, rendez-vous et horaires à Caveirac."
         canonical="/faq"
         breadcrumbs={[{ label: "Accueil", path: "/" }, { label: "FAQ", path: "/faq" }]}
+        jsonLd={[faqJsonLd]}
       />
       <div className="page-container" style={{ paddingBottom: "6rem" }}>
         <Breadcrumb items={[{ label: "Accueil", path: "/" }, { label: "FAQ" }]} />
