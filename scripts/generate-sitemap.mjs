@@ -26,8 +26,28 @@ const offres = [
   '/offre/croisiere-kuoni-royal-clipper-perles-de-mediterranee',
 ];
 
-const villesImport = await import('../src/data/villes.js');
-const villeSlugs = villesImport.getAllVilleSlugs();
+function slugify(name) {
+  return name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+}
+
+const villeNoms = [
+  'Nîmes', 'Caveirac', 'Caissargues', 'Rodilhan', 'Milhaud', 'Bouillargues',
+  'Marguerittes', 'Manduel', 'Garons', 'Langlade', 'Poulx', 'Bernis', 'Aubord',
+  'Clarensac', 'Nages-et-Solorgues', 'Générac', 'La Calmette', 'Uchaud',
+  'Cabrières', 'Redessan', 'Saint-Gervasy', 'Bezouce', 'Codognan', 'Beauvoisin',
+  'Bellegarde', 'Vestric-et-Candiac', 'Vergèze', 'Mus', 'Aimargues',
+  'Gallargues-le-Montueux', 'Aigues-Vives', 'Sommières', 'Calvisson', 'Congénies',
+  'Boissières', 'Comps', 'Meynes', 'Lédenon', 'Remoulins', 'Uzès', 'Saint-Gilles',
+  'Dions', 'Gajan', 'Sauzet', 'Fons-outre-Gardon', 'Saint-Mamert-du-Gard',
+  'Saint-Geniès-de-Malgoirès', 'La Rouvière', 'Sernhac', 'Domessargues',
+];
+
+const villeSlugs = villeNoms.map(slugify);
 
 const urls = [
   ...pages.map((p) => `  <url>
