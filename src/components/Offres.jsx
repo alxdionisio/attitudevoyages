@@ -47,7 +47,15 @@ const Offres = () => {
             >
               <Link to={`/offre/${offre.slug}`} className="offre-card-link">
                 <div className="offre-image-wrapper">
-                  <img src={offre.image} alt={offre.title} className="offre-image" />
+                  <img
+                    src={offre.image}
+                    alt={offre.title}
+                    className="offre-image"
+                    width="640"
+                    height="427"
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <span className="offre-tag">{offre.tag}</span>
                 </div>
 

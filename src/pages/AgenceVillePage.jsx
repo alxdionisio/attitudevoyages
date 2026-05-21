@@ -85,6 +85,11 @@ const AgenceVillePage = () => {
           <img
             src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1920&auto=format&fit=crop"
             alt={`Voyage et évasion — agence de voyage près de ${nom}`}
+            width="1920"
+            height="1280"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
           />
           <div className="agence-ville-hero-overlay" />
         </div>
