@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Hero from "../components/Hero";
 import Offres from "../components/Offres";
 import APropos from "../components/APropos";
+import Temoignages from "../components/Temoignages";
 import RendezVous from "../components/RendezVous";
 import Contact from "../components/Contact";
 import AgenceVillesSection from "../components/AgenceVillesSection";
@@ -58,6 +59,15 @@ const HomePage = () => {
         variants={sectionVariants}
       >
         <APropos />
+      </motion.div>
+      <motion.div
+        custom={2}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={sectionVariants}
+      >
+        <Temoignages variant="homepage" />
       </motion.div>
       <motion.div
         id="rendez-vous"

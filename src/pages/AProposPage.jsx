@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import SEO from "../components/SEO";
 import Breadcrumb from "../components/Breadcrumb";
+import EquipeSection from "../components/EquipeSection";
+import Temoignages from "../components/Temoignages";
+import { equipe } from "../data/equipe";
+import { getBaseUrl } from "../config/site";
 import "./Pages.css";
 
 const fadeInUp = {
@@ -60,6 +64,22 @@ const valeurs = [
 ];
 
 const AProposPage = () => {
+  const personJsonLd = useMemo(() => {
+    const baseUrl = getBaseUrl();
+    const orgId = `${baseUrl}/#organization`;
+    return equipe.map((m) => ({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "@id": `${baseUrl}/a-propos#${m.id}`,
+      name: `${m.prenom}${m.nom.startsWith("TODO") ? "" : ` ${m.nom}`}`,
+      jobTitle: m.role,
+      image: `${baseUrl}${m.photo}`,
+      worksFor: { "@id": orgId },
+      knowsLanguage: m.languesParlees,
+      knowsAbout: m.destinationsExpertes,
+    }));
+  }, []);
+
   return (
     <div className="page-wrapper page-wrapper--cream">
       <SEO
@@ -67,6 +87,7 @@ const AProposPage = () => {
         description="Découvrez Attitude Voyages : Annie & Jade, votre agence à Caveirac. Voyages sur mesure, expertise et accompagnement personnalisé depuis des années."
         canonical="/a-propos"
         breadcrumbs={[{ label: "Accueil", path: "/" }, { label: "À propos", path: "/a-propos" }]}
+        jsonLd={personJsonLd}
       />
       <section className="apropos-hero">
         <div className="apropos-hero-bg">
@@ -167,6 +188,10 @@ const AProposPage = () => {
           </div>
         </div>
       </section>
+
+      <EquipeSection />
+
+      <Temoignages variant="apropos" />
 
       <section className="apropos-valeurs-section">
         <div className="page-container">
