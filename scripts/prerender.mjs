@@ -77,11 +77,6 @@ const routes = [
 
 const indexHtml = readFileSync(join(DIST, 'index.html'), 'utf-8');
 
-function serveDist() {
-  const { lookup } = await import('mrmime');
-  // Fallback: simple static server
-}
-
 async function startServer() {
   const handler = (req, res) => {
     let url = req.url.split('?')[0];

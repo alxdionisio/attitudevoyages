@@ -89,10 +89,10 @@ const Hero = () => {
         <div className="container">
           <div className="hero-text">
             <span className="hero-subtitle fade-in">Votre agence de voyages à Caveirac</span>
-            <h2 className="hero-title fade-in-up">
+            <h1 className="hero-title fade-in-up">
               Explorez le monde,<br />
               vivez l'inoubliable
-            </h2>
+            </h1>
             <p className="hero-description fade-in-up">
               Nous créons des voyages sur mesure
               qui transforment vos rêves d'évasion <br /> en expériences inoubliables.
