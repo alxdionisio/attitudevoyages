@@ -1,64 +1,42 @@
 /**
  * Équipe Attitude Voyages — biographies E-E-A-T pour la page À propos.
  *
- * TODO (Annie & Jade) : remplacer chaque champ TODO par votre contenu réel.
  * Ces données alimentent :
  *  - La section "Notre équipe" sur /a-propos (composant EquipeSection)
  *  - Le JSON-LD Person injecté dans <head> (signaux Knowledge Graph / GEO)
- *
- * Pour les photos : placer les fichiers dans /public/team/ et référencer
- * "/team/annie.jpg" etc. Préférer du 800x800 (carré), format WebP si possible.
  */
 
 export const equipe = [
   {
     id: "annie",
     prenom: "Annie",
-    nom: "TODO — nom de famille",
-    role: "Conseillère voyage & co-fondatrice",
-    photo: "/team/annie-placeholder.svg", // TODO : remplacer par photo réelle
-    photoAlt: "Annie, conseillère voyage chez Attitude Voyages",
-    anneesExperience: 17, // TODO : ajuster
-    languesParlees: ["Français", "Anglais"], // TODO : compléter
+    role: "Co-fondatrice & conseillère voyage",
+    initiale: "A",
+    anneesExperience: 17,
+    languesParlees: ["Français", "Anglais"],
     destinationsExpertes: [
       "Indonésie (Bali, Lombok)",
       "Sri Lanka",
-      "Tanzanie",
-      "Méditerranée",
-    ], // TODO : compléter
-    bio: `Annie a co-fondé Attitude Voyages en 2009 après TODO — racontez son
-parcours pré-agence (compagnie aérienne ? voyagiste ? tour-leader ?). Spécialiste
-des TODO — type de voyage (circuits sur mesure, croisières, etc.), elle a
-personnellement parcouru TODO — nombre de pays / régions clés et accompagne ses
-clients de la première idée jusqu'au retour. Ses voyageurs apprécient TODO —
-qualité distinctive (sa disponibilité, son sens du détail, sa connaissance
-terrain…).`,
-    citation:
-      "TODO — une phrase d'Annie sur sa vision du voyage (1–2 lignes max).",
-    linkedin: null, // TODO : URL LinkedIn pro si dispo
+      "Tanzanie & Zanzibar",
+      "Croisières Méditerranée",
+    ],
+    bio:
+      "Annie a fondé Attitude Voyages en 2009 avec une conviction : un voyage réussi se construit en écoutant d'abord. Après plus de quinze ans dans le tourisme et des dizaines de destinations parcourues à titre personnel, elle conçoit des circuits sur mesure pour ses voyageurs et accompagne chaque projet de la première idée jusqu'au retour. Ses clients reviennent pour son sens du détail et sa capacité à transformer une envie floue en itinéraire précis.",
   },
   {
     id: "jade",
     prenom: "Jade",
-    nom: "TODO — nom de famille",
-    role: "Conseillère voyage & co-fondatrice",
-    photo: "/team/jade-placeholder.svg", // TODO : remplacer par photo réelle
-    photoAlt: "Jade, conseillère voyage chez Attitude Voyages",
-    anneesExperience: 12, // TODO : ajuster
-    languesParlees: ["Français", "Anglais", "Espagnol"], // TODO : compléter
+    role: "Conseillère voyage",
+    initiale: "J",
+    anneesExperience: 12,
+    languesParlees: ["Français", "Anglais", "Espagnol"],
     destinationsExpertes: [
       "Asie du Sud-Est",
-      "Amériques",
-      "Islande",
       "Voyages de noces",
-    ], // TODO : compléter
-    bio: `Jade a rejoint Attitude Voyages en TODO — année. Diplômée TODO —
-formation tourisme (BTS Tourisme ? École de commerce ?), elle s'est spécialisée
-dans TODO — créneau (voyages de noces, voyages en famille, longue durée…). Ses
-clients la reconnaissent pour TODO — qualité distinctive. Quand elle ne crée
-pas d'itinéraires, elle explore TODO — passion personnelle voyage.`,
-    citation:
-      "TODO — une phrase de Jade (1–2 lignes max).",
-    linkedin: null,
+      "Séjours en famille",
+      "Albanie & Balkans",
+    ],
+    bio:
+      "Jade a rejoint l'agence pour apporter son regard sur les voyages de noces, les séjours en famille et les escapades plus longues. Formée au tourisme et passionnée par la planification logistique, elle est le contact privilégié pour les itinéraires combinés, les départs multi-générationnels et tout projet qui demande plusieurs prestataires coordonnés. Son approche : un brief précis en amont, puis une disponibilité totale pendant le voyage en cas d'imprévu.",
   },
 ];

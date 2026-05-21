@@ -1,9 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { getBaseUrl } from "../config/site";
-import { temoignages, aggregateRating } from "../data/temoignages";
-
-const isPlaceholder = (val) =>
-  typeof val === "string" && val.startsWith("TODO");
+import { aggregateRating } from "../data/temoignages";
 
 const StructuredDataGlobal = () => {
   const ref = useRef([]);
@@ -13,13 +10,6 @@ const StructuredDataGlobal = () => {
     if (!baseUrl) return;
 
     const orgId = `${baseUrl}/#organization`;
-
-    // On n'injecte aggregateRating + review que si les données ne sont pas
-    // des placeholders TODO (sinon Google peut sanctionner les faux avis).
-    const realReviews = temoignages.filter(
-      (t) => !isPlaceholder(t.auteur) && !isPlaceholder(t.texte)
-    );
-    const hasRealReviews = realReviews.length >= 3;
 
     const travelAgency = {
       "@context": "https://schema.org",
@@ -90,30 +80,13 @@ const StructuredDataGlobal = () => {
           name: "IM 030 100 020",
         },
       ],
-      ...(hasRealReviews
-        ? {
-            aggregateRating: {
-              "@type": "AggregateRating",
-              ratingValue: aggregateRating.noteMoyenne,
-              reviewCount: aggregateRating.nombreAvis,
-              bestRating: 5,
-              worstRating: 1,
-            },
-            review: realReviews.slice(0, 5).map((t) => ({
-              "@type": "Review",
-              author: { "@type": "Person", name: t.auteur },
-              datePublished: t.date,
-              reviewRating: {
-                "@type": "Rating",
-                ratingValue: t.note,
-                bestRating: 5,
-                worstRating: 1,
-              },
-              reviewBody: t.texte,
-              itemReviewed: { "@id": orgId },
-            })),
-          }
-        : {}),
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: aggregateRating.noteMoyenne,
+        reviewCount: aggregateRating.nombreAvis,
+        bestRating: 5,
+        worstRating: 1,
+      },
     };
 
     const website = {

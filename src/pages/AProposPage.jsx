@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import SEO from "../components/SEO";
 import Breadcrumb from "../components/Breadcrumb";
 import EquipeSection from "../components/EquipeSection";
-import Temoignages from "../components/Temoignages";
 import { equipe } from "../data/equipe";
 import { getBaseUrl } from "../config/site";
 import "./Pages.css";
@@ -71,12 +70,12 @@ const AProposPage = () => {
       "@context": "https://schema.org",
       "@type": "Person",
       "@id": `${baseUrl}/a-propos#${m.id}`,
-      name: `${m.prenom}${m.nom.startsWith("TODO") ? "" : ` ${m.nom}`}`,
+      name: m.prenom,
       jobTitle: m.role,
-      image: `${baseUrl}${m.photo}`,
       worksFor: { "@id": orgId },
       knowsLanguage: m.languesParlees,
       knowsAbout: m.destinationsExpertes,
+      description: m.bio,
     }));
   }, []);
 
@@ -190,8 +189,6 @@ const AProposPage = () => {
       </section>
 
       <EquipeSection />
-
-      <Temoignages variant="apropos" />
 
       <section className="apropos-valeurs-section">
         <div className="page-container">

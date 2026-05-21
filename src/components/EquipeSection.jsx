@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { equipe } from "../data/equipe";
+import AvisGoogle from "./AvisGoogle";
 import "./EquipeSection.css";
 
 const EquipeSection = () => {
@@ -21,10 +22,13 @@ const EquipeSection = () => {
             vos conseillères voyage
           </h2>
           <p className="equipe-lede">
-            Deux passionnées, immatriculées Atout France (licence&nbsp;IM&nbsp;030&nbsp;100&nbsp;020),
+            Deux passionnées immatriculées Atout France (licence&nbsp;IM&nbsp;030&nbsp;100&nbsp;020),
             qui composent vos itinéraires sur la base de leurs propres voyages
             et de plus de quinze ans d'expérience terrain.
           </p>
+          <div className="equipe-avis-wrap">
+            <AvisGoogle variant="inline" />
+          </div>
         </motion.div>
 
         <div className="equipe-grid">
@@ -39,45 +43,41 @@ const EquipeSection = () => {
               itemScope
               itemType="https://schema.org/Person"
             >
-              <div className="equipe-photo-wrap">
-                <img
-                  src={membre.photo}
-                  alt={membre.photoAlt}
-                  width="400"
-                  height="400"
-                  loading="lazy"
-                  decoding="async"
-                  className="equipe-photo"
-                  itemProp="image"
-                />
-              </div>
-              <div className="equipe-info">
-                <h3 className="equipe-nom">
-                  <span itemProp="name">
-                    {membre.prenom} {membre.nom.startsWith("TODO") ? "" : membre.nom}
-                  </span>
-                </h3>
-                <p className="equipe-role" itemProp="jobTitle">{membre.role}</p>
-                <p className="equipe-meta">
-                  <strong>{membre.anneesExperience}&nbsp;ans</strong> d'expérience &middot;{" "}
-                  Langues&nbsp;: {membre.languesParlees.join(", ")}
-                </p>
-                <p className="equipe-bio" itemProp="description">{membre.bio}</p>
-                <div className="equipe-expertise">
-                  <span className="equipe-expertise-label">
-                    Destinations de prédilection
-                  </span>
-                  <ul className="equipe-expertise-list">
-                    {membre.destinationsExpertes.map((d) => (
-                      <li key={d}>{d}</li>
-                    ))}
-                  </ul>
+              <header className="equipe-card-header">
+                <span
+                  className="equipe-avatar"
+                  aria-hidden="true"
+                >
+                  {membre.initiale}
+                </span>
+                <div>
+                  <h3 className="equipe-nom" itemProp="name">
+                    {membre.prenom}
+                  </h3>
+                  <p className="equipe-role" itemProp="jobTitle">
+                    {membre.role}
+                  </p>
                 </div>
-                {membre.citation && !membre.citation.startsWith("TODO") && (
-                  <blockquote className="equipe-citation">
-                    « {membre.citation} »
-                  </blockquote>
-                )}
+              </header>
+
+              <p className="equipe-meta">
+                <strong>{membre.anneesExperience}&nbsp;ans</strong> d'expérience ·{" "}
+                Langues&nbsp;: {membre.languesParlees.join(", ")}
+              </p>
+
+              <p className="equipe-bio" itemProp="description">
+                {membre.bio}
+              </p>
+
+              <div className="equipe-expertise">
+                <span className="equipe-expertise-label">
+                  Destinations de prédilection
+                </span>
+                <ul className="equipe-expertise-list">
+                  {membre.destinationsExpertes.map((d) => (
+                    <li key={d}>{d}</li>
+                  ))}
+                </ul>
               </div>
             </motion.article>
           ))}
