@@ -39,8 +39,10 @@ const Header = () => {
         <div className="header-content">
           <Link to="/" className="logo">
             <img
-              src={`${import.meta.env.BASE_URL}Logo%20Attitude%20Voyages${(useWhiteHeader || mobileMenuOpen) ? "" : "%20blanc"}.png`}
+              src={`${import.meta.env.BASE_URL}logo-attitude-voyages${(useWhiteHeader || mobileMenuOpen) ? "" : "-blanc"}.png`}
               alt="Attitude Voyages"
+              width="180"
+              height="48"
               className="logo-image"
             />
           </Link>

@@ -16,8 +16,13 @@ const StructuredDataGlobal = () => {
       "@id": orgId,
       name: "Attitude Voyages",
       url: baseUrl,
-      logo: `${baseUrl}/Logo%20Attitude%20Voyages.png`,
-      image: `${baseUrl}/Logo%20Attitude%20Voyages.png`,
+      logo: {
+        "@type": "ImageObject",
+        url: `${baseUrl}/logo-attitude-voyages.png`,
+        width: 512,
+        height: 512,
+      },
+      image: `${baseUrl}/logo-attitude-voyages.png`,
       telephone: "+33 4 66 37 48 63",
       email: "contact@attitude-voyages.fr",
       priceRange: "€€",
@@ -86,6 +91,14 @@ const StructuredDataGlobal = () => {
         "Agence de voyage à Caveirac. Voyages sur mesure, circuits et séjours d'exception.",
       publisher: { "@id": orgId },
       inLanguage: "fr-FR",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${baseUrl}/destinations?tag={search_term_string}`,
+        },
+        "query-input": "required name=search_term_string",
+      },
     };
 
     ref.current.forEach((s) => s.remove());

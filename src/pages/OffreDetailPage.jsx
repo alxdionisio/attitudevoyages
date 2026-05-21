@@ -159,26 +159,23 @@ const OffreDetailPage = () => {
       description: step.description,
     }));
 
-    return {
+    const provider = {
+      "@type": "TravelAgency",
+      "@id": `${baseUrl}/#organization`,
+      name: "Attitude Voyages",
+      url: baseUrl,
+    };
+
+    const productSchema = {
       "@context": "https://schema.org",
-      "@type": ["Product", "TouristTrip"],
+      "@type": "Product",
+      "@id": `${url}#product`,
       name: offre.title,
       description: offre.shortDescription || `${offre.destination} - ${offre.duration}. ${offre.title}.`,
       image: offre.image,
       url,
       brand: { "@type": "Brand", name: "Attitude Voyages" },
-      provider: {
-        "@type": "TravelAgency",
-        name: "Attitude Voyages",
-        url: baseUrl,
-      },
-      touristType: "Leisure",
-      ...(offre.destination ? { itinerary: {
-        "@type": "ItemList",
-        name: `Itinéraire ${offre.destination}`,
-        numberOfItems: itinerarySteps.length,
-        itemListElement: itinerarySteps,
-      }} : {}),
+      category: "Travel",
       ...(hasValidPrice
         ? {
             offers: {
@@ -187,14 +184,37 @@ const OffreDetailPage = () => {
               priceCurrency: "EUR",
               url,
               availability: "https://schema.org/InStock",
-              seller: {
-                "@type": "TravelAgency",
-                name: "Attitude Voyages",
-              },
+              seller: provider,
             },
           }
         : {}),
     };
+
+    const touristTripSchema = {
+      "@context": "https://schema.org",
+      "@type": "TouristTrip",
+      "@id": `${url}#trip`,
+      name: offre.title,
+      description: offre.shortDescription || `${offre.destination} - ${offre.duration}. ${offre.title}.`,
+      image: offre.image,
+      url,
+      provider,
+      touristType: [
+        { "@type": "Audience", audienceType: "Leisure travelers" },
+      ],
+      ...(offre.destination
+        ? {
+            itinerary: {
+              "@type": "ItemList",
+              name: `Itinéraire ${offre.destination}`,
+              numberOfItems: itinerarySteps.length,
+              itemListElement: itinerarySteps,
+            },
+          }
+        : {}),
+    };
+
+    return [productSchema, touristTripSchema];
   }, [offre]);
 
   return (
@@ -205,7 +225,7 @@ const OffreDetailPage = () => {
         canonical={`/offre/${offre.slug}`}
         breadcrumbs={breadcrumbItems}
         ogImage={offre.image}
-        jsonLd={[offerJsonLd]}
+        jsonLd={offerJsonLd}
       />
       <section className="offre-detail-hero">
         <div className="offre-detail-hero-bg">
