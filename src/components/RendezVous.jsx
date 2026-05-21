@@ -1,5 +1,5 @@
 import React from "react";
-import { InlineWidget } from "react-calendly";
+import LazyCalendly from "./LazyCalendly";
 import { CALENDLY_URL } from "../config/calendly";
 import "./RendezVous.css";
 
@@ -59,7 +59,7 @@ const RendezVous = () => {
                 </div>
                 <div>
                   <h4>Téléphone</h4>
-                  <p>04 66 37 48 63</p>
+                  <p><a href="tel:+33466374863">04 66 37 48 63</a></p>
                 </div>
               </div>
 
@@ -92,11 +92,24 @@ const RendezVous = () => {
           </div>
 
           <div className="rdv-calendly-wrapper">
-            <InlineWidget
-              url={CALENDLY_URL}
-              styles={{ height: "100%", width: "100%", minHeight: "950px" }}
-              locale="fr"
-            />
+            {CALENDLY_URL ? (
+              <LazyCalendly
+                url={CALENDLY_URL}
+                styles={{ height: "100%", width: "100%", minHeight: "950px" }}
+              />
+            ) : (
+              <div className="rdv-fallback" role="status">
+                <p>Prise de rendez-vous en ligne momentanément indisponible.</p>
+                <p>
+                  Contactez-nous au{" "}
+                  <a href="tel:+33466374863">04 66 37 48 63</a> ou par e-mail à{" "}
+                  <a href="mailto:contact@attitude-voyages.fr">
+                    contact@attitude-voyages.fr
+                  </a>
+                  .
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

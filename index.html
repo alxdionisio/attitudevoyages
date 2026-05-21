@@ -2,6 +2,9 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://assets.calendly.com; frame-src https://calendly.com https://www.google.com https://www.google.fr; connect-src 'self' https://formspree.io https://www.google-analytics.com https://region1.google-analytics.com https://calendly.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.calendly.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' https://assets.mixkit.co; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io;" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" type="image/png" href="/favicon.png" />
     <link rel="manifest" href="/site.webmanifest" />
@@ -10,9 +13,11 @@
     <meta http-equiv="content-language" content="fr" />
     <meta name="description" content="Attitude Voyages - Votre agence de voyage à Caveirac, près de Nîmes. Voyages sur mesure, circuits et séjours d'exception depuis 2009." />
     <title>Attitude Voyages | Agence de voyage à Nîmes</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://assets.mixkit.co" />
+    <link rel="dns-prefetch" href="https://assets.calendly.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   </head>
   <body>
     <!-- dataLayer : alimenté par src/utils/tracking.js ; GTM chargé via VITE_GTM_ID (voir .env) -->

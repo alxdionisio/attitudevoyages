@@ -5,7 +5,7 @@
 
 const MEASUREMENT_ID =
   (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_GA4_MEASUREMENT_ID) ||
-  "G-PVBE1XMV9V";
+  null;
 
 let loaded = false;
 
@@ -25,6 +25,7 @@ function ensureGtag() {
  */
 export function loadGA4() {
   if (typeof window === "undefined" || loaded) return;
+  if (!MEASUREMENT_ID) return;
   ensureGtag();
   loaded = true;
 

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { InlineWidget } from "react-calendly";
+import LazyCalendly from "../components/LazyCalendly";
 import { CALENDLY_URL } from "../config/calendly";
 import { FORMSPREE_ENDPOINT } from "../config/contact";
+import { getConsent, CONSENT_STORAGE_KEY } from "../utils/tracking";
 import SEO from "../components/SEO";
 import Breadcrumb from "../components/Breadcrumb";
 import "./Pages.css";
@@ -42,6 +43,18 @@ const ContactPage = () => {
   const [openFaq, setOpenFaq] = useState(null);
   const [submitStatus, setSubmitStatus] = useState(null); // "loading" | "success" | "error"
   const [submitError, setSubmitError] = useState("");
+  const [mapsConsent, setMapsConsent] = useState(false);
+
+  useEffect(() => {
+    setMapsConsent(getConsent() === "accepted");
+    const onStorage = (e) => {
+      if (e.key === CONSENT_STORAGE_KEY) {
+        setMapsConsent(getConsent() === "accepted");
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
 
   useEffect(() => {
     if (location.hash === "#rdv") {
@@ -112,6 +125,24 @@ const ContactPage = () => {
             Posez-nous toutes vos questions, réservez un rendez-vous ou demandez un devis.
             Notre équipe vous répond rapidement.
           </p>
+          <ul className="contact-coordonnees" aria-label="Coordonnées Attitude Voyages">
+            <li>
+              <strong>Téléphone&nbsp;:</strong>{" "}
+              <a href="tel:+33466374863">04&nbsp;66&nbsp;37&nbsp;48&nbsp;63</a>
+            </li>
+            <li>
+              <strong>E-mail&nbsp;:</strong>{" "}
+              <a href="mailto:contact@attitude-voyages.fr">
+                contact@attitude-voyages.fr
+              </a>
+            </li>
+            <li>
+              <strong>Adresse&nbsp;:</strong> 1&nbsp;Rue des Rolliers, 30820&nbsp;Caveirac (Gard)
+            </li>
+            <li>
+              <strong>Horaires&nbsp;:</strong> Lun–Ven 9h30–12h et 14h–18h · Sam–Dim fermé
+            </li>
+          </ul>
         </motion.header>
 
         <div className="contact-layout">
@@ -261,11 +292,24 @@ const ContactPage = () => {
               </p>
             </div>
             <div className="contact-rdv-widget-wrap">
-              <InlineWidget
-                url={CALENDLY_URL}
-                styles={{ height: "100%", width: "100%", minHeight: "850px" }}
-                locale="fr"
-              />
+              {CALENDLY_URL ? (
+                <LazyCalendly
+                  url={CALENDLY_URL}
+                  styles={{ height: "100%", width: "100%", minHeight: "850px" }}
+                />
+              ) : (
+                <div className="contact-rdv-fallback" role="status">
+                  <p>Prise de rendez-vous en ligne momentanément indisponible.</p>
+                  <p>
+                    Contactez-nous au{" "}
+                    <a href="tel:+33466374863">04 66 37 48 63</a> ou par e-mail à{" "}
+                    <a href="mailto:contact@attitude-voyages.fr">
+                      contact@attitude-voyages.fr
+                    </a>
+                    .
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </motion.section>
@@ -276,16 +320,34 @@ const ContactPage = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <iframe
-            src="https://www.google.com/maps?q=1+Rue+des+Rolliers,+30820+Caveirac,+France&z=15&output=embed"
-            width="100%"
-            height="100%"
-            style={{ border: 0 }}
-            allowFullScreen=""
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Carte Attitude Voyages - 1 Rue des Rolliers, 30820 Caveirac"
-          />
+          {mapsConsent ? (
+            <iframe
+              src="https://www.google.com/maps?q=1+Rue+des+Rolliers,+30820+Caveirac,+France&z=15&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="strict-origin"
+              title="Carte Attitude Voyages - 1 Rue des Rolliers, 30820 Caveirac"
+            />
+          ) : (
+            <div className="contact-map-placeholder" role="note">
+              <p>
+                Affichage de la carte Google Maps désactivé tant que vous n'avez pas
+                accepté les cookies tiers.
+              </p>
+              <p>
+                <a
+                  href="https://www.google.com/maps?q=1+Rue+des+Rolliers,+30820+Caveirac,+France"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Ouvrir l'adresse dans Google Maps →
+                </a>
+              </p>
+            </div>
+          )}
         </motion.div>
       </div>
     </div>
