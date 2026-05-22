@@ -1,0 +1,35 @@
+# Cloudflare Pages + Functions + D1 config
+# Docs: https://developers.cloudflare.com/pages/functions/wrangler-configuration/
+
+name = "attitude-voyages"
+compatibility_date = "2025-05-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Pages output directory (built by Vite + prerender script)
+pages_build_output_dir = "./dist"
+
+# ─────────────────────────────────────────────────────────────────────
+# D1 database binding — exposes `env.DB` inside functions/
+# Create the DB once via:
+#   npx wrangler d1 create attitude_voyages
+# Then paste the returned database_id below.
+# ─────────────────────────────────────────────────────────────────────
+[[d1_databases]]
+binding = "DB"
+database_name = "attitude_voyages"
+database_id = "REPLACE_ME_AFTER_WRANGLER_D1_CREATE"
+migrations_dir = "./migrations"
+
+# ─────────────────────────────────────────────────────────────────────
+# Environment variables (non-secret — committed to repo).
+# Secrets (RESEND_API_KEY, JWT_SECRET, ADMIN_PASSWORD_HASH) must be set
+# via `wrangler pages secret put <NAME>` or in the CF Pages dashboard.
+# ─────────────────────────────────────────────────────────────────────
+[vars]
+SITE_URL = "https://attitude-voyages.fr"
+ADMIN_EMAIL = "contact@attitude-voyages.fr"
+TEST_RECIPIENT_EMAIL = "heyarlow@gmail.com"
+RESEND_FROM_EMAIL = "Attitude Voyages <noreply@attitude-voyages.fr>"
+TIMEZONE = "Europe/Paris"
+BOOKING_LEAD_MINUTES = "720"        # 12h minimum lead time
+BOOKING_HORIZON_DAYS = "60"          # 60 days of bookable future
