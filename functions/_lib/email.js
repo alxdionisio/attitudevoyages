@@ -1,51 +1,73 @@
 /**
- * Helpers d'envoi d'email via l'API Resend.
- * Resend = https://resend.com/docs/api-reference/emails/send-email
+ * Helpers d'envoi d'email via l'API Brevo (ex-Sendinblue).
+ * Docs : https://developers.brevo.com/reference/sendtransacemail
  *
  * Configuration requise :
- *   - RESEND_API_KEY (secret) → "re_xxx..."
- *   - RESEND_FROM_EMAIL (var) → "Attitude Voyages <noreply@attitude-voyages.fr>"
+ *   - BREVO_API_KEY    (secret) → "xkeysib-..."
+ *   - BREVO_FROM_EMAIL (var)    → "noreply@attitude-voyages.fr"
+ *   - BREVO_FROM_NAME  (var)    → "Attitude Voyages"
  *
- * En l'absence de RESEND_API_KEY (preview, local dev), on log dans la console
+ * En l'absence de BREVO_API_KEY (preview, local dev), on log dans la console
  * Pages au lieu d'échouer — utile pour itérer sans clé.
  */
 
-const RESEND_ENDPOINT = "https://api.resend.com/emails";
+const BREVO_ENDPOINT = "https://api.brevo.com/v3/smtp/email";
+
+function parseAddress(spec) {
+  if (typeof spec !== "string") return null;
+  // Accepte "Name <email@x>" ou juste "email@x"
+  const match = spec.match(/^\s*(?:"?([^"<]+?)"?\s+)?<?([^\s<>]+@[^\s<>]+)>?\s*$/);
+  if (!match) return null;
+  return { name: (match[1] || "").trim() || undefined, email: match[2].trim() };
+}
 
 export async function sendEmail(env, { to, subject, html, text, replyTo, attachments }) {
-  if (!env.RESEND_API_KEY) {
+  const fromEmail = env.BREVO_FROM_EMAIL || "noreply@attitude-voyages.fr";
+  const fromName = env.BREVO_FROM_NAME || "Attitude Voyages";
+
+  if (!env.BREVO_API_KEY) {
     console.log("[email:dry-run] →", to, "|", subject);
     if (text) console.log(text.slice(0, 500));
     return { ok: true, dryRun: true };
   }
 
-  const recipients = Array.isArray(to) ? to : [to];
+  const recipients = (Array.isArray(to) ? to : [to])
+    .map((addr) => parseAddress(addr))
+    .filter(Boolean);
+
+  if (recipients.length === 0) {
+    return { ok: false, error: "no valid recipient" };
+  }
+
   const payload = {
-    from: env.RESEND_FROM_EMAIL || "Attitude Voyages <noreply@attitude-voyages.fr>",
+    sender: { name: fromName, email: fromEmail },
     to: recipients,
     subject,
-    html,
-    text,
-    ...(replyTo ? { reply_to: replyTo } : {}),
-    ...(attachments ? { attachments } : {}),
+    htmlContent: html,
+    textContent: text,
+    ...(replyTo
+      ? { replyTo: parseAddress(replyTo) || { email: replyTo } }
+      : {}),
+    ...(attachments ? { attachment: attachments } : {}),
   };
 
-  const res = await fetch(RESEND_ENDPOINT, {
+  const res = await fetch(BREVO_ENDPOINT, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "api-key": env.BREVO_API_KEY,
       "Content-Type": "application/json",
+      Accept: "application/json",
     },
     body: JSON.stringify(payload),
   });
 
   if (!res.ok) {
     const body = await res.text().catch(() => "");
-    console.error("[email] resend error", res.status, body);
+    console.error("[email] brevo error", res.status, body);
     return { ok: false, status: res.status, error: body };
   }
-  const data = await res.json();
-  return { ok: true, id: data.id };
+  const data = await res.json().catch(() => ({}));
+  return { ok: true, id: data.messageId || data["message-id"] || null };
 }
 
 // ─── Templates ──────────────────────────────────────────────────────
