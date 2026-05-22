@@ -17,6 +17,14 @@ const MentionsLegalesPage = lazy(() => import("./pages/MentionsLegalesPage"));
 const PolitiqueConfidentialitePage = lazy(() => import("./pages/PolitiqueConfidentialitePage"));
 const FAQPage = lazy(() => import("./pages/FAQPage"));
 
+// Back-office admin (chunks séparés)
+const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
+const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminBookings = lazy(() => import("./pages/admin/AdminBookings"));
+const AdminMessages = lazy(() => import("./pages/admin/AdminMessages"));
+const AdminAvailability = lazy(() => import("./pages/admin/AdminAvailability"));
+
 /** Basename au runtime : si on est à la racine (ex. preview GH Pages), ne pas utiliser le basename. */
 function getBasename() {
   const buildBase = import.meta.env.VITE_BASENAME || "";
@@ -123,6 +131,30 @@ function App() {
               </Suspense>
             }
           />
+        </Route>
+
+        {/* ─── Back-office admin (hors Layout public) ─── */}
+        <Route
+          path="admin/login"
+          element={
+            <Suspense fallback={<RouteFallback />}>
+              <AdminLogin />
+            </Suspense>
+          }
+        />
+        <Route
+          path="admin"
+          element={
+            <Suspense fallback={<RouteFallback />}>
+              <AdminLayout />
+            </Suspense>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="bookings" element={<AdminBookings />} />
+          <Route path="messages" element={<AdminMessages />} />
+          <Route path="availability" element={<AdminAvailability />} />
         </Route>
       </Routes>
     </BrowserRouter>
