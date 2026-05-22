@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import LazyCalendly from "../components/LazyCalendly";
-import { CALENDLY_URL } from "../config/calendly";
-import { FORMSPREE_ENDPOINT } from "../config/contact";
+import BookingWidget from "../components/BookingWidget";
 import { getConsent, CONSENT_STORAGE_KEY } from "../utils/tracking";
 import SEO from "../components/SEO";
 import Breadcrumb from "../components/Breadcrumb";
@@ -39,6 +37,7 @@ const ContactPage = () => {
     email: "",
     sujet: "",
     message: "",
+    website: "", // honeypot
   });
   const [openFaq, setOpenFaq] = useState(null);
   const [submitStatus, setSubmitStatus] = useState(null); // "loading" | "success" | "error"
@@ -71,29 +70,25 @@ const ContactPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!FORMSPREE_ENDPOINT) {
-      setSubmitStatus("error");
-      setSubmitError("Formulaire de contact non configuré (VITE_FORMSPREE_FORM_ID manquant).");
-      return;
-    }
     setSubmitStatus("loading");
     setSubmitError("");
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nom: formData.nom,
           email: formData.email,
-          _subject: formData.sujet,
+          sujet: formData.sujet,
           message: formData.message,
+          website: formData.website, // honeypot anti-bot
         }),
       });
-      if (res.ok) {
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok) {
         setSubmitStatus("success");
-        setFormData({ nom: "", email: "", sujet: "", message: "" });
+        setFormData({ nom: "", email: "", sujet: "", message: "", website: "" });
       } else {
-        const data = await res.json().catch(() => ({}));
         setSubmitStatus("error");
         setSubmitError(data.error || "L'envoi a échoué. Réessayez plus tard.");
       }
@@ -170,7 +165,18 @@ const ContactPage = () => {
                 <>
                   <h2>Nous écrire</h2>
                   <p>Remplissez le formulaire ci-dessous, nous vous répondrons rapidement.</p>
-                  <form onSubmit={handleSubmit} className="contact-form">
+                  <form onSubmit={handleSubmit} className="contact-form" noValidate>
+                    {/* Honeypot anti-bot — caché aux humains, visible aux bots */}
+                    <input
+                      type="text"
+                      name="website"
+                      value={formData.website}
+                      onChange={handleChange}
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                      style={{ position: "absolute", left: "-9999px", opacity: 0, pointerEvents: "none" }}
+                    />
                     <input
                       type="text"
                       name="nom"
@@ -178,6 +184,8 @@ const ContactPage = () => {
                       value={formData.nom}
                       onChange={handleChange}
                       required
+                      maxLength={100}
+                      autoComplete="name"
                     />
                     <input
                       type="email"
@@ -292,24 +300,7 @@ const ContactPage = () => {
               </p>
             </div>
             <div className="contact-rdv-widget-wrap">
-              {CALENDLY_URL ? (
-                <LazyCalendly
-                  url={CALENDLY_URL}
-                  styles={{ height: "100%", width: "100%", minHeight: "850px" }}
-                />
-              ) : (
-                <div className="contact-rdv-fallback" role="status">
-                  <p>Prise de rendez-vous en ligne momentanément indisponible.</p>
-                  <p>
-                    Contactez-nous au{" "}
-                    <a href="tel:+33466374863">04 66 37 48 63</a> ou par e-mail à{" "}
-                    <a href="mailto:contact@attitude-voyages.fr">
-                      contact@attitude-voyages.fr
-                    </a>
-                    .
-                  </p>
-                </div>
-              )}
+              <BookingWidget />
             </div>
           </div>
         </motion.section>

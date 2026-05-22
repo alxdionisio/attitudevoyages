@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FORMSPREE_ENDPOINT } from '../config/contact';
 import './Contact.css';
 
 const Contact = () => {
@@ -7,7 +6,8 @@ const Contact = () => {
     nom: '',
     email: '',
     sujet: '',
-    message: ''
+    message: '',
+    website: '', // honeypot
   });
   const [submitStatus, setSubmitStatus] = useState(null);
   const [submitError, setSubmitError] = useState('');
@@ -21,29 +21,25 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!FORMSPREE_ENDPOINT) {
-      setSubmitStatus('error');
-      setSubmitError('Formulaire de contact non configuré.');
-      return;
-    }
     setSubmitStatus('loading');
     setSubmitError('');
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           nom: formData.nom,
           email: formData.email,
-          _subject: formData.sujet,
+          sujet: formData.sujet,
           message: formData.message,
+          website: formData.website,
         }),
       });
-      if (res.ok) {
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok) {
         setSubmitStatus('success');
-        setFormData({ nom: '', email: '', sujet: '', message: '' });
+        setFormData({ nom: '', email: '', sujet: '', message: '', website: '' });
       } else {
-        const data = await res.json().catch(() => ({}));
         setSubmitStatus('error');
         setSubmitError(data.error || "L'envoi a échoué. Réessayez plus tard.");
       }
@@ -81,7 +77,18 @@ const Contact = () => {
                 <>
                   <h3>Nous écrire</h3>
                   <p>Posez-nous toutes vos questions, nous vous répondrons rapidement.</p>
-                  <form onSubmit={handleSubmit} className="contact-form">
+                  <form onSubmit={handleSubmit} className="contact-form" noValidate>
+                    {/* Honeypot anti-bot */}
+                    <input
+                      type="text"
+                      name="website"
+                      value={formData.website}
+                      onChange={handleChange}
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                      style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none' }}
+                    />
                     <div className="form-group">
                       <input
                         type="text"
@@ -90,6 +97,8 @@ const Contact = () => {
                         value={formData.nom}
                         onChange={handleChange}
                         required
+                        maxLength={100}
+                        autoComplete="name"
                       />
                     </div>
                     <div className="form-group">
