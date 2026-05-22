@@ -7,6 +7,39 @@ const MONTHS_FR = [
 ];
 const WEEKDAYS_FR = ["lun", "mar", "mer", "jeu", "ven", "sam", "dim"];
 
+// Icônes pour les 3 types de consultation (mapping par slug).
+const TYPE_ICONS = {
+  "premier-contact": (
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+    </svg>
+  ),
+  "devis-detaille": (
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="9" y1="13" x2="15" y2="13" />
+      <line x1="9" y1="17" x2="15" y2="17" />
+    </svg>
+  ),
+  "bilan-retour-voyage": (
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M2 12h20" />
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+      <circle cx="12" cy="12" r="10" />
+    </svg>
+  ),
+};
+
+const FALLBACK_ICON = (
+  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="3" y="4" width="18" height="18" rx="2" />
+    <line x1="16" y1="2" x2="16" y2="6" />
+    <line x1="8" y1="2" x2="8" y2="6" />
+    <line x1="3" y1="10" x2="21" y2="10" />
+  </svg>
+);
+
 function formatLongDate(iso) {
   return new Intl.DateTimeFormat("fr-FR", {
     timeZone: "Europe/Paris",
@@ -29,23 +62,12 @@ function formatLongDateTime(iso) {
   }).format(new Date(iso));
 }
 
-function isoDateLocal(d) {
-  // YYYY-MM-DD en heure locale du browser (le calcul backend est en Europe/Paris,
-  // ce qui correspond à la locale FR du client dans la quasi-totalité des cas)
-  return new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Europe/Paris",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(d);
-}
-
 const BookingWidget = () => {
-  const [step, setStep] = useState(1); // 1=type, 2=slot, 3=form, 4=confirm
+  const [step, setStep] = useState(1);
   const [types, setTypes] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
 
-  const [days, setDays] = useState(null);          // array of { date, slots[] }
+  const [days, setDays] = useState(null);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [slotError, setSlotError] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -58,13 +80,13 @@ const BookingWidget = () => {
     phone: "",
     message: "",
     consent: false,
-    website: "", // honeypot
+    website: "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [confirmedBooking, setConfirmedBooking] = useState(null);
 
-  // 1. Charger les types de consultation au mount
+  // Chargement des types
   useEffect(() => {
     let cancelled = false;
     fetch("/api/consultation-types")
@@ -75,12 +97,10 @@ const BookingWidget = () => {
         else setTypes([]);
       })
       .catch(() => !cancelled && setTypes([]));
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, []);
 
-  // 2. Charger les créneaux dès qu'un type est choisi
+  // Chargement des créneaux quand le type change
   useEffect(() => {
     if (!selectedType) return;
     let cancelled = false;
@@ -96,25 +116,31 @@ const BookingWidget = () => {
       })
       .catch(() => !cancelled && setSlotError("Erreur réseau."))
       .finally(() => !cancelled && setLoadingSlots(false));
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [selectedType]);
 
-  // Dates avec au moins un créneau
   const availableDates = useMemo(() => {
     if (!days) return [];
     return days.filter((d) => d.slots.length > 0).map((d) => d.date);
   }, [days]);
 
-  // Slots pour la date sélectionnée
   const slotsForSelectedDate = useMemo(() => {
     if (!days || !selectedDate) return [];
     const found = days.find((d) => d.date === selectedDate);
     return found?.slots ?? [];
   }, [days, selectedDate]);
 
-  // Auto-sélection : première date dispo dès chargement
+  // Groupe les créneaux matin / après-midi
+  const groupedSlots = useMemo(() => {
+    const morning = [];
+    const afternoon = [];
+    for (const s of slotsForSelectedDate) {
+      const h = parseInt(s.label.slice(0, 2), 10);
+      (h < 13 ? morning : afternoon).push(s);
+    }
+    return { morning, afternoon };
+  }, [slotsForSelectedDate]);
+
   useEffect(() => {
     if (availableDates.length > 0 && !selectedDate) {
       setSelectedDate(availableDates[0]);
@@ -169,13 +195,11 @@ const BookingWidget = () => {
         return;
       }
 
-      // 409 = créneau pris entre temps → on raffraîchit les dispos et on revient au step 2
       if (res.status === 409 && selectedType) {
         setSubmitError(
           data.error ||
             "Ce créneau vient d'être réservé. On rafraîchit les disponibilités, choisissez-en un autre."
         );
-        // Force le reload de la liste des créneaux
         setLoadingSlots(true);
         setDays(null);
         try {
@@ -215,231 +239,299 @@ const BookingWidget = () => {
     <div className="bw" aria-label="Module de prise de rendez-vous">
       <Stepper step={step} />
 
-      {/* ─── Étape 1 : Type de consultation ─── */}
-      {step === 1 && (
-        <section className="bw-step" aria-labelledby="bw-step1-title">
-          <h3 id="bw-step1-title" className="bw-step-title">
-            Choisissez le type de rendez-vous
-          </h3>
-          {types === null && <p className="bw-loading">Chargement…</p>}
-          {types && types.length === 0 && (
-            <p className="bw-error">
-              Aucun type de rendez-vous disponible. Contactez-nous au{" "}
-              <a href="tel:+33466374863">04 66 37 48 63</a>.
-            </p>
-          )}
-          {types && types.length > 0 && (
-            <ul className="bw-types">
-              {types.map((t) => (
-                <li key={t.id}>
-                  <button
-                    type="button"
-                    className="bw-type-card"
-                    onClick={() => handlePickType(t)}
-                  >
-                    <span className="bw-type-name">{t.name}</span>
-                    <span className="bw-type-duration">{t.duration_minutes} min · {t.price_label}</span>
-                    {t.description && (
-                      <span className="bw-type-desc">{t.description}</span>
-                    )}
-                    <span className="bw-type-arrow" aria-hidden>→</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-      )}
-
-      {/* ─── Étape 2 : Date + Créneau ─── */}
-      {step === 2 && selectedType && (
-        <section className="bw-step" aria-labelledby="bw-step2-title">
-          <button type="button" onClick={() => setStep(1)} className="bw-back">
-            ← Modifier le type
-          </button>
-          <h3 id="bw-step2-title" className="bw-step-title">
-            {selectedType.name} · {selectedType.duration_minutes} min
-          </h3>
-
-          {loadingSlots && <p className="bw-loading">Chargement des créneaux…</p>}
-          {slotError && <p className="bw-error">{slotError}</p>}
-
-          {!loadingSlots && !slotError && days && availableDates.length === 0 && (
-            <div className="bw-empty">
-              <p>
-                Aucun créneau disponible dans les {days.length} prochains jours.
+      <div className="bw-content" key={`step-${step}`}>
+        {/* ─── Étape 1 : Type de consultation ─── */}
+        {step === 1 && (
+          <section className="bw-step" aria-labelledby="bw-step1-title">
+            <header className="bw-step-header">
+              <h3 id="bw-step1-title" className="bw-step-title">
+                Quel type de rendez-vous&nbsp;?
+              </h3>
+              <p className="bw-step-sub">
+                Choisissez le format adapté à votre besoin.
               </p>
-              <p>
-                Appelez-nous au <a href="tel:+33466374863">04&nbsp;66&nbsp;37&nbsp;48&nbsp;63</a>{" "}
-                ou écrivez à{" "}
-                <a href="mailto:contact@attitude-voyages.fr">
-                  contact@attitude-voyages.fr
-                </a>{" "}
-                pour organiser un rendez-vous différé.
-              </p>
-            </div>
-          )}
-
-          {!loadingSlots && !slotError && days && availableDates.length > 0 && (
-            <>
-              <DatePicker
-                days={days}
-                selectedDate={selectedDate}
-                onSelect={setSelectedDate}
-              />
-
-              <div className="bw-slots-wrap">
-                <h4 className="bw-slots-title">
-                  {selectedDate ? `Créneaux du ${formatLongDate(selectedDate)}` : "Choisissez une date"}
-                </h4>
-                {selectedDate && slotsForSelectedDate.length === 0 && (
-                  <p className="bw-loading">Aucun créneau disponible ce jour.</p>
-                )}
-                {selectedDate && slotsForSelectedDate.length > 0 && (
-                  <div className="bw-slots">
-                    {slotsForSelectedDate.map((s) => (
-                      <button
-                        key={s.startAt}
-                        type="button"
-                        className="bw-slot"
-                        onClick={() => handlePickSlot(s)}
-                      >
-                        {s.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
+            </header>
+            {types === null && (
+              <div className="bw-skeleton-stack" aria-hidden="true">
+                <span className="bw-skeleton bw-skeleton--card" />
+                <span className="bw-skeleton bw-skeleton--card" />
+                <span className="bw-skeleton bw-skeleton--card" />
               </div>
-            </>
-          )}
-        </section>
-      )}
+            )}
+            {types && types.length === 0 && (
+              <p className="bw-error">
+                Aucun type de rendez-vous disponible. Contactez-nous au{" "}
+                <a href="tel:+33466374863">04 66 37 48 63</a>.
+              </p>
+            )}
+            {types && types.length > 0 && (
+              <ul className="bw-types">
+                {types.map((t) => (
+                  <li key={t.id}>
+                    <button
+                      type="button"
+                      className="bw-type-card"
+                      onClick={() => handlePickType(t)}
+                    >
+                      <span className="bw-type-icon">
+                        {TYPE_ICONS[t.slug] || FALLBACK_ICON}
+                      </span>
+                      <span className="bw-type-info">
+                        <span className="bw-type-name">{t.name}</span>
+                        <span className="bw-type-duration">
+                          {t.duration_minutes}&nbsp;min · {t.price_label}
+                        </span>
+                        {t.description && (
+                          <span className="bw-type-desc">{t.description}</span>
+                        )}
+                      </span>
+                      <span className="bw-type-arrow" aria-hidden>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <line x1="5" y1="12" x2="19" y2="12" />
+                          <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        )}
 
-      {/* ─── Étape 3 : Formulaire ─── */}
-      {step === 3 && selectedType && selectedSlot && (
-        <section className="bw-step" aria-labelledby="bw-step3-title">
-          <button type="button" onClick={() => setStep(2)} className="bw-back">
-            ← Modifier le créneau
-          </button>
-          <h3 id="bw-step3-title" className="bw-step-title">Vos coordonnées</h3>
-          <p className="bw-recap">
-            <strong>{selectedType.name}</strong> · {formatLongDateTime(selectedSlot.startAt)} · {selectedType.duration_minutes} min
-          </p>
-
-          <form onSubmit={handleSubmitBooking} className="bw-form" noValidate>
-            <input
-              type="text"
-              name="website"
-              value={form.website}
-              onChange={(e) => setForm({ ...form, website: e.target.value })}
-              tabIndex={-1}
-              autoComplete="off"
-              aria-hidden="true"
-              style={{ position: "absolute", left: "-9999px", opacity: 0, pointerEvents: "none" }}
-            />
-            <div className="bw-form-row">
-              <label>
-                <span className="bw-label">Prénom *</span>
-                <input
-                  type="text"
-                  required
-                  minLength={2}
-                  maxLength={80}
-                  autoComplete="given-name"
-                  value={form.firstName}
-                  onChange={(e) => setForm({ ...form, firstName: e.target.value })}
-                />
-              </label>
-              <label>
-                <span className="bw-label">Nom *</span>
-                <input
-                  type="text"
-                  required
-                  minLength={2}
-                  maxLength={80}
-                  autoComplete="family-name"
-                  value={form.lastName}
-                  onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-                />
-              </label>
-            </div>
-            <label>
-              <span className="bw-label">Email *</span>
-              <input
-                type="email"
-                required
-                autoComplete="email"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-              />
-            </label>
-            <label>
-              <span className="bw-label">Téléphone *</span>
-              <input
-                type="tel"
-                required
-                autoComplete="tel"
-                pattern="^[+0-9 .()\-]{8,30}$"
-                value={form.phone}
-                onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              />
-            </label>
-            <label>
-              <span className="bw-label">Message (optionnel)</span>
-              <textarea
-                rows={4}
-                maxLength={2000}
-                placeholder="Destination envisagée, dates approximatives, nombre de voyageurs…"
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-              />
-            </label>
-            <label className="bw-consent">
-              <input
-                type="checkbox"
-                required
-                checked={form.consent}
-                onChange={(e) => setForm({ ...form, consent: e.target.checked })}
-              />
-              <span>
-                J'accepte que ces informations soient utilisées pour traiter ma
-                demande de rendez-vous.{" "}
-                <a href="/politique-confidentialite">Voir la politique de confidentialité</a>.
-              </span>
-            </label>
-
-            {submitError && <p className="bw-error" role="alert">{submitError}</p>}
-
-            <button type="submit" className="bw-submit" disabled={submitting}>
-              {submitting ? "Réservation en cours…" : "Confirmer le rendez-vous"}
+        {/* ─── Étape 2 : Date + Créneau ─── */}
+        {step === 2 && selectedType && (
+          <section className="bw-step" aria-labelledby="bw-step2-title">
+            <button type="button" onClick={() => setStep(1)} className="bw-back">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+              </svg>
+              Modifier le type
             </button>
-          </form>
-        </section>
-      )}
+            <header className="bw-step-header">
+              <h3 id="bw-step2-title" className="bw-step-title">
+                {selectedType.name}
+              </h3>
+              <p className="bw-step-sub">
+                {selectedType.duration_minutes}&nbsp;min · {selectedType.price_label}
+              </p>
+            </header>
 
-      {/* ─── Étape 4 : Confirmation ─── */}
-      {step === 4 && confirmedBooking && (
-        <section className="bw-step bw-confirm" aria-labelledby="bw-step4-title">
-          <div className="bw-confirm-icon" aria-hidden>
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20 6L9 17l-5-5" />
-            </svg>
-          </div>
-          <h3 id="bw-step4-title" className="bw-step-title">Rendez-vous confirmé</h3>
-          <p className="bw-confirm-text">
-            Nous vous attendons le <strong>{formatLongDateTime(confirmedBooking.startAt)}</strong> pour
-            votre <strong>{confirmedBooking.type}</strong>.
-          </p>
-          <p className="bw-confirm-text">
-            Un email de confirmation vient de vous être envoyé. Si vous ne le recevez pas dans les
-            prochaines minutes, vérifiez votre dossier spam ou appelez-nous au{" "}
-            <a href="tel:+33466374863">04 66 37 48 63</a>.
-          </p>
-          <button type="button" className="bw-back" onClick={reset}>
-            Réserver un autre rendez-vous
-          </button>
-        </section>
-      )}
+            {loadingSlots && (
+              <div className="bw-skeleton-cal" aria-hidden="true">
+                <span className="bw-skeleton bw-skeleton--row" />
+                <span className="bw-skeleton bw-skeleton--row" />
+                <span className="bw-skeleton bw-skeleton--row" />
+              </div>
+            )}
+            {slotError && <p className="bw-error">{slotError}</p>}
+
+            {!loadingSlots && !slotError && days && availableDates.length === 0 && (
+              <div className="bw-empty">
+                <div className="bw-empty-icon" aria-hidden="true">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                </div>
+                <p>
+                  Aucun créneau disponible dans les {days.length} prochains jours.
+                </p>
+                <p>
+                  Appelez-nous au <a href="tel:+33466374863">04&nbsp;66&nbsp;37&nbsp;48&nbsp;63</a>{" "}
+                  ou écrivez à{" "}
+                  <a href="mailto:contact@attitude-voyages.fr">
+                    contact@attitude-voyages.fr
+                  </a>{" "}
+                  pour un rendez-vous différé.
+                </p>
+              </div>
+            )}
+
+            {!loadingSlots && !slotError && days && availableDates.length > 0 && (
+              <>
+                <DatePicker
+                  days={days}
+                  selectedDate={selectedDate}
+                  onSelect={setSelectedDate}
+                />
+
+                <div className="bw-slots-wrap">
+                  <h4 className="bw-slots-title">
+                    {selectedDate
+                      ? `Horaires du ${formatLongDate(selectedDate)}`
+                      : "Choisissez une date ci-dessus"}
+                  </h4>
+                  {selectedDate && slotsForSelectedDate.length === 0 && (
+                    <p className="bw-loading">Aucun créneau disponible ce jour.</p>
+                  )}
+                  {selectedDate && groupedSlots.morning.length > 0 && (
+                    <SlotGroup label="Matin" slots={groupedSlots.morning} onPick={handlePickSlot} />
+                  )}
+                  {selectedDate && groupedSlots.afternoon.length > 0 && (
+                    <SlotGroup label="Après-midi" slots={groupedSlots.afternoon} onPick={handlePickSlot} />
+                  )}
+                </div>
+              </>
+            )}
+          </section>
+        )}
+
+        {/* ─── Étape 3 : Formulaire ─── */}
+        {step === 3 && selectedType && selectedSlot && (
+          <section className="bw-step" aria-labelledby="bw-step3-title">
+            <button type="button" onClick={() => setStep(2)} className="bw-back">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+              </svg>
+              Modifier le créneau
+            </button>
+            <header className="bw-step-header">
+              <h3 id="bw-step3-title" className="bw-step-title">Vos coordonnées</h3>
+              <p className="bw-step-sub">
+                Quelques infos pour finaliser votre rendez-vous.
+              </p>
+            </header>
+            <div className="bw-recap">
+              <span className="bw-recap-icon" aria-hidden="true">
+                {TYPE_ICONS[selectedType.slug] || FALLBACK_ICON}
+              </span>
+              <div>
+                <strong>{selectedType.name}</strong>
+                <span className="bw-recap-when">{formatLongDateTime(selectedSlot.startAt)} · {selectedType.duration_minutes}&nbsp;min</span>
+              </div>
+            </div>
+
+            <form onSubmit={handleSubmitBooking} className="bw-form" noValidate>
+              <input
+                type="text"
+                name="website"
+                value={form.website}
+                onChange={(e) => setForm({ ...form, website: e.target.value })}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ position: "absolute", left: "-9999px", opacity: 0, pointerEvents: "none" }}
+              />
+              <div className="bw-form-row">
+                <label>
+                  <span className="bw-label">Prénom *</span>
+                  <input
+                    type="text"
+                    required
+                    minLength={2}
+                    maxLength={80}
+                    autoComplete="given-name"
+                    value={form.firstName}
+                    onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+                  />
+                </label>
+                <label>
+                  <span className="bw-label">Nom *</span>
+                  <input
+                    type="text"
+                    required
+                    minLength={2}
+                    maxLength={80}
+                    autoComplete="family-name"
+                    value={form.lastName}
+                    onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                  />
+                </label>
+              </div>
+              <label>
+                <span className="bw-label">Email *</span>
+                <input
+                  type="email"
+                  required
+                  autoComplete="email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                />
+              </label>
+              <label>
+                <span className="bw-label">Téléphone *</span>
+                <input
+                  type="tel"
+                  required
+                  autoComplete="tel"
+                  pattern="^[+0-9 .()\-]{8,30}$"
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                />
+              </label>
+              <label>
+                <span className="bw-label">Message (optionnel)</span>
+                <textarea
+                  rows={4}
+                  maxLength={2000}
+                  placeholder="Destination envisagée, dates approximatives, nombre de voyageurs…"
+                  value={form.message}
+                  onChange={(e) => setForm({ ...form, message: e.target.value })}
+                />
+              </label>
+              <label className="bw-consent">
+                <input
+                  type="checkbox"
+                  required
+                  checked={form.consent}
+                  onChange={(e) => setForm({ ...form, consent: e.target.checked })}
+                />
+                <span>
+                  J'accepte que ces informations soient utilisées pour traiter ma
+                  demande de rendez-vous.{" "}
+                  <a href="/politique-confidentialite">Voir la politique de confidentialité</a>.
+                </span>
+              </label>
+
+              {submitError && <p className="bw-error" role="alert">{submitError}</p>}
+
+              <button type="submit" className="bw-submit" disabled={submitting}>
+                {submitting ? (
+                  <>
+                    <span className="bw-spinner" aria-hidden="true" />
+                    Réservation en cours…
+                  </>
+                ) : (
+                  <>Confirmer le rendez-vous</>
+                )}
+              </button>
+            </form>
+          </section>
+        )}
+
+        {/* ─── Étape 4 : Confirmation ─── */}
+        {step === 4 && confirmedBooking && (
+          <section className="bw-step bw-confirm" aria-labelledby="bw-step4-title">
+            <div className="bw-confirm-icon" aria-hidden>
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
+            </div>
+            <h3 id="bw-step4-title" className="bw-step-title">Votre rendez-vous est confirmé</h3>
+            <div className="bw-confirm-card">
+              <span className="bw-confirm-when">
+                {formatLongDateTime(confirmedBooking.startAt)}
+              </span>
+              <span className="bw-confirm-type">
+                {confirmedBooking.type} · {confirmedBooking.durationMinutes}&nbsp;min
+              </span>
+            </div>
+            <p className="bw-confirm-text">
+              Un email de confirmation vient de vous être envoyé. Si vous ne le recevez pas
+              dans les prochaines minutes, vérifiez votre dossier spam ou appelez-nous au{" "}
+              <a href="tel:+33466374863">04&nbsp;66&nbsp;37&nbsp;48&nbsp;63</a>.
+            </p>
+            <button type="button" className="bw-back" onClick={reset}>
+              Réserver un autre rendez-vous
+            </button>
+          </section>
+        )}
+      </div>
     </div>
   );
 };
@@ -454,7 +546,15 @@ function Stepper({ step }) {
         const state = step > n ? "done" : step === n ? "active" : "todo";
         return (
           <li key={label} className={`bw-step-pill bw-step-pill--${state}`}>
-            <span className="bw-step-num" aria-hidden>{n}</span>
+            <span className="bw-step-num" aria-hidden>
+              {state === "done" ? (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 6L9 17l-5-5" />
+                </svg>
+              ) : (
+                n
+              )}
+            </span>
             <span className="bw-step-label">{label}</span>
           </li>
         );
@@ -463,13 +563,33 @@ function Stepper({ step }) {
   );
 }
 
-// ─── Mini calendrier (4 semaines glissantes) ─────────────────────────
+// ─── Groupage des créneaux (matin / après-midi) ──────────────────────
+function SlotGroup({ label, slots, onPick }) {
+  return (
+    <div className="bw-slot-group">
+      <h5 className="bw-slot-group-title">{label}</h5>
+      <div className="bw-slots">
+        {slots.map((s) => (
+          <button
+            key={s.startAt}
+            type="button"
+            className="bw-slot"
+            onClick={() => onPick(s)}
+          >
+            {s.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Mini calendrier en ruban ────────────────────────────────────────
 function DatePicker({ days, selectedDate, onSelect }) {
-  // Grouper par mois pour l'affichage
   const byMonth = useMemo(() => {
     const map = new Map();
     for (const d of days) {
-      const month = d.date.slice(0, 7); // YYYY-MM
+      const month = d.date.slice(0, 7);
       if (!map.has(month)) map.set(month, []);
       map.get(month).push(d);
     }
@@ -505,6 +625,9 @@ function DatePicker({ days, selectedDate, onSelect }) {
                 >
                   <span className="bw-day-weekday">{weekday}</span>
                   <span className="bw-day-num">{dayNum}</span>
+                  {isAvailable && !isSelected && (
+                    <span className="bw-day-dot" aria-hidden="true" />
+                  )}
                 </button>
               );
             })}

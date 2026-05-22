@@ -1,13 +1,13 @@
 .bw {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   padding: var(--space-6);
-  box-shadow: 0 4px 18px var(--color-shadow);
+  box-shadow: 0 1px 0 var(--color-border), 0 12px 32px var(--color-shadow);
   min-height: 600px;
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--space-6);
 }
 
 /* ─── Stepper ─────────────────────────────────────────────── */
@@ -17,46 +17,87 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-2);
+  gap: 0;
+  position: relative;
+}
+
+.bw-stepper::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 12.5%;
+  right: 12.5%;
+  height: 1px;
+  background: var(--color-border);
+  z-index: 0;
 }
 
 .bw-step-pill {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-md);
-  background: var(--color-surface-alt);
+  gap: 6px;
+  padding: 0;
+  background: transparent;
   color: var(--color-text-muted);
   font-size: 0.78rem;
-  font-weight: 500;
-  text-align: center;
-  border: 1px solid transparent;
-}
-
-.bw-step-pill--active {
-  background: var(--color-brown);
-  color: var(--color-surface);
-  border-color: var(--color-brown);
-}
-
-.bw-step-pill--done {
-  background: var(--color-surface);
-  color: var(--color-brown);
-  border-color: var(--color-border-strong);
+  position: relative;
+  z-index: 1;
 }
 
 .bw-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition: background var(--duration-base) var(--ease-out-quart),
+              color var(--duration-base) var(--ease-out-quart),
+              border-color var(--duration-base) var(--ease-out-quart),
+              transform var(--duration-base) var(--ease-out-quart);
+}
+
+.bw-step-pill--active .bw-step-num {
+  background: var(--color-brown);
+  border-color: var(--color-brown);
+  color: var(--color-surface);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(92, 58, 40, 0.25);
+}
+
+.bw-step-pill--done .bw-step-num {
+  background: var(--color-brown);
+  border-color: var(--color-brown);
+  color: var(--color-surface);
+}
+
+.bw-step-pill--active .bw-step-label,
+.bw-step-pill--done .bw-step-label {
+  color: var(--color-brown-dark);
   font-weight: 600;
 }
 
 .bw-step-label {
   font-size: 0.72rem;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+/* ─── Step animation (subtle fade-in on step change) ──────── */
+@keyframes bw-step-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.bw-content {
+  animation: bw-step-in 0.32s var(--ease-out-quart);
 }
 
 /* ─── Step container ──────────────────────────────────────── */
@@ -66,12 +107,26 @@
   gap: var(--space-4);
 }
 
+.bw-step-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .bw-step-title {
   font-family: var(--font-display);
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   color: var(--color-brown-dark);
   margin: 0;
   line-height: 1.2;
+  letter-spacing: -0.005em;
+}
+
+.bw-step-sub {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.5;
 }
 
 .bw-back {
@@ -80,14 +135,20 @@
   border: none;
   padding: 4px 0;
   color: var(--color-brown);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   cursor: pointer;
   font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color var(--duration-fast) var(--ease-out-quart),
+              gap var(--duration-fast) var(--ease-out-quart);
 }
+
 .bw-back:hover,
 .bw-back:focus-visible {
   color: var(--color-brown-dark);
-  text-decoration: underline;
+  gap: 8px;
 }
 
 .bw-loading {
@@ -106,6 +167,41 @@
   margin: 0;
 }
 
+/* ─── Skeletons ───────────────────────────────────────────── */
+@keyframes bw-shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+.bw-skeleton {
+  display: block;
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-alt) 0%,
+    var(--color-border) 50%,
+    var(--color-surface-alt) 100%
+  );
+  background-size: 200px 100%;
+  background-repeat: no-repeat;
+  animation: bw-shimmer 1.4s ease-in-out infinite;
+}
+
+.bw-skeleton--card { height: 96px; }
+.bw-skeleton--row  { height: 56px; }
+
+.bw-skeleton-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.bw-skeleton-cal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
 /* ─── Step 1: Types ───────────────────────────────────────── */
 .bw-types {
   list-style: none;
@@ -119,48 +215,87 @@
 .bw-type-card {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-areas:
-    "name  arrow"
-    "duration arrow"
-    "desc  desc";
-  gap: 4px var(--space-3);
+  grid-template-columns: auto 1fr auto;
+  gap: var(--space-4);
+  align-items: center;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: var(--space-4) var(--space-5);
   text-align: left;
   cursor: pointer;
   font-family: inherit;
   color: var(--color-text);
-  transition: border-color var(--duration-fast) var(--ease-out-quart),
-              transform var(--duration-fast) var(--ease-out-quart),
-              box-shadow var(--duration-fast) var(--ease-out-quart);
+  transition: border-color var(--duration-base) var(--ease-out-quart),
+              transform var(--duration-base) var(--ease-out-quart),
+              box-shadow var(--duration-base) var(--ease-out-quart);
+  position: relative;
+  overflow: hidden;
+}
+
+.bw-type-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 50%, rgba(92, 58, 40, 0.04) 100%);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out-quart);
+  pointer-events: none;
 }
 
 .bw-type-card:hover,
 .bw-type-card:focus-visible {
   border-color: var(--color-brown);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px var(--color-shadow);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px var(--color-shadow);
+}
+
+.bw-type-card:hover::before,
+.bw-type-card:focus-visible::before {
+  opacity: 1;
+}
+
+.bw-type-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+  color: var(--color-brown);
+  flex-shrink: 0;
+  transition: background var(--duration-base) var(--ease-out-quart),
+              color var(--duration-base) var(--ease-out-quart);
+}
+
+.bw-type-card:hover .bw-type-icon,
+.bw-type-card:focus-visible .bw-type-icon {
+  background: var(--color-brown);
+  color: var(--color-surface);
+}
+
+.bw-type-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
 .bw-type-name {
-  grid-area: name;
   font-family: var(--font-display);
   font-size: 1.15rem;
   font-weight: 600;
   color: var(--color-brown-dark);
+  line-height: 1.2;
 }
 
 .bw-type-duration {
-  grid-area: duration;
   font-size: 0.85rem;
   color: var(--color-text-muted);
 }
 
 .bw-type-desc {
-  grid-area: desc;
   font-size: 0.9rem;
   line-height: 1.6;
   color: var(--color-text);
@@ -168,13 +303,17 @@
 }
 
 .bw-type-arrow {
-  grid-area: arrow;
   align-self: center;
-  font-size: 1.4rem;
   color: var(--color-brown);
+  transition: transform var(--duration-base) var(--ease-out-quart);
 }
 
-/* ─── Step 2: Calendrier ──────────────────────────────────── */
+.bw-type-card:hover .bw-type-arrow,
+.bw-type-card:focus-visible .bw-type-arrow {
+  transform: translateX(4px);
+}
+
+/* ─── Step 2: Calendrier en ruban ─────────────────────────── */
 .bw-calendar {
   display: flex;
   flex-direction: column;
@@ -189,7 +328,7 @@
 
 .bw-month-title {
   font-family: var(--font-display);
-  font-size: 0.98rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--color-brown-dark);
   margin: 0;
@@ -199,7 +338,7 @@
 
 .bw-days {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
   gap: var(--space-2);
 }
 
@@ -215,19 +354,23 @@
   cursor: pointer;
   font-family: inherit;
   color: var(--color-text);
-  transition: background var(--duration-fast) var(--ease-out-quart),
-              color var(--duration-fast) var(--ease-out-quart),
-              border-color var(--duration-fast) var(--ease-out-quart);
+  position: relative;
+  min-height: 64px;
+  transition: background var(--duration-base) var(--ease-out-quart),
+              color var(--duration-base) var(--ease-out-quart),
+              border-color var(--duration-base) var(--ease-out-quart),
+              transform var(--duration-fast) var(--ease-out-quart);
 }
 
 .bw-day--off {
-  opacity: 0.4;
+  opacity: 0.35;
   cursor: not-allowed;
   background: var(--color-surface-alt);
 }
 
 .bw-day--available:hover {
   border-color: var(--color-brown);
+  transform: translateY(-1px);
 }
 
 .bw-day--selected {
@@ -237,37 +380,64 @@
 }
 
 .bw-day-weekday {
-  font-size: 0.72rem;
-  font-weight: 500;
+  font-size: 0.7rem;
+  font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: inherit;
-  opacity: 0.7;
+  opacity: 0.65;
 }
 
 .bw-day-num {
   font-family: var(--font-display);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 500;
+  line-height: 1;
+}
+
+.bw-day-dot {
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-brown);
+  margin-top: 2px;
 }
 
 .bw-slots-wrap {
-  margin-top: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
   padding-top: var(--space-4);
   border-top: 1px solid var(--color-border);
 }
 
 .bw-slots-title {
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 500;
   color: var(--color-brown-dark);
-  margin: 0 0 var(--space-3);
+  margin: 0;
+}
+
+.bw-slot-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.bw-slot-group-title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 0;
 }
 
 .bw-slots {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(86px, 1fr));
   gap: var(--space-2);
 }
 
@@ -279,8 +449,12 @@
   font-family: inherit;
   color: var(--color-brown-dark);
   font-weight: 500;
+  font-variant-numeric: tabular-nums;
   cursor: pointer;
-  transition: var(--transition);
+  transition: background var(--duration-fast) var(--ease-out-quart),
+              color var(--duration-fast) var(--ease-out-quart),
+              border-color var(--duration-fast) var(--ease-out-quart),
+              transform var(--duration-fast) var(--ease-out-quart);
 }
 
 .bw-slot:hover,
@@ -288,20 +462,79 @@
   background: var(--color-brown);
   color: var(--color-surface);
   border-color: var(--color-brown);
+  transform: translateY(-1px);
 }
 
-/* ─── Step 3: Formulaire ──────────────────────────────────── */
-.bw-recap {
+/* ─── Empty state ─────────────────────────────────────────── */
+.bw-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  padding: var(--space-7) var(--space-5);
   background: var(--color-surface-alt);
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-md);
-  margin: 0;
-  font-size: 0.95rem;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
   color: var(--color-text);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.bw-empty-icon {
+  color: var(--color-brown);
+  opacity: 0.5;
+}
+
+.bw-empty p {
+  margin: 0;
+  max-width: 380px;
+}
+
+.bw-empty a {
+  color: var(--color-brown);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ─── Step 3: Récap + Formulaire ──────────────────────────── */
+.bw-recap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  font-size: 0.95rem;
+}
+
+.bw-recap-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-brown);
+  flex-shrink: 0;
+}
+
+.bw-recap > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .bw-recap strong {
   color: var(--color-brown-dark);
+  font-weight: 600;
+}
+
+.bw-recap-when {
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
 }
 
 .bw-form {
@@ -325,8 +558,7 @@
 .bw-label {
   font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.06em;
   color: var(--color-text-muted);
 }
 
@@ -381,6 +613,10 @@
 }
 
 .bw-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
   padding: var(--space-4) var(--space-6);
   background: var(--color-brown);
   color: var(--color-surface);
@@ -398,110 +634,105 @@
 .bw-submit:focus-visible:not(:disabled) {
   background: var(--color-brown-dark);
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px var(--color-shadow-strong);
+  box-shadow: 0 10px 24px var(--color-shadow-strong);
 }
 
 .bw-submit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  opacity: 0.7;
+  cursor: progress;
+}
+
+@keyframes bw-spin { to { transform: rotate(360deg); } }
+
+.bw-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  animation: bw-spin 0.7s linear infinite;
 }
 
 /* ─── Step 4: Confirmation ──────────────────────────────── */
+@keyframes bw-success-pop {
+  0%   { transform: scale(0.5); opacity: 0; }
+  60%  { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 .bw-confirm {
   align-items: center;
   text-align: center;
-  padding: var(--space-5) 0;
+  padding: var(--space-5) 0 var(--space-3);
+  gap: var(--space-4);
 }
 
 .bw-confirm-icon {
-  width: 72px;
-  height: 72px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
-  background: rgba(92, 58, 40, 0.1);
+  background: rgba(92, 58, 40, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-brown);
   margin: 0 auto;
+  animation: bw-success-pop 0.55s var(--ease-out-quart);
+}
+
+.bw-confirm-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: var(--space-5) var(--space-6);
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-md);
+  max-width: 420px;
+  width: 100%;
+}
+
+.bw-confirm-when {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--color-brown-dark);
+  text-transform: capitalize;
+}
+
+.bw-confirm-type {
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
 }
 
 .bw-confirm-text {
   max-width: 420px;
   margin: 0;
-  font-size: 0.98rem;
+  font-size: 0.92rem;
   line-height: 1.6;
-  color: var(--color-text);
+  color: var(--color-text-muted);
 }
 
-.bw-confirm-text strong {
-  color: var(--color-brown-dark);
-}
-
-@media (max-width: 640px) {
-  .bw { padding: var(--space-4); }
-  .bw-stepper { grid-template-columns: repeat(4, 1fr); gap: 4px; }
-  .bw-step-label { display: none; }
-  .bw-step-pill { padding: var(--space-2); }
-  .bw-form-row { grid-template-columns: 1fr; }
-  .bw-days { grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); }
-}
-
-/* ─── Empty state (aucune dispo sur tout l'horizon) ────────────── */
-.bw-empty {
-  background: var(--color-surface-alt);
-  border: 1px dashed var(--color-border-strong);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  text-align: center;
-  font-size: 0.98rem;
-  line-height: 1.6;
-  color: var(--color-text);
-}
-
-.bw-empty p {
-  margin: 0 0 var(--space-2);
-}
-
-.bw-empty p:last-child {
-  margin-bottom: 0;
-}
-
-.bw-empty a {
+.bw-confirm-text a {
   color: var(--color-brown);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-.bw-empty a:hover,
-.bw-empty a:focus-visible {
-  color: var(--color-brown-dark);
-}
-
-/* ─── Skeleton loader pour le calendrier (pendant fetch) ───────── */
-@keyframes bw-shimmer {
-  0% { background-position: -200px 0; }
-  100% { background-position: calc(200px + 100%) 0; }
-}
-
-.bw-loading {
-  position: relative;
-}
-
-.bw-loading::after {
-  content: "";
-  display: block;
-  margin-top: var(--space-3);
-  height: 4px;
-  width: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--color-border) 0%,
-    var(--color-border-strong) 50%,
-    var(--color-border) 100%
-  );
-  background-size: 200px 100%;
-  background-repeat: no-repeat;
-  border-radius: 2px;
-  animation: bw-shimmer 1.4s ease-in-out infinite;
+@media (max-width: 640px) {
+  .bw {
+    padding: var(--space-4);
+    gap: var(--space-5);
+  }
+  .bw-stepper::before { left: 18%; right: 18%; }
+  .bw-step-label { display: none; }
+  .bw-step-num { width: 24px; height: 24px; font-size: 0.85rem; }
+  .bw-form-row { grid-template-columns: 1fr; }
+  .bw-type-card { padding: var(--space-4); }
+  .bw-type-icon { width: 44px; height: 44px; }
+  .bw-days { grid-template-columns: repeat(auto-fill, minmax(54px, 1fr)); }
+  .bw-day { min-height: 56px; }
+  .bw-day-num { font-size: 1.1rem; }
 }
