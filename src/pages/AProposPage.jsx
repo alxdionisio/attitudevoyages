@@ -93,26 +93,21 @@ const AProposPage = () => {
           <img
             src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=1920&auto=format&fit=crop"
             alt="Voyage inoubliable - nature et évasion"
+            width="1920"
+            height="1080"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
           />
           <div className="apropos-hero-overlay" />
         </div>
         <div className="apropos-hero-content">
-          <motion.span
-            className="apropos-hero-subtitle"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+          <span className="apropos-hero-subtitle fade-in">
             Notre histoire
-          </motion.span>
-          <motion.h1
-            className="apropos-hero-title"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.6 }}
-          >
+          </span>
+          <h1 className="apropos-hero-title fade-in-up">
             Attitude Voyages,<br />votre partenaire voyage
-          </motion.h1>
+          </h1>
         </div>
       </section>
 

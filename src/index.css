@@ -3,17 +3,73 @@
 @tailwind utilities;
 
 :root {
-  --color-primary: #4a8536;
-  --color-secondary: #d4a574;
-  --color-accent: #e8b86d;
-  --color-dark: #1a1a1a;
-  --color-light: #f8f7f4;
-  --color-white: #ffffff;
-  
+  /* ── Brand colors ─────────────────────────────────────────────────
+     Conservés tels quels (palette historique de l'agence). */
+  --color-primary: #4a8536;       /* Vert nature, CTA secondaires */
+  --color-secondary: #d4a574;     /* Beige sable */
+  --color-accent: #e8b86d;        /* Or chaud (étoiles, accents) */
+  --color-brown: #5c3a28;         /* Brun marque (logo, theme-color) */
+  --color-brown-dark: #3a241a;    /* Brun foncé, texte fort */
+
+  /* ── Neutrals (teintés vers le brun) ──────────────────────────────
+     Plutôt que #fff / #000 / gris froids, neutrals tintés à très bas
+     chroma autour du brun pour cohésion chromatique. */
+  --color-bg: #faf6f1;            /* Cream — fond global */
+  --color-surface: #ffffff;       /* Cartes, surfaces élevées */
+  --color-surface-alt: #f3ece2;   /* Sections alternées */
+  --color-text: #2a1d15;          /* Texte principal (brun très foncé) */
+  --color-text-muted: #6b5b50;    /* Texte secondaire teinté */
+  --color-text-subtle: #9b8a7e;   /* Captions, meta */
+  --color-border: rgba(92, 58, 40, 0.12);
+  --color-border-strong: rgba(92, 58, 40, 0.22);
+  --color-shadow: rgba(60, 36, 26, 0.08);
+  --color-shadow-strong: rgba(60, 36, 26, 0.16);
+
+  /* ── Legacy aliases (compat) ──────────────────────────────────────
+     Pour les composants existants qui réfèrent encore aux anciens noms. */
+  --color-dark: var(--color-text);
+  --color-light: var(--color-bg);
+  --color-cream: var(--color-bg);
+  --color-white: var(--color-surface);
+
+  /* ── Typography ───────────────────────────────────────────────────*/
   --font-display: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
-  
-  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Spacing scale (rhythm 4px-based) ─────────────────────────────*/
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.5rem;    /* 24px */
+  --space-6: 2rem;      /* 32px */
+  --space-7: 3rem;      /* 48px */
+  --space-8: 4rem;      /* 64px */
+  --space-9: 5rem;      /* 80px */
+  --space-10: 6rem;     /* 96px */
+
+  /* ── Radius scale ─────────────────────────────────────────────────*/
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* ── Motion ───────────────────────────────────────────────────────*/
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 180ms;
+  --duration-base: 260ms;
+  --duration-slow: 420ms;
+
+  /* Transition générique limitée à color/bg/border/shadow/opacity
+     (jamais "all" pour éviter d'animer la layout). */
+  --transition: background-color var(--duration-base) var(--ease-out-quart),
+                color var(--duration-base) var(--ease-out-quart),
+                border-color var(--duration-base) var(--ease-out-quart),
+                box-shadow var(--duration-base) var(--ease-out-quart),
+                opacity var(--duration-base) var(--ease-out-quart),
+                transform var(--duration-base) var(--ease-out-quart);
 }
 
 * {
@@ -24,16 +80,20 @@
 
 body {
   font-family: var(--font-body);
-  color: var(--color-dark);
-  background-color: var(--color-light);
+  color: var(--color-text);
+  background-color: var(--color-bg);
   line-height: 1.6;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 500;
-  line-height: 1.25;
+  line-height: 1.2;
+  color: var(--color-brown-dark);
 }
 
 img {
@@ -45,7 +105,7 @@ img {
 a {
   text-decoration: none;
   color: inherit;
-  transition: var(--transition);
+  transition: color var(--duration-fast) var(--ease-out-quart);
 }
 
 button {
@@ -56,60 +116,90 @@ button {
   transition: var(--transition);
 }
 
+/* ── Focus visible global ────────────────────────────────────────────
+   Accessibilité RGAA : anneau de focus net et cohérent pour tous les
+   éléments interactifs. Pas d'outline sur les clics souris (focus-visible). */
+:focus { outline: none; }
+
+:focus-visible {
+  outline: 2px solid var(--color-brown);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Pour les surfaces sombres (hero, footer), focus ring clair */
+.hero :focus-visible,
+.footer :focus-visible {
+  outline-color: var(--color-accent);
+}
+
 .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--space-6);
 }
 
-/* Animations */
+/* ── Animations ──────────────────────────────────────────────────────*/
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .fade-in-up {
-  animation: fadeInUp 0.8s ease-out forwards;
+  animation: fadeInUp 0.7s var(--ease-out-quart) forwards;
 }
 
 .fade-in {
-  animation: fadeIn 0.6s ease-out forwards;
+  animation: fadeIn 0.5s var(--ease-out-quart) forwards;
 }
 
-/* Smooth scroll */
+/* Respect des préférences de l'utilisateur pour les animations réduites */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
+/* ── Scrollbar (teintée brun, plus discret) ─────────────────────────*/
 ::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-light);
+  background: var(--color-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-secondary);
-  border-radius: 5px;
+  background: var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--color-bg);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent);
+  background: var(--color-brown);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) var(--color-bg);
+}
+
+/* ── Sélection de texte (couleur de marque) ─────────────────────────*/
+::selection {
+  background: var(--color-brown);
+  color: var(--color-surface);
 }

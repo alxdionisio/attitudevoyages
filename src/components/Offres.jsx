@@ -19,20 +19,14 @@ const Offres = () => {
   return (
     <section className="offres" id="offres">
       <div className="container">
-        <motion.div
-          className="section-header"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.5 }}
-        >
+        <div className="section-header">
           <span className="section-subtitle">Nos destinations</span>
           <h2 className="section-title">Offres du moment</h2>
           <p className="section-description">
             Découvrez notre sélection de voyages exceptionnels,
             soigneusement préparés pour vous offrir des expériences uniques.
           </p>
-        </motion.div>
+        </div>
 
         <div className="offres-grid">
           {offresToShow.map((offre, index) => (
@@ -99,31 +93,21 @@ const Offres = () => {
           ))}
         </div>
 
-        <motion.div
-          className="offres-voir-toutes"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        <div className="offres-voir-toutes">
           <Link to="/destinations" className="offres-voir-toutes-btn">
             Voir toutes nos offres
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
               <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="offres-cta"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+        <div className="offres-cta">
           <p>Vous avez un projet de voyage en tête ?</p>
           <Link to="/contact" className="btn-primary">
             Parlons-en ensemble
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -14,7 +14,7 @@ const sectionVariants = {
   visible: (i) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.1, duration: 0.6, ease: [0.4, 0, 0.2, 1] },
+    transition: { delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] },
   }),
 };
 
@@ -39,16 +39,14 @@ const HomePage = () => {
         canonical="/"
       />
       <Hero />
-      <motion.div
-        id="offres"
-        custom={0}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-80px" }}
-        variants={sectionVariants}
-      >
+
+      {/* Offres : juste sous le fold — pas d'animation d'entrée pour éviter
+          opacity:0 dans le HTML prerendered (impact SEO + UX no-JS). */}
+      <div id="offres">
         <Offres />
-      </motion.div>
+      </div>
+
+      {/* À partir de cette section, animations à l'entrée dans le viewport. */}
       <motion.div
         id="a-propos"
         custom={1}

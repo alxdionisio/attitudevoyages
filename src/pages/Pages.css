@@ -2627,3 +2627,129 @@
   color: var(--color-white);
 }
 
+
+/* ──────────────────────────────────────────────────────────────────
+   Contact — coordonnées NAP visibles dans l'en-tête de la page
+   ────────────────────────────────────────────────────────────────── */
+.contact-coordonnees {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-5) auto 0;
+  max-width: 640px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-2) var(--space-5);
+  text-align: left;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.contact-coordonnees li {
+  line-height: 1.6;
+}
+
+.contact-coordonnees strong {
+  color: var(--color-brown-dark);
+  font-weight: 600;
+  margin-right: 0.25rem;
+}
+
+.contact-coordonnees a {
+  color: var(--color-brown);
+  text-decoration: underline;
+  text-decoration-color: var(--color-border-strong);
+  text-underline-offset: 3px;
+  font-weight: 500;
+}
+
+.contact-coordonnees a:hover,
+.contact-coordonnees a:focus-visible {
+  color: var(--color-brown-dark);
+  text-decoration-color: var(--color-brown);
+}
+
+@media (max-width: 640px) {
+  .contact-coordonnees {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   Fallbacks RGPD (Maps non chargé tant que pas de consentement)
+   ────────────────────────────────────────────────────────────────── */
+.contact-map-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--space-3);
+  min-height: 280px;
+  padding: var(--space-6);
+  background: var(--color-surface-alt);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.contact-map-placeholder p {
+  margin: 0;
+  max-width: 360px;
+}
+
+.contact-map-placeholder a {
+  color: var(--color-brown);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+}
+
+.contact-map-placeholder a:hover,
+.contact-map-placeholder a:focus-visible {
+  color: var(--color-brown-dark);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   Fallback Calendly (URL absente)
+   ────────────────────────────────────────────────────────────────── */
+.contact-rdv-fallback,
+.rdv-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--space-3);
+  min-height: 300px;
+  padding: var(--space-7);
+  background: var(--color-surface-alt);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-muted);
+}
+
+.contact-rdv-fallback p,
+.rdv-fallback p {
+  margin: 0;
+  max-width: 360px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.contact-rdv-fallback a,
+.rdv-fallback a {
+  color: var(--color-brown);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.contact-rdv-fallback a:hover,
+.rdv-fallback a:hover,
+.contact-rdv-fallback a:focus-visible,
+.rdv-fallback a:focus-visible {
+  color: var(--color-brown-dark);
+}
