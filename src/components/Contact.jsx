@@ -39,6 +39,12 @@ const Contact = () => {
       if (res.ok && data.ok) {
         setSubmitStatus('success');
         setFormData({ nom: '', email: '', sujet: '', message: '', website: '' });
+      } else if (res.status === 429) {
+        const mins = Math.max(1, Math.round((data.retryAfter || 600) / 60));
+        setSubmitStatus('error');
+        setSubmitError(
+          `Trop de messages envoyés depuis cette adresse. Réessayez dans ${mins} min ou appelez-nous au 04 66 37 48 63.`
+        );
       } else {
         setSubmitStatus('error');
         setSubmitError(data.error || "L'envoi a échoué. Réessayez plus tard.");

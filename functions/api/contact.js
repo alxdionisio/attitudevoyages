@@ -1,10 +1,14 @@
 import { jsonResponse, errorResponse, handleOptions } from "../_lib/cors.js";
 import { validateContact } from "../_lib/validate.js";
 import { sendEmail, renderContactNotification } from "../_lib/email.js";
+import { checkRateLimit, tooManyRequests } from "../_lib/ratelimit.js";
 
 export const onRequestOptions = ({ request }) => handleOptions(request);
 
 export const onRequestPost = async ({ request, env }) => {
+  const rl = await checkRateLimit(env, request, "contact");
+  if (!rl.ok) return tooManyRequests(rl.retryAfterSeconds, request);
+
   let body;
   try {
     body = await request.json();

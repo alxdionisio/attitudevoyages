@@ -161,6 +161,14 @@ const BookingWidget = () => {
         return;
       }
 
+      if (res.status === 429) {
+        const mins = Math.max(1, Math.round((data.retryAfter || 600) / 60));
+        setSubmitError(
+          `Trop de tentatives. Réessayez dans ${mins} min ou appelez-nous au 04 66 37 48 63.`
+        );
+        return;
+      }
+
       // 409 = créneau pris entre temps → on raffraîchit les dispos et on revient au step 2
       if (res.status === 409 && selectedType) {
         setSubmitError(

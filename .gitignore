@@ -25,3 +25,12 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+
+# Local tooling (RuFlo / claude-flow + Wrangler local cache)
+.claude/
+.claude-flow/
+.wrangler/
+CLAUDE.md
+
+# Misc
+.DS_Store
