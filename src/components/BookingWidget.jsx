@@ -154,14 +154,40 @@ const BookingWidget = () => {
         }),
       });
       const data = await res.json().catch(() => ({}));
+
       if (res.ok && data.ok) {
         setConfirmedBooking(data.booking);
         setStep(4);
-      } else {
-        setSubmitError(data.error || "La réservation a échoué.");
+        return;
       }
+
+      // 409 = créneau pris entre temps → on raffraîchit les dispos et on revient au step 2
+      if (res.status === 409 && selectedType) {
+        setSubmitError(
+          data.error ||
+            "Ce créneau vient d'être réservé. On rafraîchit les disponibilités, choisissez-en un autre."
+        );
+        // Force le reload de la liste des créneaux
+        setLoadingSlots(true);
+        setDays(null);
+        try {
+          const av = await fetch(
+            `/api/availability?type=${encodeURIComponent(selectedType.id)}`
+          ).then((r) => r.json());
+          if (av.ok) setDays(av.days);
+        } catch {
+          /* l'utilisateur peut retry depuis l'écran */
+        } finally {
+          setLoadingSlots(false);
+        }
+        setSelectedSlot(null);
+        setStep(2);
+        return;
+      }
+
+      setSubmitError(data.error || "La réservation a échoué.");
     } catch (err) {
-      setSubmitError("Erreur réseau. Réessayez.");
+      setSubmitError("Erreur réseau. Vérifiez votre connexion et réessayez.");
     } finally {
       setSubmitting(false);
     }
@@ -230,7 +256,23 @@ const BookingWidget = () => {
           {loadingSlots && <p className="bw-loading">Chargement des créneaux…</p>}
           {slotError && <p className="bw-error">{slotError}</p>}
 
-          {!loadingSlots && !slotError && days && (
+          {!loadingSlots && !slotError && days && availableDates.length === 0 && (
+            <div className="bw-empty">
+              <p>
+                Aucun créneau disponible dans les {days.length} prochains jours.
+              </p>
+              <p>
+                Appelez-nous au <a href="tel:+33466374863">04&nbsp;66&nbsp;37&nbsp;48&nbsp;63</a>{" "}
+                ou écrivez à{" "}
+                <a href="mailto:contact@attitude-voyages.fr">
+                  contact@attitude-voyages.fr
+                </a>{" "}
+                pour organiser un rendez-vous différé.
+              </p>
+            </div>
+          )}
+
+          {!loadingSlots && !slotError && days && availableDates.length > 0 && (
             <>
               <DatePicker
                 days={days}

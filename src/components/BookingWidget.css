@@ -445,3 +445,63 @@
   .bw-form-row { grid-template-columns: 1fr; }
   .bw-days { grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); }
 }
+
+/* ─── Empty state (aucune dispo sur tout l'horizon) ────────────── */
+.bw-empty {
+  background: var(--color-surface-alt);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  text-align: center;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.bw-empty p {
+  margin: 0 0 var(--space-2);
+}
+
+.bw-empty p:last-child {
+  margin-bottom: 0;
+}
+
+.bw-empty a {
+  color: var(--color-brown);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.bw-empty a:hover,
+.bw-empty a:focus-visible {
+  color: var(--color-brown-dark);
+}
+
+/* ─── Skeleton loader pour le calendrier (pendant fetch) ───────── */
+@keyframes bw-shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+.bw-loading {
+  position: relative;
+}
+
+.bw-loading::after {
+  content: "";
+  display: block;
+  margin-top: var(--space-3);
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--color-border) 0%,
+    var(--color-border-strong) 50%,
+    var(--color-border) 100%
+  );
+  background-size: 200px 100%;
+  background-repeat: no-repeat;
+  border-radius: 2px;
+  animation: bw-shimmer 1.4s ease-in-out infinite;
+}

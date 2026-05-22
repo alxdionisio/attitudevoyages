@@ -174,7 +174,7 @@ const AgenceVillePage = () => {
               <Link to="/contact" className="agence-ville-btn agence-ville-btn--primary">
                 Nous contacter
               </Link>
-              <Link to="/contact#rdv" className="agence-ville-btn agence-ville-btn--secondary">
+              <Link to="/reservation" className="agence-ville-btn agence-ville-btn--secondary">
                 Prendre rendez-vous
               </Link>
             </div>

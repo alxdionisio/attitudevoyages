@@ -11,6 +11,7 @@ const pages = [
   { loc: '/destinations', changefreq: 'weekly', priority: '0.9' },
   { loc: '/a-propos', changefreq: 'monthly', priority: '0.8' },
   { loc: '/contact', changefreq: 'monthly', priority: '0.9' },
+  { loc: '/reservation', changefreq: 'weekly', priority: '0.95' },
   { loc: '/faq', changefreq: 'monthly', priority: '0.7' },
   { loc: '/cgv', changefreq: 'yearly', priority: '0.4' },
   { loc: '/mentions-legales', changefreq: 'yearly', priority: '0.3' },

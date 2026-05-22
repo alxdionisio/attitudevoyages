@@ -16,6 +16,7 @@ const CGVPage = lazy(() => import("./pages/CGVPage"));
 const MentionsLegalesPage = lazy(() => import("./pages/MentionsLegalesPage"));
 const PolitiqueConfidentialitePage = lazy(() => import("./pages/PolitiqueConfidentialitePage"));
 const FAQPage = lazy(() => import("./pages/FAQPage"));
+const ReservationPage = lazy(() => import("./pages/ReservationPage"));
 
 // Back-office admin (chunks séparés)
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
@@ -120,6 +121,14 @@ function App() {
             element={
               <Suspense fallback={<RouteFallback />}>
                 <FAQPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="reservation"
+            element={
+              <Suspense fallback={<RouteFallback />}>
+                <ReservationPage />
               </Suspense>
             }
           />

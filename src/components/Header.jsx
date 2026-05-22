@@ -57,8 +57,8 @@ const Header = () => {
                 {link.label}
               </Link>
             ))}
-            <Link to="/contact#rdv" className="nav-link nav-link--cta">
-              Prendre RDV
+            <Link to="/reservation" className="nav-link nav-link--cta">
+              Réserver
             </Link>
           </nav>
 
