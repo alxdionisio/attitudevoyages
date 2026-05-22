@@ -4,6 +4,8 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /admin/
+Disallow: /admin
 
 # AI crawlers — explicit allow for citation, training & retrieval
 User-agent: GPTBot

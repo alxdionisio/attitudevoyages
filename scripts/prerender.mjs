@@ -8,6 +8,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST = join(__dirname, '..', 'dist');
 const PORT = 4173;
 
+// Note: les routes /admin/* sont volontairement exclues du prerender
+// (back-office privé, authentification requise, pas de bénéfice SEO).
 const routes = [
   '/',
   '/destinations',

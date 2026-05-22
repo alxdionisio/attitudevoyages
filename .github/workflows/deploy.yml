@@ -1,5 +1,13 @@
-# Build et déploiement sur GitHub Pages
-# Après le premier push : Settings → Pages → Source = "GitHub Actions"
+# Build + déploiement sur Cloudflare Pages.
+# Pré-requis (Settings → Secrets and variables → Actions) :
+#   CLOUDFLARE_API_TOKEN     — Token avec scope "Cloudflare Pages: Edit"
+#   CLOUDFLARE_ACCOUNT_ID    — ID compte Cloudflare
+#   VITE_SITE_URL            — https://attitude-voyages.fr (var, pas secret)
+#   VITE_GA4_MEASUREMENT_ID  — (optionnel) ID GA4
+#   VITE_GTM_ID              — (optionnel) ID GTM
+#
+# Les secrets backend (RESEND_API_KEY, etc.) sont configurés directement
+# dans Cloudflare Pages → Settings → Environment variables.
 
 name: Deploy
 
@@ -10,15 +18,13 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: cf-pages
   cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,35 +39,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Sans VITE_BASENAME : le site est servi à la racine (domaine perso CNAME).
-      # VITE_SITE_URL : URL canonique (https, sans www) pour canonical + OG + sitemap cohérent.
       - name: Build (with prerender)
         env:
           VITE_SITE_URL: https://attitude-voyages.fr
-          VITE_CALENDLY_URL: ${{ secrets.VITE_CALENDLY_URL }}
-          VITE_FORMSPREE_FORM_ID: ${{ secrets.VITE_FORMSPREE_FORM_ID }}
           VITE_GA4_MEASUREMENT_ID: ${{ secrets.VITE_GA4_MEASUREMENT_ID }}
           VITE_GTM_ID: ${{ secrets.VITE_GTM_ID }}
         run: npm run build:prerender
 
-      - name: SPA fallback for client-side routing
-        run: cp dist/index.html dist/404.html
-
-      - name: Add CNAME for custom domain
-        run: cp CNAME dist/CNAME
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
         with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deploy
-        uses: actions/deploy-pages@v4
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=attitude-voyages --branch=main
