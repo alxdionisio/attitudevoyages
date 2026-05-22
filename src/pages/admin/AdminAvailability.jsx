@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./Admin.css";
 
 const DAYS_FR = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+const DAYS_ORDER = [1, 2, 3, 4, 5, 6, 0]; // Lundi → Dimanche
 
 const AdminAvailability = () => {
   const [data, setData] = useState(null);
+  const [editingRule, setEditingRule] = useState(null);
+  const [newRule, setNewRule] = useState({ day_of_week: 1, start_time: "09:00", end_time: "12:00" });
+  const [busy, setBusy] = useState(false);
   const [newOverride, setNewOverride] = useState({
     date: "",
     override_type: "blocked",
@@ -12,7 +16,6 @@ const AdminAvailability = () => {
     end_time: "",
     note: "",
   });
-  const [busy, setBusy] = useState(false);
 
   const load = () => {
     setData(null);
@@ -26,6 +29,66 @@ const AdminAvailability = () => {
     load();
   }, []);
 
+  // ─── Rules CRUD ─────────────────────────────────────────────
+  const addRule = async (e) => {
+    e.preventDefault();
+    setBusy(true);
+    try {
+      await fetch("/api/admin/rules", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newRule),
+      });
+      load();
+      setNewRule({ day_of_week: 1, start_time: "09:00", end_time: "12:00" });
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const saveEditingRule = async () => {
+    if (!editingRule) return;
+    setBusy(true);
+    try {
+      await fetch(`/api/admin/rules/${editingRule.id}`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          day_of_week: editingRule.day_of_week,
+          start_time: editingRule.start_time,
+          end_time: editingRule.end_time,
+          is_active: editingRule.is_active,
+        }),
+      });
+      setEditingRule(null);
+      load();
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const toggleRule = async (rule) => {
+    await fetch(`/api/admin/rules/${rule.id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ is_active: !rule.is_active }),
+    });
+    load();
+  };
+
+  const removeRule = async (id) => {
+    if (!confirm("Supprimer cette plage horaire ?")) return;
+    await fetch(`/api/admin/rules/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    load();
+  };
+
+  // ─── Overrides CRUD ─────────────────────────────────────────
   const addOverride = async (e) => {
     e.preventDefault();
     if (!newOverride.date) return;
@@ -63,7 +126,7 @@ const AdminAvailability = () => {
       <header className="admin-page-header">
         <h1 className="admin-page-title">Disponibilités</h1>
         <p className="admin-page-sub">
-          Règles hebdomadaires (édition prochaine) et exceptions ponctuelles.
+          Plages horaires hebdomadaires et exceptions ponctuelles.
         </p>
       </header>
 
@@ -74,11 +137,13 @@ const AdminAvailability = () => {
           <section className="admin-section">
             <h2 className="admin-section-title">Plages horaires hebdomadaires</h2>
             <p className="admin-section-sub admin-muted">
-              Ces règles définissent vos horaires d'ouverture par défaut. L'édition se fait directement
-              dans la base D1 pour cette version. À venir : édition depuis cet écran.
+              Ajoutez plusieurs plages par jour si vous coupez (ex&nbsp;: matin
+              9h30–12h, après-midi 14h–18h). Désactivez une plage sans la
+              supprimer pour la garder en mémoire.
             </p>
+
             <div className="admin-rules-grid">
-              {[1, 2, 3, 4, 5, 6, 0].map((dow) => {
+              {DAYS_ORDER.map((dow) => {
                 const dayRules = data.rules.filter((r) => r.day_of_week === dow);
                 return (
                   <div key={dow} className="admin-rule-day">
@@ -86,22 +151,121 @@ const AdminAvailability = () => {
                     {dayRules.length === 0 ? (
                       <p className="admin-muted">Fermé</p>
                     ) : (
-                      <ul>
-                        {dayRules.map((r) => (
-                          <li key={r.id}>
-                            {r.start_time.slice(0, 5)} → {r.end_time.slice(0, 5)}
-                          </li>
-                        ))}
+                      <ul className="admin-rule-list">
+                        {dayRules.map((r) =>
+                          editingRule?.id === r.id ? (
+                            <li key={r.id} className="admin-rule-edit">
+                              <input
+                                type="time"
+                                value={editingRule.start_time}
+                                onChange={(e) =>
+                                  setEditingRule({ ...editingRule, start_time: e.target.value })
+                                }
+                              />
+                              <span>→</span>
+                              <input
+                                type="time"
+                                value={editingRule.end_time}
+                                onChange={(e) =>
+                                  setEditingRule({ ...editingRule, end_time: e.target.value })
+                                }
+                              />
+                              <button
+                                type="button"
+                                onClick={saveEditingRule}
+                                className="admin-btn admin-btn--primary"
+                                disabled={busy}
+                              >
+                                OK
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setEditingRule(null)}
+                                className="admin-btn admin-btn--ghost"
+                              >
+                                ✕
+                              </button>
+                            </li>
+                          ) : (
+                            <li key={r.id} className={`admin-rule-item ${!r.is_active ? "admin-rule-item--off" : ""}`}>
+                              <span className="admin-rule-time">
+                                {r.start_time.slice(0, 5)} → {r.end_time.slice(0, 5)}
+                              </span>
+                              <div className="admin-rule-actions">
+                                <button
+                                  type="button"
+                                  onClick={() => toggleRule(r)}
+                                  className="admin-btn admin-btn--ghost"
+                                  title={r.is_active ? "Désactiver" : "Activer"}
+                                >
+                                  {r.is_active ? "Pause" : "Réactiver"}
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setEditingRule({ ...r })}
+                                  className="admin-btn admin-btn--ghost"
+                                >
+                                  Modifier
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => removeRule(r.id)}
+                                  className="admin-btn admin-btn--ghost admin-btn--danger"
+                                >
+                                  ✕
+                                </button>
+                              </div>
+                            </li>
+                          )
+                        )}
                       </ul>
                     )}
                   </div>
                 );
               })}
             </div>
+
+            <form onSubmit={addRule} className="admin-override-form" style={{ marginTop: "1.5rem" }}>
+              <h3 className="admin-section-subtitle" style={{ marginTop: 0 }}>Ajouter une plage</h3>
+              <div className="admin-form-row admin-form-row--three">
+                <label>
+                  <span className="admin-label">Jour</span>
+                  <select
+                    value={newRule.day_of_week}
+                    onChange={(e) => setNewRule({ ...newRule, day_of_week: parseInt(e.target.value, 10) })}
+                  >
+                    {DAYS_ORDER.map((dow) => (
+                      <option key={dow} value={dow}>{DAYS_FR[dow]}</option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  <span className="admin-label">Début</span>
+                  <input
+                    type="time"
+                    required
+                    value={newRule.start_time}
+                    onChange={(e) => setNewRule({ ...newRule, start_time: e.target.value })}
+                  />
+                </label>
+                <label>
+                  <span className="admin-label">Fin</span>
+                  <input
+                    type="time"
+                    required
+                    value={newRule.end_time}
+                    onChange={(e) => setNewRule({ ...newRule, end_time: e.target.value })}
+                  />
+                </label>
+              </div>
+              <button type="submit" disabled={busy} className="admin-btn admin-btn--primary">
+                {busy ? "Ajout…" : "Ajouter la plage"}
+              </button>
+            </form>
           </section>
 
           <section className="admin-section">
-            <h2 className="admin-section-title">Bloquer une date / une plage</h2>
+            <h2 className="admin-section-title">Exceptions (vacances, jours fériés)</h2>
             <form onSubmit={addOverride} className="admin-override-form">
               <div className="admin-form-row">
                 <label>
@@ -131,7 +295,6 @@ const AdminAvailability = () => {
                     type="time"
                     value={newOverride.start_time}
                     onChange={(e) => setNewOverride({ ...newOverride, start_time: e.target.value })}
-                    placeholder="(vide = toute la journée)"
                   />
                 </label>
                 <label>

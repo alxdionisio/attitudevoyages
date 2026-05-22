@@ -51,6 +51,9 @@ const AdminLayout = () => {
           <NavLink to="/admin/availability" className="admin-nav-link">
             Disponibilités
           </NavLink>
+          <NavLink to="/admin/audit" className="admin-nav-link">
+            Journal
+          </NavLink>
         </nav>
         <div className="admin-user">
           <div className="admin-user-info">

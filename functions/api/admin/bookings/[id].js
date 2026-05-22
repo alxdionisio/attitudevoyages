@@ -1,5 +1,6 @@
 import { jsonResponse, errorResponse, handleOptions } from "../../../_lib/cors.js";
 import { getAdminFromRequest } from "../../../_lib/auth.js";
+import { logAdminAction } from "../../../_lib/audit.js";
 
 export const onRequestOptions = ({ request }) => handleOptions(request);
 
@@ -28,6 +29,13 @@ export const onRequestPatch = async ({ request, params, env }) => {
       : null;
 
   try {
+    const before = await env.DB.prepare(
+      `SELECT status, cancellation_reason FROM bookings WHERE id = ?1`
+    )
+      .bind(id)
+      .first();
+    if (!before) return errorResponse("Réservation introuvable", 404, request);
+
     const result = await env.DB.prepare(
       `UPDATE bookings
           SET status = ?1,
@@ -40,6 +48,10 @@ export const onRequestPatch = async ({ request, params, env }) => {
     if (result.meta?.changes === 0) {
       return errorResponse("Réservation introuvable", 404, request);
     }
+    await logAdminAction(env, request, admin, `booking.status.${status}`, "booking", id, {
+      before,
+      after: { status, cancellation_reason: reason ?? before.cancellation_reason },
+    });
   } catch (err) {
     console.error("[admin/bookings/:id] update error", err);
     return errorResponse("Erreur serveur", 500, request);
@@ -56,6 +68,14 @@ export const onRequestDelete = async ({ request, params, env }) => {
   if (!id) return errorResponse("ID manquant", 400, request);
 
   try {
+    const before = await env.DB.prepare(
+      `SELECT id, client_first_name, client_last_name, client_email, start_at, status
+         FROM bookings WHERE id = ?1`
+    )
+      .bind(id)
+      .first();
+    if (!before) return errorResponse("Réservation introuvable", 404, request);
+
     const result = await env.DB.prepare(
       `DELETE FROM bookings WHERE id = ?1`
     )
@@ -64,6 +84,7 @@ export const onRequestDelete = async ({ request, params, env }) => {
     if (result.meta?.changes === 0) {
       return errorResponse("Réservation introuvable", 404, request);
     }
+    await logAdminAction(env, request, admin, "booking.delete", "booking", id, { deleted: before });
   } catch (err) {
     console.error("[admin/bookings/:id] delete error", err);
     return errorResponse("Erreur serveur", 500, request);

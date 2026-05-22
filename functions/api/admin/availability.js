@@ -1,5 +1,6 @@
 import { jsonResponse, errorResponse, handleOptions } from "../../_lib/cors.js";
 import { getAdminFromRequest } from "../../_lib/auth.js";
+import { logAdminAction } from "../../_lib/audit.js";
 
 export const onRequestOptions = ({ request }) => handleOptions(request);
 
@@ -73,11 +74,15 @@ export const onRequestPost = async ({ request, env }) => {
     )
       .bind(date, startTime, endTime, type, note)
       .run();
-    return jsonResponse(
-      { ok: true, id: result.meta?.last_row_id },
-      { status: 201 },
-      request
-    );
+    const id = result.meta?.last_row_id;
+    await logAdminAction(env, request, admin, "override.create", "override", id, {
+      date,
+      start_time: startTime,
+      end_time: endTime,
+      override_type: type,
+      note,
+    });
+    return jsonResponse({ ok: true, id }, { status: 201 }, request);
   } catch (err) {
     console.error("[admin/availability:post]", err);
     return errorResponse("Erreur serveur", 500, request);

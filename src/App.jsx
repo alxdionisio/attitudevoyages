@@ -25,6 +25,7 @@ const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const AdminBookings = lazy(() => import("./pages/admin/AdminBookings"));
 const AdminMessages = lazy(() => import("./pages/admin/AdminMessages"));
 const AdminAvailability = lazy(() => import("./pages/admin/AdminAvailability"));
+const AdminAudit = lazy(() => import("./pages/admin/AdminAudit"));
 
 /** Basename au runtime : si on est à la racine (ex. preview GH Pages), ne pas utiliser le basename. */
 function getBasename() {
@@ -164,6 +165,7 @@ function App() {
           <Route path="bookings" element={<AdminBookings />} />
           <Route path="messages" element={<AdminMessages />} />
           <Route path="availability" element={<AdminAvailability />} />
+          <Route path="audit" element={<AdminAudit />} />
         </Route>
       </Routes>
     </BrowserRouter>
