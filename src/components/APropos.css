@@ -1,6 +1,11 @@
 .a-propos {
-  padding: 10rem 0;
+  padding: 10rem var(--layout-gutter);
   background: var(--color-light);
+}
+
+.a-propos .container {
+  padding-inline: 0;
+  max-width: var(--layout-max);
 }
 
 .a-propos-content {

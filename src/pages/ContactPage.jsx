@@ -294,21 +294,17 @@ const ContactPage = () => {
           viewport={{ once: true }}
         >
           <h2 className="contact-rdv-title">Prendre rendez-vous</h2>
-          <div className="contact-rdv-grid">
-            <div className="contact-rdv-intro">
-              <p className="contact-rdv-desc">
-              Choisissez une date puis un créneau parmi les disponibilités affichées.
-              Discutons de votre projet de voyage autour d'un café à l'agence.
-            </p>
-              <p className="contact-rdv-intro-text">
-                Si toutefois vous préférez nous appeler, voici le numéro pour nous joindre :{" "}
-                <a href="tel:+33466374863" className="contact-rdv-phone-link">04 66 37 48 63</a>
-              </p>
-            </div>
-            <div className="contact-rdv-widget-wrap">
-              <BookingWidget />
-            </div>
-          </div>
+          <p className="contact-rdv-desc">
+            Choisissez une date puis un créneau parmi les disponibilités affichées.
+            Discutons de votre projet de voyage autour d&apos;un café à l&apos;agence.
+          </p>
+          <p className="contact-rdv-intro-text">
+            Si toutefois vous préférez nous appeler :{" "}
+            <a href="tel:+33466374863" className="contact-rdv-phone-link">
+              04 66 37 48 63
+            </a>
+          </p>
+          <BookingWidget />
         </motion.section>
 
         <motion.div

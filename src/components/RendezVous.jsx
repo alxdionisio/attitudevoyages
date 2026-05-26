@@ -90,9 +90,7 @@ const RendezVous = () => {
             </div>
           </div>
 
-          <div className="rdv-calendly-wrapper">
-            <BookingWidget />
-          </div>
+          <BookingWidget />
         </div>
       </div>
     </section>

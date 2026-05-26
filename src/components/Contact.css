@@ -1,6 +1,11 @@
 .contact {
-  padding: 10rem 0;
+  padding: 10rem var(--layout-gutter);
   background: linear-gradient(135deg, var(--color-light) 0%, #ebe9e4 100%);
+}
+
+.contact .container {
+  padding-inline: 0;
+  max-width: var(--layout-max);
 }
 
 .contact-header {

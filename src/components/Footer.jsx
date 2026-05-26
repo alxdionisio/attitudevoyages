@@ -90,7 +90,7 @@ const Footer = () => {
           </div>
           <p className="copyright">
             © {new Date().getFullYear()} - Attitude Voyages. 
-            Conçu avec passion par <a href="https://bymodule.com" target="_blank" rel="noopener noreferrer">Module</a>
+            Conçu avec passion par <a href="https://bymodule.io" target="_blank" rel="noopener noreferrer">Module</a>
           </p>
         </div>
       </div>
