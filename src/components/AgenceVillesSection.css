@@ -4,8 +4,11 @@
 }
 
 .agence-villes-section .page-container {
+  width: 100%;
   max-width: var(--layout-max);
+  margin-inline: auto;
   padding-inline: 0;
+  box-sizing: border-box;
 }
 
 .agence-villes-title {
