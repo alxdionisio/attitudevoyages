@@ -73,9 +73,8 @@ Dans **Settings → Environment variables → Production** :
 
 | Nom                       | Type    | Exemple                                             |
 | ------------------------- | ------- | --------------------------------------------------- |
-| `BREVO_API_KEY`           | Secret  | `xkeysib-…` (depuis brevo.com)                      |
-| `BREVO_FROM_EMAIL`        | Plain   | `noreply@attitude-voyages.fr`                       |
-| `BREVO_FROM_NAME`         | Plain   | `Attitude Voyages`                                  |
+| `RESEND_API_KEY`          | Secret  | `re_…` (depuis resend.com, domaine vérifié)         |
+| `RESEND_FROM_EMAIL`       | Plain   | `Attitude Voyages <noreply@attitude-voyages.fr>`    |
 | `ADMIN_EMAIL`             | Plain   | `contact@attitude-voyages.fr`                       |
 | `TEST_RECIPIENT_EMAIL`    | Plain   | `heyarlow@gmail.com` (à supprimer une fois en prod) |
 | `SITE_URL`                | Plain   | `https://attitude-voyages.fr`                       |

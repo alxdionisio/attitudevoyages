@@ -22,14 +22,13 @@ migrations_dir = "./migrations"
 
 # ─────────────────────────────────────────────────────────────────────
 # Environment variables (non-secret — committed to repo).
-# Secrets (BREVO_API_KEY) must be set
+# Secrets (RESEND_API_KEY) must be set
 # via `wrangler pages secret put <NAME>` or in the CF Pages dashboard.
 # ─────────────────────────────────────────────────────────────────────
 [vars]
 SITE_URL = "https://attitude-voyages.fr"
 ADMIN_EMAIL = "contact@attitude-voyages.fr"
-BREVO_FROM_EMAIL = "noreply@attitude-voyages.fr"
-BREVO_FROM_NAME = "Attitude Voyages"
+RESEND_FROM_EMAIL = "Attitude Voyages <noreply@attitude-voyages.fr>"
 TIMEZONE = "Europe/Paris"
 BOOKING_LEAD_MINUTES = "720"        # 12h minimum lead time
 BOOKING_HORIZON_DAYS = "60"          # 60 days of bookable future

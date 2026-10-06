@@ -61,7 +61,7 @@ const PolitiqueConfidentialitePage = () => {
           <section className="legal-section">
             <h2>Destinataires et transferts</h2>
             <p>
-              Les données peuvent être traitées par Attitude Voyages et, le cas échéant, par des prestataires techniques (hébergement, envoi d'e-mails) dans le cadre strict de leurs missions. Le site et les données saisies dans ses formulaires sont hébergés par Cloudflare, Inc. (États-Unis) ; les e-mails de confirmation et de notification sont envoyés via Brevo (France). Les transferts hors Union européenne sont encadrés par les clauses contractuelles types ou mécanismes reconnus par la Commission européenne.
+              Les données peuvent être traitées par Attitude Voyages et, le cas échéant, par des prestataires techniques (hébergement, envoi d'e-mails) dans le cadre strict de leurs missions. Le site et les données saisies dans ses formulaires sont hébergés par Cloudflare, Inc. (États-Unis) ; les e-mails de confirmation et de notification sont envoyés via Resend (société établie aux États-Unis, envoi depuis l'Irlande). Les transferts hors Union européenne sont encadrés par les clauses contractuelles types ou mécanismes reconnus par la Commission européenne.
             </p>
           </section>
 
