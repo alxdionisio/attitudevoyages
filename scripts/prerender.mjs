@@ -124,6 +124,12 @@ async function main() {
   for (const route of routes) {
     try {
       const page = await browser.newPage();
+      // Les vidéos du héros (streaming) empêchent `networkidle0` d'aboutir en CI :
+      // inutiles au HTML prérendu, on ne les télécharge pas.
+      await page.setRequestInterception(true);
+      page.on('request', (req) =>
+        req.resourceType() === 'media' ? req.abort() : req.continue()
+      );
       await page.goto(`http://localhost:${PORT}${route}`, { waitUntil: 'networkidle0', timeout: 15000 });
       await page.waitForSelector('#root > *', { timeout: 5000 });
 
@@ -148,6 +154,8 @@ async function main() {
   server.close();
 
   console.log(`\nPrerender complete: ${success} OK, ${errors} errors`);
+  // Une page non prérendue serait déployée vide : on bloque le build.
+  if (errors > 0) process.exit(1);
 }
 
 main().catch((err) => {
