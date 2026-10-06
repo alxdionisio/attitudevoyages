@@ -1,3 +1,2 @@
-# GitHub Pages : ce fichier n’est pas utilisé.
-# Fallback SPA = copie de index.html vers 404.html dans le workflow (.github/workflows/deploy.yml).
+# Cloudflare Pages : repli SPA automatique tant que dist/ ne contient pas de 404.html.
 # Redirections 301 (http → https, www → non-www) : à configurer via DNS ou Cloudflare (voir README).

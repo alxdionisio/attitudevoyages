@@ -12,7 +12,8 @@ Attitude Voyages est une agence de voyage immatriculée au registre des opérate
 - [Destinations](https://attitude-voyages.fr/destinations): catalogue complet de destinations et offres.
 - [À propos](https://attitude-voyages.fr/a-propos): histoire, équipe, valeurs.
 - [FAQ](https://attitude-voyages.fr/faq): questions fréquentes (réservation, paiement, annulation, garanties).
-- [Contact](https://attitude-voyages.fr/contact): coordonnées, horaires, prise de rendez-vous Calendly.
+- [Contact](https://attitude-voyages.fr/contact): coordonnées, horaires, formulaire de contact.
+- [Prendre rendez-vous](https://attitude-voyages.fr/reservation): prise de rendez-vous en ligne avec une conseillère.
 
 ## Offres actuelles
 
@@ -56,7 +57,7 @@ Agence physique à Caveirac, conseille les voyageurs de Nîmes et plus de 50 com
 - Téléphone : +33 4 66 37 48 63
 - E-mail : contact@attitude-voyages.fr
 - Horaires : Lundi–Vendredi 9h30–12h et 14h–18h (samedi, dimanche fermé)
-- Rendez-vous en ligne : https://attitude-voyages.fr/contact#rdv
+- Rendez-vous en ligne : https://attitude-voyages.fr/reservation
 - Facebook : https://www.facebook.com/attitudevoyages/
 - Instagram : https://www.instagram.com/attitudevoyages/
 

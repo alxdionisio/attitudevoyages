@@ -5,10 +5,19 @@ import {
   generateSessionId,
   buildSessionCookie,
 } from "../../_lib/auth.js";
+import {
+  peekRateLimit,
+  recordRateLimitEvent,
+  tooManyRequests,
+} from "../../_lib/ratelimit.js";
 
 export const onRequestOptions = ({ request }) => handleOptions(request);
 
 export const onRequestPost = async ({ request, env }) => {
+  // 10 échecs / IP / heure. Les connexions réussies ne sont pas comptées.
+  const rl = await peekRateLimit(env, request, "login", 10);
+  if (!rl.ok) return tooManyRequests(rl.retryAfterSeconds, request);
+
   let body;
   try {
     body = await request.json();
@@ -34,6 +43,7 @@ export const onRequestPost = async ({ request, env }) => {
   }
 
   if (!user || !user.is_active) {
+    await recordRateLimitEvent(env, request, "login");
     // Délai uniforme pour ne pas leak l'existence d'un email
     await sleep(150);
     return errorResponse("Identifiants invalides", 401, request);
@@ -41,6 +51,7 @@ export const onRequestPost = async ({ request, env }) => {
 
   const valid = await verifyPassword(password, user.password_hash);
   if (!valid) {
+    await recordRateLimitEvent(env, request, "login");
     await sleep(150);
     return errorResponse("Identifiants invalides", 401, request);
   }

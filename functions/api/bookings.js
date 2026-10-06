@@ -1,6 +1,6 @@
 import { jsonResponse, errorResponse, handleOptions } from "../_lib/cors.js";
 import { validateBooking } from "../_lib/validate.js";
-import { generateBookingId } from "../_lib/slots.js";
+import { generateBookingId, computeAvailability } from "../_lib/slots.js";
 import {
   sendEmail,
   renderBookingConfirmation,
@@ -78,6 +78,27 @@ export const onRequestPost = async ({ request, env }) => {
   if (conflict) {
     return errorResponse(
       "Ce créneau vient d'être réservé, merci d'en choisir un autre.",
+      409,
+      request
+    );
+  }
+
+  // 2 bis. Vérifier que le créneau fait partie des disponibilités publiées
+  // (règles hebdo, overrides, délai minimal, horizon).
+  let isOpenSlot;
+  try {
+    const days = await computeAvailability(
+      env,
+      consultationType.duration_minutes
+    );
+    isOpenSlot = days.some((d) => d.slots.some((s) => s.startAt === startIso));
+  } catch (err) {
+    console.error("[bookings] availability check error", err);
+    return errorResponse("Erreur serveur", 500, request);
+  }
+  if (!isOpenSlot) {
+    return errorResponse(
+      "Ce créneau n'est pas disponible, merci d'en choisir un autre.",
       409,
       request
     );

@@ -44,13 +44,13 @@ const MentionsLegalesPage = () => {
           <section className="legal-section">
             <h2>Hébergement</h2>
             <p>
-              Ce site est hébergé par <strong>GitHub, Inc.</strong> (GitHub Pages) :<br />
-              88 Colin P. Kelly Jr. Street<br />
+              Ce site est hébergé par <strong>Cloudflare, Inc.</strong> :<br />
+              101 Townsend Street<br />
               San Francisco, CA 94107<br />
               États-Unis
             </p>
             <p>
-              Site web : <a href="https://pages.github.com" target="_blank" rel="noopener noreferrer">pages.github.com</a>
+              Site web : <a href="https://www.cloudflare.com" target="_blank" rel="noopener noreferrer">www.cloudflare.com</a>
             </p>
           </section>
 

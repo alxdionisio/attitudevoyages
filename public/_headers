@@ -1,0 +1,7 @@
+# Cloudflare Pages : les déploiements *.pages.dev ne doivent pas être indexés,
+# seul attitude-voyages.fr l'est.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex

@@ -45,7 +45,7 @@ const faqByCategory = [
       },
       {
         question: "Comment prendre rendez-vous ?",
-        answer: "Vous pouvez prendre rendez-vous directement en ligne via la section « Prendre rendez-vous » sur notre site (outil Calendly intégré à la page Contact), ou nous appeler au 04 66 37 48 63. Indiquez-nous vos disponibilités et l'objet de votre visite (projet de voyage, devis, conseil), nous vous proposerons un créneau adapté.",
+        answer: "Vous pouvez prendre rendez-vous directement en ligne via la section « Prendre rendez-vous » sur notre site, ou nous appeler au 04 66 37 48 63. Indiquez-nous vos disponibilités et l'objet de votre visite (projet de voyage, devis, conseil), nous vous proposerons un créneau adapté.",
       },
     ],
   },

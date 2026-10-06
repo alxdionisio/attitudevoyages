@@ -40,7 +40,7 @@ const PolitiqueConfidentialitePage = () => {
               Nous pouvons collecter les données que vous nous communiquez volontairement (formulaire de contact, prise de rendez-vous, demande de devis) : nom, prénom, adresse e-mail, numéro de téléphone, sujet et contenu du message.
             </p>
             <p>
-              Lors de votre navigation, des données techniques (adresse IP, type de navigateur, pages visitées, date et heure) peuvent être enregistrées par notre hébergeur (GitHub Pages) ou par des services tiers. Nous utilisons <strong>Google Analytics 4 (GA4)</strong> pour la mesure d'audience, uniquement après votre consentement donné via le bandeau cookies. Les données collectées par GA4 sont traitées conformément à la politique de confidentialité de Google et à la réglementation en vigueur.
+              Lors de votre navigation, des données techniques (adresse IP, type de navigateur, pages visitées, date et heure) peuvent être enregistrées par notre hébergeur (Cloudflare) ou par des services tiers. Nous utilisons <strong>Google Analytics 4 (GA4)</strong> pour la mesure d'audience, uniquement après votre consentement donné via le bandeau cookies. Les données collectées par GA4 sont traitées conformément à la politique de confidentialité de Google et à la réglementation en vigueur.
             </p>
           </section>
 
@@ -61,7 +61,7 @@ const PolitiqueConfidentialitePage = () => {
           <section className="legal-section">
             <h2>Destinataires et transferts</h2>
             <p>
-              Les données peuvent être traitées par Attitude Voyages et, le cas échéant, par des prestataires techniques (hébergement, outil de prise de rendez-vous) dans le cadre strict de leurs missions. Le site est hébergé sur GitHub Pages (États-Unis) ; les transferts sont encadrés par les clauses contractuelles types ou mécanismes reconnus par la Commission européenne.
+              Les données peuvent être traitées par Attitude Voyages et, le cas échéant, par des prestataires techniques (hébergement, envoi d'e-mails) dans le cadre strict de leurs missions. Le site et les données saisies dans ses formulaires sont hébergés par Cloudflare, Inc. (États-Unis) ; les e-mails de confirmation et de notification sont envoyés via Brevo (France). Les transferts hors Union européenne sont encadrés par les clauses contractuelles types ou mécanismes reconnus par la Commission européenne.
             </p>
           </section>
 
@@ -82,7 +82,7 @@ const PolitiqueConfidentialitePage = () => {
           <section className="legal-section">
             <h2>Modifications</h2>
             <p>
-              Cette politique peut être mise à jour. La version en vigueur est celle publiée sur cette page. Dernière mise à jour : février 2026.
+              Cette politique peut être mise à jour. La version en vigueur est celle publiée sur cette page. Dernière mise à jour : octobre 2026.
             </p>
           </section>
 

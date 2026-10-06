@@ -20,52 +20,71 @@ const DEFAULTS = {
  * @returns {Promise<{ok: true} | {ok: false, retryAfterSeconds: number}>}
  */
 export async function checkRateLimit(env, request, bucket, customLimit) {
-  const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+  const rl = await peekRateLimit(env, request, bucket, customLimit);
+  if (rl.ok) await recordRateLimitEvent(env, request, bucket);
+  return rl;
+}
+
+/**
+ * Vérifie la limite sans consommer de tentative (ex. login : seuls les échecs
+ * sont enregistrés, via recordRateLimitEvent).
+ * @returns {Promise<{ok: true} | {ok: false, retryAfterSeconds: number}>}
+ */
+export async function peekRateLimit(env, request, bucket, customLimit) {
+  const ip = clientIp(request);
   const limit = customLimit ?? DEFAULTS[bucket] ?? 10;
-  const cutoff = new Date(Date.now() - WINDOW_MS).toISOString();
 
   try {
-    // Compte les events récents
+    // Le seuil est calculé en SQL : `created_at` est au format SQLite
+    // ('YYYY-MM-DD HH:MM:SS'), non comparable à un ISO JS ('…T…Z').
     const { results } = await env.DB.prepare(
       `SELECT created_at FROM rate_limit_events
-        WHERE bucket = ?1 AND ip = ?2 AND created_at > ?3
+        WHERE bucket = ?1 AND ip = ?2 AND created_at > datetime('now', '-1 hour')
         ORDER BY created_at ASC`
     )
-      .bind(bucket, ip, cutoff)
+      .bind(bucket, ip)
       .all();
 
     const events = results ?? [];
     if (events.length >= limit) {
-      const oldest = new Date(events[0].created_at + "Z").getTime();
+      const oldest = new Date(
+        events[0].created_at.replace(" ", "T") + "Z"
+      ).getTime();
       const retryAfter = Math.max(
         1,
         Math.ceil((oldest + WINDOW_MS - Date.now()) / 1000)
       );
       return { ok: false, retryAfterSeconds: retryAfter };
     }
-
-    // Insert un nouvel event
-    await env.DB.prepare(
-      `INSERT INTO rate_limit_events (bucket, ip) VALUES (?1, ?2)`
-    )
-      .bind(bucket, ip)
-      .run();
-
-    // Lazy purge (1 fois sur 20 environ)
-    if (Math.random() < 0.05) {
-      await env.DB.prepare(
-        `DELETE FROM rate_limit_events WHERE created_at < ?1`
-      )
-        .bind(cutoff)
-        .run();
-    }
-
     return { ok: true };
   } catch (err) {
     // En cas d'erreur DB, on laisse passer plutôt que de tout bloquer.
     console.error("[ratelimit] db error", err);
     return { ok: true };
   }
+}
+
+export async function recordRateLimitEvent(env, request, bucket) {
+  try {
+    await env.DB.prepare(
+      `INSERT INTO rate_limit_events (bucket, ip) VALUES (?1, ?2)`
+    )
+      .bind(bucket, clientIp(request))
+      .run();
+
+    // Lazy purge (1 fois sur 20 environ)
+    if (Math.random() < 0.05) {
+      await env.DB.prepare(
+        `DELETE FROM rate_limit_events WHERE created_at < datetime('now', '-1 hour')`
+      ).run();
+    }
+  } catch (err) {
+    console.error("[ratelimit] db error", err);
+  }
+}
+
+function clientIp(request) {
+  return request.headers.get("CF-Connecting-IP") || "unknown";
 }
 
 export function tooManyRequests(retryAfter, request) {
